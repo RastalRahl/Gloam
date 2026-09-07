@@ -1,0 +1,467 @@
+[gd_scene format=3 uid="uid://pccdp3u8ofax"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/components/world_prop.tscn" id="1_cqhnm"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/spawn_marker.tscn" id="3_0ln3j"]
+
+[node name="Ruins" type="Node2D" unique_id=1135330271]
+
+[node name="Props" type="Node2D" parent="." unique_id=1714961852]
+y_sort_enabled = true
+
+[node name="RuinsWestTower" parent="Props" unique_id=1482644481 instance=ExtResource("1_cqhnm")]
+z_index = 420
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1540, 420)
+asset_kind = "tower"
+placement_id = "ruins_west_tower"
+zone_name = "ruins"
+cluster_name = "west_terrace"
+footprint_size = Vector2(64, 16)
+visual_scale = 0.75
+metadata/placement_id = "ruins_west_tower"
+metadata/zone = "ruins"
+metadata/cluster = "west_terrace"
+metadata/footprint = Vector2(64, 16)
+
+[node name="RuinsEastTower" parent="Props" unique_id=1525588670 instance=ExtResource("1_cqhnm")]
+z_index = 420
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2070, 420)
+asset_kind = "tower"
+placement_id = "ruins_east_tower"
+zone_name = "ruins"
+cluster_name = "east_terrace"
+footprint_size = Vector2(64, 16)
+visual_scale = 0.75
+animation_phase = 1
+metadata/placement_id = "ruins_east_tower"
+metadata/zone = "ruins"
+metadata/cluster = "east_terrace"
+metadata/footprint = Vector2(64, 16)
+
+[node name="RuinSpike01" parent="Props" unique_id=922140705 instance=ExtResource("1_cqhnm")]
+z_index = 286
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1390, 286)
+asset_kind = "skull_spike_01"
+placement_id = "ruin_spike_01"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 3
+metadata/placement_id = "ruin_spike_01"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike02" parent="Props" unique_id=1760845522 instance=ExtResource("1_cqhnm")]
+z_index = 232
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1510, 232)
+asset_kind = "skull_spike_02"
+placement_id = "ruin_spike_02"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 4
+metadata/placement_id = "ruin_spike_02"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike03" parent="Props" unique_id=290080384 instance=ExtResource("1_cqhnm")]
+z_index = 224
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1648, 224)
+asset_kind = "skull_spike_01"
+placement_id = "ruin_spike_03"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 5
+metadata/placement_id = "ruin_spike_03"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike04" parent="Props" unique_id=1782106913 instance=ExtResource("1_cqhnm")]
+z_index = 236
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1810, 236)
+asset_kind = "skull_spike_02"
+placement_id = "ruin_spike_04"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 6
+metadata/placement_id = "ruin_spike_04"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike05" parent="Props" unique_id=313150672 instance=ExtResource("1_cqhnm")]
+z_index = 230
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2028, 230)
+asset_kind = "skull_spike_01"
+placement_id = "ruin_spike_05"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 7
+metadata/placement_id = "ruin_spike_05"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike06" parent="Props" unique_id=1421052269 instance=ExtResource("1_cqhnm")]
+z_index = 246
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2202, 246)
+asset_kind = "skull_spike_02"
+placement_id = "ruin_spike_06"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 8
+metadata/placement_id = "ruin_spike_06"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike07" parent="Props" unique_id=194286211 instance=ExtResource("1_cqhnm")]
+z_index = 354
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2260, 354)
+asset_kind = "skull_spike_01"
+placement_id = "ruin_spike_07"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 9
+metadata/placement_id = "ruin_spike_07"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike08" parent="Props" unique_id=347864987 instance=ExtResource("1_cqhnm")]
+z_index = 610
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2140, 610)
+asset_kind = "skull_spike_02"
+placement_id = "ruin_spike_08"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 10
+metadata/placement_id = "ruin_spike_08"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike09" parent="Props" unique_id=266624646 instance=ExtResource("1_cqhnm")]
+z_index = 618
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1900, 618)
+asset_kind = "skull_spike_01"
+placement_id = "ruin_spike_09"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 11
+metadata/placement_id = "ruin_spike_09"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinSpike10" parent="Props" unique_id=1460059609 instance=ExtResource("1_cqhnm")]
+z_index = 610
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1490, 610)
+asset_kind = "skull_spike_02"
+placement_id = "ruin_spike_10"
+zone_name = "ruins"
+cluster_name = "ruin_perimeter"
+footprint_size = Vector2(20, 10)
+animation_phase = 12
+metadata/placement_id = "ruin_spike_10"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_perimeter"
+metadata/footprint = Vector2(20, 10)
+
+[node name="RuinRubble01" parent="Props" unique_id=1457273798 instance=ExtResource("1_cqhnm")]
+z_index = 382
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1330, 382)
+asset_kind = "rock_2"
+placement_id = "ruin_rubble_01"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 13
+metadata/placement_id = "ruin_rubble_01"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble02" parent="Props" unique_id=1645309928 instance=ExtResource("1_cqhnm")]
+z_index = 420
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1412, 420)
+asset_kind = "rock_1"
+placement_id = "ruin_rubble_02"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 14
+metadata/placement_id = "ruin_rubble_02"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble03" parent="Props" unique_id=951686617 instance=ExtResource("1_cqhnm")]
+z_index = 360
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1516, 360)
+asset_kind = "rock_1"
+placement_id = "ruin_rubble_03"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 15
+metadata/placement_id = "ruin_rubble_03"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble04" parent="Props" unique_id=1305004505 instance=ExtResource("1_cqhnm")]
+z_index = 400
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1698, 400)
+asset_kind = "rock_2"
+placement_id = "ruin_rubble_04"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 16
+metadata/placement_id = "ruin_rubble_04"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble05" parent="Props" unique_id=397970498 instance=ExtResource("1_cqhnm")]
+z_index = 400
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1812, 400)
+asset_kind = "rock_1"
+placement_id = "ruin_rubble_05"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 17
+metadata/placement_id = "ruin_rubble_05"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble06" parent="Props" unique_id=1201384302 instance=ExtResource("1_cqhnm")]
+z_index = 400
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2040, 400)
+asset_kind = "rock_1"
+placement_id = "ruin_rubble_06"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 18
+metadata/placement_id = "ruin_rubble_06"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble07" parent="Props" unique_id=1257983662 instance=ExtResource("1_cqhnm")]
+z_index = 390
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2160, 390)
+asset_kind = "rock_2"
+placement_id = "ruin_rubble_07"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 19
+metadata/placement_id = "ruin_rubble_07"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble08" parent="Props" unique_id=952569977 instance=ExtResource("1_cqhnm")]
+z_index = 380
+z_as_relative = false
+texture_filter = 1
+position = Vector2(2320, 380)
+asset_kind = "rock_1"
+placement_id = "ruin_rubble_08"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 20
+metadata/placement_id = "ruin_rubble_08"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="RuinRubble09" parent="Props" unique_id=384653040 instance=ExtResource("1_cqhnm")]
+z_index = 610
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1264, 610)
+asset_kind = "rock_1"
+placement_id = "ruin_rubble_09"
+zone_name = "ruins"
+cluster_name = "ruin_rubble"
+footprint_size = Vector2(28, 12)
+animation_phase = 21
+metadata/placement_id = "ruin_rubble_09"
+metadata/zone = "ruins"
+metadata/cluster = "ruin_rubble"
+metadata/footprint = Vector2(28, 12)
+
+[node name="ResourceSpawnMarkers" type="Node2D" parent="." unique_id=613315392]
+
+[node name="Ruins_Essence_Set1_01" parent="ResourceSpawnMarkers" unique_id=791958063 instance=ExtResource("3_0ln3j")]
+position = Vector2(1280, 620)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+risk_tier = 3
+
+[node name="Ruins_Essence_Set1_02" parent="ResourceSpawnMarkers" unique_id=1069824800 instance=ExtResource("3_0ln3j")]
+position = Vector2(1430, 630)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+risk_tier = 3
+
+[node name="Ruins_Essence_Set1_03" parent="ResourceSpawnMarkers" unique_id=1733737157 instance=ExtResource("3_0ln3j")]
+position = Vector2(1680, 360)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+risk_tier = 3
+
+[node name="Ruins_Essence_Set1_04" parent="ResourceSpawnMarkers" unique_id=888701905 instance=ExtResource("3_0ln3j")]
+position = Vector2(1790, 380)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+risk_tier = 3
+
+[node name="Ruins_Essence_Set1_05" parent="ResourceSpawnMarkers" unique_id=181472388 instance=ExtResource("3_0ln3j")]
+position = Vector2(1980, 300)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+risk_tier = 3
+
+[node name="Ruins_Essence_Set1_06" parent="ResourceSpawnMarkers" unique_id=952366922 instance=ExtResource("3_0ln3j")]
+position = Vector2(2200, 380)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+risk_tier = 3
+
+[node name="Ruins_Essence_Set2_01" parent="ResourceSpawnMarkers" unique_id=783800448 instance=ExtResource("3_0ln3j")]
+position = Vector2(1320, 630)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+variation_set = 1
+risk_tier = 3
+
+[node name="Ruins_Essence_Set2_02" parent="ResourceSpawnMarkers" unique_id=1908910303 instance=ExtResource("3_0ln3j")]
+position = Vector2(1460, 400)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+variation_set = 1
+risk_tier = 3
+
+[node name="Ruins_Essence_Set2_03" parent="ResourceSpawnMarkers" unique_id=222487956 instance=ExtResource("3_0ln3j")]
+position = Vector2(1700, 630)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+variation_set = 1
+risk_tier = 3
+
+[node name="Ruins_Essence_Set2_04" parent="ResourceSpawnMarkers" unique_id=468527657 instance=ExtResource("3_0ln3j")]
+position = Vector2(1880, 630)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+variation_set = 1
+risk_tier = 3
+
+[node name="Ruins_Essence_Set2_05" parent="ResourceSpawnMarkers" unique_id=1641000171 instance=ExtResource("3_0ln3j")]
+position = Vector2(2100, 380)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+variation_set = 1
+risk_tier = 3
+
+[node name="Ruins_Essence_Set2_06" parent="ResourceSpawnMarkers" unique_id=682738074 instance=ExtResource("3_0ln3j")]
+position = Vector2(2280, 370)
+marker_kind = "resource"
+lane_or_zone = "ruins"
+resource_type = "essence"
+variation_set = 1
+risk_tier = 3
+
+[node name="DayEnemySpawnMarkers" type="Node2D" parent="." unique_id=1877640482]
+
+[node name="RuinsEnemy_01" parent="DayEnemySpawnMarkers" unique_id=1961654385 instance=ExtResource("3_0ln3j")]
+position = Vector2(1300, 420)
+marker_kind = "day_enemy"
+lane_or_zone = "ruins"
+
+[node name="RuinsEnemy_02" parent="DayEnemySpawnMarkers" unique_id=1443337527 instance=ExtResource("3_0ln3j")]
+position = Vector2(1700, 380)
+marker_kind = "day_enemy"
+lane_or_zone = "ruins"
+
+[node name="RuinsEnemy_03" parent="DayEnemySpawnMarkers" unique_id=1541911937 instance=ExtResource("3_0ln3j")]
+position = Vector2(1900, 540)
+marker_kind = "day_enemy"
+lane_or_zone = "ruins"
+
+[node name="RuinsEnemy_04" parent="DayEnemySpawnMarkers" unique_id=464706473 instance=ExtResource("3_0ln3j")]
+position = Vector2(2220, 380)
+marker_kind = "day_enemy"
+lane_or_zone = "ruins"
+
+[node name="PopulationMarkers" type="Node2D" parent="." unique_id=643941812]
+
+[node name="Survivor_03" parent="PopulationMarkers" unique_id=739220324 instance=ExtResource("3_0ln3j")]
+position = Vector2(2000, 300)
+marker_kind = "survivor"
+lane_or_zone = "ruins"

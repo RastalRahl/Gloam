@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/tiny_swords_visual_lab.gd" id="1_lab_script"]
+
+[node name="TinySwordsVisualLab" type="Node2D"]
+script = ExtResource("1_lab_script")
+show_debug_footprints = true
+capture_on_ready = true

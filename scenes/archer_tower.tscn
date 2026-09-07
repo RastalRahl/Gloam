@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/defense.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/static_sprite_visual.tscn" id="2_sprite_visual"]
+
+[node name="ArcherTower" type="Node2D"]
+script = ExtResource("1_script")
+defense_name = "Archer Tower"
+max_hp = 60
+attack_range = 230.0
+attack_damage = 1
+attack_interval = 0.7
+visual_profile = "tower"
+projectile_speed = 480.0
+
+[node name="SpriteVisual" parent="." instance=ExtResource("2_sprite_visual")]
+z_index = 2
+
+[node name="Visual" type="ColorRect" parent="."]
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0.15, 0.65, 0.25, 1)
+
+[node name="AttackTimer" type="Timer" parent="."]

@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://byq6yvmiwigh6"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/components/spawn_marker.tscn" id="3_es2pj"]
+[ext_resource type="PackedScene" uid="uid://34cxgbhfhmek" path="res://scenes/world/components/village_core.tscn" id="5_f4xul"]
+[ext_resource type="PackedScene" path="res://scenes/gate.tscn" id="7_wgypd"]
+[ext_resource type="PackedScene" path="res://scenes/build_spot.tscn" id="9_rkhpp"]
+[ext_resource type="PackedScene" path="res://scenes/village_build_spot.tscn" id="11_xnolo"]
+
+[node name="Village" type="Node2D" unique_id=658244458]
+
+[node name="Props" type="Node2D" parent="." unique_id=448175421]
+y_sort_enabled = true
+
+[node name="ResourceSpawnMarkers" type="Node2D" parent="." unique_id=54258779]
+
+[node name="DayEnemySpawnMarkers" type="Node2D" parent="." unique_id=304849938]
+
+[node name="PopulationMarkers" type="Node2D" parent="." unique_id=2105038493]
+
+[node name="GuardPost_01" parent="PopulationMarkers" unique_id=517254711 instance=ExtResource("3_es2pj")]
+position = Vector2(140, 1023)
+marker_kind = "guard_post"
+lane_or_zone = "village"
+
+[node name="GuardPost_02" parent="PopulationMarkers" unique_id=2010931343 instance=ExtResource("3_es2pj")]
+position = Vector2(276, 1022)
+marker_kind = "guard_post"
+lane_or_zone = "village"
+
+[node name="GuardPost_03" parent="PopulationMarkers" unique_id=927026433 instance=ExtResource("3_es2pj")]
+position = Vector2(390, 1243)
+marker_kind = "guard_post"
+lane_or_zone = "village"
+
+[node name="GuardPost_04" parent="PopulationMarkers" unique_id=1189594525 instance=ExtResource("3_es2pj")]
+position = Vector2(397, 1140)
+marker_kind = "guard_post"
+lane_or_zone = "village"
+
+[node name="GuardPost_05" parent="PopulationMarkers" unique_id=1630918389 instance=ExtResource("3_es2pj")]
+position = Vector2(396, 1027)
+marker_kind = "guard_post"
+lane_or_zone = "village"
+
+[node name="GuardPost_06" parent="PopulationMarkers" unique_id=1459266899 instance=ExtResource("3_es2pj")]
+position = Vector2(265, 1245)
+marker_kind = "guard_post"
+lane_or_zone = "village"
+
+[node name="ArcherPost_01" parent="PopulationMarkers" unique_id=600592461 instance=ExtResource("3_es2pj")]
+position = Vector2(140, 1068)
+marker_kind = "archer_post"
+lane_or_zone = "village"
+
+[node name="ArcherPost_02" parent="PopulationMarkers" unique_id=1605208481 instance=ExtResource("3_es2pj")]
+position = Vector2(276, 1069)
+marker_kind = "archer_post"
+lane_or_zone = "village"
+
+[node name="ArcherPost_03" parent="PopulationMarkers" unique_id=950201172 instance=ExtResource("3_es2pj")]
+position = Vector2(219, 1245)
+marker_kind = "archer_post"
+lane_or_zone = "village"
+
+[node name="ArcherPost_04" parent="PopulationMarkers" unique_id=1830729578 instance=ExtResource("3_es2pj")]
+position = Vector2(350, 1243)
+marker_kind = "archer_post"
+lane_or_zone = "village"
+
+[node name="ArcherPost_05" parent="PopulationMarkers" unique_id=1773776981 instance=ExtResource("3_es2pj")]
+position = Vector2(357, 1140)
+marker_kind = "archer_post"
+lane_or_zone = "village"
+
+[node name="ArcherPost_06" parent="PopulationMarkers" unique_id=1697224945 instance=ExtResource("3_es2pj")]
+position = Vector2(396, 1068)
+marker_kind = "archer_post"
+lane_or_zone = "village"
+
+[node name="Landmarks" type="Node2D" parent="." unique_id=1985115904]
+y_sort_enabled = true
+
+[node name="VillageCore" parent="Landmarks" unique_id=456292989 instance=ExtResource("5_f4xul")]
+position = Vector2(104, 1321)
+
+[node name="Gates" type="Node2D" parent="." unique_id=713788353]
+y_sort_enabled = true
+
+[node name="NorthGate" parent="Gates" unique_id=160851120 instance=ExtResource("7_wgypd")]
+position = Vector2(256, 896)
+gate_name = "North Gate"
+
+[node name="EastGate" parent="Gates" unique_id=310405451 instance=ExtResource("7_wgypd")]
+position = Vector2(516, 1175)
+rotation = 1.5707964
+gate_name = "East Gate"
+gate_width = 56.0
+
+[node name="Walls" type="Node2D" parent="." unique_id=101749937]
+y_sort_enabled = true
+
+[node name="DefenseBuildSpots" type="Node2D" parent="." unique_id=1079684783]
+
+[node name="DefenseSpot_01" parent="DefenseBuildSpots" unique_id=2039320799 instance=ExtResource("9_rkhpp")]
+position = Vector2(73, 954)
+
+[node name="DefenseSpot_02" parent="DefenseBuildSpots" unique_id=1047217710 instance=ExtResource("9_rkhpp")]
+position = Vector2(193, 954)
+
+[node name="DefenseSpot_03" parent="DefenseBuildSpots" unique_id=1862787615 instance=ExtResource("9_rkhpp")]
+position = Vector2(313, 954)
+
+[node name="DefenseSpot_04" parent="DefenseBuildSpots" unique_id=562242337 instance=ExtResource("9_rkhpp")]
+position = Vector2(449, 956)
+
+[node name="DefenseSpot_05" parent="DefenseBuildSpots" unique_id=235928524 instance=ExtResource("9_rkhpp")]
+position = Vector2(449, 1071)
+
+[node name="DefenseSpot_06" parent="DefenseBuildSpots" unique_id=1771012519 instance=ExtResource("9_rkhpp")]
+position = Vector2(449, 1186)
+
+[node name="DefenseSpot_07" parent="DefenseBuildSpots" unique_id=1583960300 instance=ExtResource("9_rkhpp")]
+position = Vector2(447, 1291)
+
+[node name="VillageBuildSpots" type="Node2D" parent="." unique_id=415683702]
+
+[node name="VillageSpot_01" parent="VillageBuildSpots" unique_id=388816527 instance=ExtResource("11_xnolo")]
+position = Vector2(74, 1061)
+
+[node name="VillageSpot_02" parent="VillageBuildSpots" unique_id=1052207366 instance=ExtResource("11_xnolo")]
+position = Vector2(209, 1061)
+
+[node name="VillageSpot_03" parent="VillageBuildSpots" unique_id=1456601052 instance=ExtResource("11_xnolo")]
+position = Vector2(344, 1061)
+
+[node name="VillageSpot_05" parent="VillageBuildSpots" unique_id=224993553 instance=ExtResource("11_xnolo")]
+position = Vector2(293, 1179)
+
+[node name="VillageSpot_06" parent="VillageBuildSpots" unique_id=2059182591 instance=ExtResource("11_xnolo")]
+position = Vector2(293, 1305)

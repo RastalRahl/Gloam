@@ -1,0 +1,43 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: shrine UI distinguishes healing from respawning
+PASS: first night down uses base respawn delay
+PASS: second night down uses 5 second delay
+PASS: third night down uses capped 7 second delay
+PASS: default first night down is 3 seconds
+PASS: first down enters one pending respawn state
+PASS: first down schedules the configured base delay
+PASS: first down communicates escalation to 5 seconds
+PASS: downed UI communicates the next night penalty
+PASS: respawn countdown decreases live
+PASS: downed player remains at the down location until respawn
+PASS: first respawn completes
+PASS: respawn restores full health at the village
+PASS: second down in the night escalates to 5 seconds
+PASS: second down communicates escalation to 7 seconds
+PASS: third down in the night reaches the 7 second cap
+PASS: further night downs remain capped at 7 seconds
+PASS: downed movement is blocked
+PASS: downed attacks do not spawn projectiles
+PASS: downed player cannot collect resources
+PASS: resource collection does not alter unrelated resources while downed
+PASS: downed player cannot rescue villagers
+PASS: downed player cannot buy shrine healing
+PASS: downed player cannot build defenses
+PASS: downed player cannot build village structures
+PASS: downed player cannot gain XP directly
+PASS: downed player cannot collect XP orbs
+PASS: downed player cannot collect resource nodes
+PASS: dawn resets the night respawn escalation
+PASS: next day starts again at the base respawn delay
+PASS: night down is pending before terminal state
+PASS: night assault timing continues while the player is down
+PASS: enemies do not target the downed player
+PASS: pause freezes the pending respawn countdown
+[WaveLifecycle] pending wave work cancelled: victory
+PASS: victory cancels pending respawn without reviving
+PASS: game over scenario starts with a pending respawn
+PASS: game over cancels pending respawn without reviving
+Player-down verification: PASS

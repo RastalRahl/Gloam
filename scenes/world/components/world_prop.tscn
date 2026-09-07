@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://gyj257gdl8ct"]
+
+[ext_resource type="Script" uid="uid://ioat3np401rx" path="res://scripts/world_prop.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://i4h7ic2wh1yu" path="res://assets/generated/tiny_swords/terrain/resources/wood/trees/tree_1.png" id="2_2oeur"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbekv"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(0, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n720c"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(192, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkh5e"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(384, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7cmn"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(576, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbp58"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(768, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hy8h"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(960, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7l0s"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(1152, 0, 192, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ak8p"]
+atlas = ExtResource("2_2oeur")
+region = Rect2(1344, 0, 192, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tvq84"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbekv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n720c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkh5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7cmn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kbp58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hy8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7l0s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ak8p")
+}],
+"loop": 1,
+"name": &"sway",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_footprint"]
+size = Vector2(36, 34)
+
+[node name="WorldProp" type="Node2D" unique_id=1835877313]
+z_as_relative = false
+texture_filter = 1
+script = ExtResource("1_script")
+metadata/placement_id = ""
+metadata/zone = "village"
+metadata/cluster = ""
+metadata/footprint = Vector2(36, 18)
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=377368882]
+texture_filter = 1
+position = Vector2(0, -112)
+sprite_frames = SubResource("SpriteFrames_tvq84")
+animation = &"sway"
+
+[node name="StaticSprite" type="Sprite2D" parent="." unique_id=844855336]
+visible = false
+texture_filter = 1
+
+[node name="GroundFootprint" type="StaticBody2D" parent="." unique_id=1297930590]
+collision_layer = 8
+collision_mask = 0
+metadata/collision_category = "prop"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundFootprint" unique_id=1176545385]
+position = Vector2(0, -17)
+shape = SubResource("RectangleShape2D_footprint")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/village_building.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/static_sprite_visual.tscn" id="2_sprite_visual"]
+
+[node name="House" type="Node2D"]
+script = ExtResource("1_script")
+building_type = "house"
+display_name = "House"
+max_hp = 100
+
+[node name="SpriteVisual" parent="." instance=ExtResource("2_sprite_visual")]
+z_index = 2
+
+[node name="Visual" type="ColorRect" parent="."]
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 24.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(0.72, 0.54, 0.30, 1)
+
+[node name="Roof" type="ColorRect" parent="."]
+offset_left = -28.0
+offset_top = -27.0
+offset_right = 28.0
+offset_bottom = -16.0
+mouse_filter = 2
+color = Color(0.42, 0.18, 0.10, 1)

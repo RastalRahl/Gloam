@@ -1,0 +1,573 @@
+[gd_scene format=3 uid="uid://btaaxnvdnktof"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/components/world_prop.tscn" id="1_tvyim"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/spawn_marker.tscn" id="3_uuut2"]
+
+[node name="Forest" type="Node2D" unique_id=772835531]
+
+[node name="Props" type="Node2D" parent="." unique_id=1530578552]
+y_sort_enabled = true
+
+[node name="ForestTreeNorth01" parent="Props" unique_id=1005437829 instance=ExtResource("1_tvyim")]
+z_index = 780
+z_as_relative = false
+texture_filter = 1
+position = Vector2(650, 780)
+placement_id = "forest_tree_north_01"
+zone_name = "forest"
+cluster_name = "north_rim"
+metadata/placement_id = "forest_tree_north_01"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeNorth02" parent="Props" unique_id=1718657127 instance=ExtResource("1_tvyim")]
+z_index = 748
+z_as_relative = false
+texture_filter = 1
+position = Vector2(820, 748)
+placement_id = "forest_tree_north_02"
+zone_name = "forest"
+cluster_name = "north_rim"
+animation_phase = 1
+metadata/placement_id = "forest_tree_north_02"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeNorth03" parent="Props" unique_id=69757999 instance=ExtResource("1_tvyim")]
+z_index = 730
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1000, 730)
+placement_id = "forest_tree_north_03"
+zone_name = "forest"
+cluster_name = "north_rim"
+animation_phase = 2
+metadata/placement_id = "forest_tree_north_03"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeNorth04" parent="Props" unique_id=1289702907 instance=ExtResource("1_tvyim")]
+z_index = 760
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1180, 760)
+asset_kind = "tree_2"
+placement_id = "forest_tree_north_04"
+zone_name = "forest"
+cluster_name = "north_rim"
+animation_phase = 3
+metadata/placement_id = "forest_tree_north_04"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeNorth05" parent="Props" unique_id=439090180 instance=ExtResource("1_tvyim")]
+z_index = 810
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1320, 810)
+asset_kind = "tree_2"
+placement_id = "forest_tree_north_05"
+zone_name = "forest"
+cluster_name = "north_rim"
+animation_phase = 4
+metadata/placement_id = "forest_tree_north_05"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeWest02" parent="Props" unique_id=1376233385 instance=ExtResource("1_tvyim")]
+z_index = 1080
+z_as_relative = false
+texture_filter = 1
+position = Vector2(650, 1080)
+asset_kind = "tree_2"
+placement_id = "forest_tree_west_02"
+zone_name = "forest"
+cluster_name = "west_edge"
+animation_phase = 6
+metadata/placement_id = "forest_tree_west_02"
+metadata/zone = "forest"
+metadata/cluster = "west_edge"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeWest03" parent="Props" unique_id=1912336167 instance=ExtResource("1_tvyim")]
+z_index = 1280
+z_as_relative = false
+texture_filter = 1
+position = Vector2(690, 1280)
+asset_kind = "tree_2"
+placement_id = "forest_tree_west_03"
+zone_name = "forest"
+cluster_name = "west_edge"
+animation_phase = 7
+metadata/placement_id = "forest_tree_west_03"
+metadata/zone = "forest"
+metadata/cluster = "west_edge"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeSouth01" parent="Props" unique_id=1628366022 instance=ExtResource("1_tvyim")]
+z_index = 1375
+z_as_relative = false
+texture_filter = 1
+position = Vector2(760, 1375)
+placement_id = "forest_tree_south_01"
+zone_name = "forest"
+cluster_name = "south_rim"
+animation_phase = 8
+metadata/placement_id = "forest_tree_south_01"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeSouth02" parent="Props" unique_id=1610105334 instance=ExtResource("1_tvyim")]
+z_index = 1360
+z_as_relative = false
+texture_filter = 1
+position = Vector2(900, 1360)
+placement_id = "forest_tree_south_02"
+zone_name = "forest"
+cluster_name = "south_rim"
+animation_phase = 9
+metadata/placement_id = "forest_tree_south_02"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeSouth03" parent="Props" unique_id=1310821862 instance=ExtResource("1_tvyim")]
+z_index = 1380
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1080, 1380)
+asset_kind = "tree_2"
+placement_id = "forest_tree_south_03"
+zone_name = "forest"
+cluster_name = "south_rim"
+animation_phase = 10
+metadata/placement_id = "forest_tree_south_03"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeSouth04" parent="Props" unique_id=2030812460 instance=ExtResource("1_tvyim")]
+z_index = 1360
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1250, 1360)
+asset_kind = "tree_2"
+placement_id = "forest_tree_south_04"
+zone_name = "forest"
+cluster_name = "south_rim"
+animation_phase = 11
+metadata/placement_id = "forest_tree_south_04"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeEast01" parent="Props" unique_id=298014538 instance=ExtResource("1_tvyim")]
+z_index = 920
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1340, 920)
+asset_kind = "tree_2"
+placement_id = "forest_tree_east_01"
+zone_name = "forest"
+cluster_name = "east_landmark"
+animation_phase = 12
+metadata/placement_id = "forest_tree_east_01"
+metadata/zone = "forest"
+metadata/cluster = "east_landmark"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeEast02" parent="Props" unique_id=528952170 instance=ExtResource("1_tvyim")]
+z_index = 1060
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1380, 1060)
+asset_kind = "tree_2"
+placement_id = "forest_tree_east_02"
+zone_name = "forest"
+cluster_name = "east_landmark"
+animation_phase = 13
+metadata/placement_id = "forest_tree_east_02"
+metadata/zone = "forest"
+metadata/cluster = "east_landmark"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeEast03" parent="Props" unique_id=608764417 instance=ExtResource("1_tvyim")]
+z_index = 1220
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1360, 1220)
+placement_id = "forest_tree_east_03"
+zone_name = "forest"
+cluster_name = "east_landmark"
+animation_phase = 14
+metadata/placement_id = "forest_tree_east_03"
+metadata/zone = "forest"
+metadata/cluster = "east_landmark"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeInner02" parent="Props" unique_id=1893812155 instance=ExtResource("1_tvyim")]
+z_index = 820
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1160, 820)
+asset_kind = "tree_2"
+placement_id = "forest_tree_inner_02"
+zone_name = "forest"
+cluster_name = "wayledge_south"
+animation_phase = 16
+metadata/placement_id = "forest_tree_inner_02"
+metadata/zone = "forest"
+metadata/cluster = "wayledge_south"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestTreeInner03" parent="Props" unique_id=578277942 instance=ExtResource("1_tvyim")]
+z_index = 1280
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1180, 1280)
+placement_id = "forest_tree_inner_03"
+zone_name = "forest"
+cluster_name = "south_landmark"
+animation_phase = 17
+metadata/placement_id = "forest_tree_inner_03"
+metadata/zone = "forest"
+metadata/cluster = "south_landmark"
+metadata/footprint = Vector2(36, 18)
+
+[node name="ForestBushWest01" parent="Props" unique_id=1330490993 instance=ExtResource("1_tvyim")]
+z_index = 1060
+z_as_relative = false
+texture_filter = 1
+position = Vector2(620, 1060)
+asset_kind = "bush_1"
+placement_id = "forest_bush_west_01"
+zone_name = "forest"
+cluster_name = "west_edge"
+footprint_size = Vector2(24, 10)
+animation_phase = 18
+metadata/placement_id = "forest_bush_west_01"
+metadata/zone = "forest"
+metadata/cluster = "west_edge"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushWest02" parent="Props" unique_id=1224261297 instance=ExtResource("1_tvyim")]
+z_index = 1120
+z_as_relative = false
+texture_filter = 1
+position = Vector2(680, 1120)
+asset_kind = "bush_1"
+placement_id = "forest_bush_west_02"
+zone_name = "forest"
+cluster_name = "west_edge"
+footprint_size = Vector2(24, 10)
+animation_phase = 19
+metadata/placement_id = "forest_bush_west_02"
+metadata/zone = "forest"
+metadata/cluster = "west_edge"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushNorth01" parent="Props" unique_id=1748311352 instance=ExtResource("1_tvyim")]
+z_index = 810
+z_as_relative = false
+texture_filter = 1
+position = Vector2(880, 810)
+asset_kind = "bush_2"
+placement_id = "forest_bush_north_01"
+zone_name = "forest"
+cluster_name = "north_rim"
+footprint_size = Vector2(24, 10)
+animation_phase = 20
+metadata/placement_id = "forest_bush_north_01"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushNorth02" parent="Props" unique_id=1080887736 instance=ExtResource("1_tvyim")]
+z_index = 790
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1040, 790)
+asset_kind = "bush_2"
+placement_id = "forest_bush_north_02"
+zone_name = "forest"
+cluster_name = "north_rim"
+footprint_size = Vector2(24, 10)
+animation_phase = 21
+metadata/placement_id = "forest_bush_north_02"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushNorth03" parent="Props" unique_id=1059297387 instance=ExtResource("1_tvyim")]
+z_index = 720
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1280, 720)
+asset_kind = "bush_1"
+placement_id = "forest_bush_north_03"
+zone_name = "forest"
+cluster_name = "north_rim"
+footprint_size = Vector2(24, 10)
+animation_phase = 22
+metadata/placement_id = "forest_bush_north_03"
+metadata/zone = "forest"
+metadata/cluster = "north_rim"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushEast01" parent="Props" unique_id=1950402771 instance=ExtResource("1_tvyim")]
+z_index = 980
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1340, 980)
+asset_kind = "bush_1"
+placement_id = "forest_bush_east_01"
+zone_name = "forest"
+cluster_name = "east_landmark"
+footprint_size = Vector2(24, 10)
+animation_phase = 23
+metadata/placement_id = "forest_bush_east_01"
+metadata/zone = "forest"
+metadata/cluster = "east_landmark"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushEast02" parent="Props" unique_id=1112555810 instance=ExtResource("1_tvyim")]
+z_index = 1160
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1340, 1160)
+asset_kind = "bush_2"
+placement_id = "forest_bush_east_02"
+zone_name = "forest"
+cluster_name = "east_landmark"
+footprint_size = Vector2(24, 10)
+animation_phase = 24
+metadata/placement_id = "forest_bush_east_02"
+metadata/zone = "forest"
+metadata/cluster = "east_landmark"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushSouth01" parent="Props" unique_id=1322752940 instance=ExtResource("1_tvyim")]
+z_index = 1320
+z_as_relative = false
+texture_filter = 1
+position = Vector2(820, 1320)
+asset_kind = "bush_2"
+placement_id = "forest_bush_south_01"
+zone_name = "forest"
+cluster_name = "south_rim"
+footprint_size = Vector2(24, 10)
+animation_phase = 25
+metadata/placement_id = "forest_bush_south_01"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushSouth02" parent="Props" unique_id=503833677 instance=ExtResource("1_tvyim")]
+z_index = 1320
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1010, 1320)
+asset_kind = "bush_1"
+placement_id = "forest_bush_south_02"
+zone_name = "forest"
+cluster_name = "south_rim"
+footprint_size = Vector2(24, 10)
+animation_phase = 26
+metadata/placement_id = "forest_bush_south_02"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestBushSouth03" parent="Props" unique_id=404939693 instance=ExtResource("1_tvyim")]
+z_index = 1320
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1220, 1320)
+asset_kind = "bush_2"
+placement_id = "forest_bush_south_03"
+zone_name = "forest"
+cluster_name = "south_rim"
+footprint_size = Vector2(24, 10)
+animation_phase = 27
+metadata/placement_id = "forest_bush_south_03"
+metadata/zone = "forest"
+metadata/cluster = "south_rim"
+metadata/footprint = Vector2(24, 10)
+
+[node name="ForestStumpWest" parent="Props" unique_id=972342451 instance=ExtResource("1_tvyim")]
+z_index = 1260
+z_as_relative = false
+texture_filter = 1
+position = Vector2(840, 1260)
+asset_kind = "stump_1"
+placement_id = "forest_stump_west"
+zone_name = "forest"
+cluster_name = "west_edge"
+footprint_size = Vector2(28, 25)
+animation_phase = 28
+metadata/placement_id = "forest_stump_west"
+metadata/zone = "forest"
+metadata/cluster = "west_edge"
+metadata/footprint = Vector2(28, 25)
+
+[node name="ForestStumpEast" parent="Props" unique_id=1444520833 instance=ExtResource("1_tvyim")]
+z_index = 1320
+z_as_relative = false
+texture_filter = 1
+position = Vector2(1380, 1320)
+asset_kind = "stump_1"
+placement_id = "forest_stump_east"
+zone_name = "forest"
+cluster_name = "east_landmark"
+footprint_size = Vector2(28, 12)
+animation_phase = 29
+metadata/placement_id = "forest_stump_east"
+metadata/zone = "forest"
+metadata/cluster = "east_landmark"
+metadata/footprint = Vector2(28, 12)
+
+[node name="ResourceSpawnMarkers" type="Node2D" parent="." unique_id=1421925148]
+
+[node name="Forest_Wood_Set1_01" parent="ResourceSpawnMarkers" unique_id=1254182536 instance=ExtResource("3_uuut2")]
+position = Vector2(680, 1000)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_02" parent="ResourceSpawnMarkers" unique_id=1096850571 instance=ExtResource("3_uuut2")]
+position = Vector2(700, 1090)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_03" parent="ResourceSpawnMarkers" unique_id=1071036357 instance=ExtResource("3_uuut2")]
+position = Vector2(740, 1210)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_04" parent="ResourceSpawnMarkers" unique_id=84122477 instance=ExtResource("3_uuut2")]
+position = Vector2(880, 1320)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_05" parent="ResourceSpawnMarkers" unique_id=1519404974 instance=ExtResource("3_uuut2")]
+position = Vector2(1130, 790)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_06" parent="ResourceSpawnMarkers" unique_id=955993193 instance=ExtResource("3_uuut2")]
+position = Vector2(1210, 800)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_07" parent="ResourceSpawnMarkers" unique_id=99627948 instance=ExtResource("3_uuut2")]
+position = Vector2(1320, 1080)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set1_08" parent="ResourceSpawnMarkers" unique_id=1230384271 instance=ExtResource("3_uuut2")]
+position = Vector2(1180, 1210)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+
+[node name="Forest_Wood_Set2_01" parent="ResourceSpawnMarkers" unique_id=1236973872 instance=ExtResource("3_uuut2")]
+position = Vector2(800, 760)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_02" parent="ResourceSpawnMarkers" unique_id=1568349797 instance=ExtResource("3_uuut2")]
+position = Vector2(690, 1030)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_03" parent="ResourceSpawnMarkers" unique_id=2116357261 instance=ExtResource("3_uuut2")]
+position = Vector2(760, 1220)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_04" parent="ResourceSpawnMarkers" unique_id=139557700 instance=ExtResource("3_uuut2")]
+position = Vector2(930, 1320)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_05" parent="ResourceSpawnMarkers" unique_id=676123787 instance=ExtResource("3_uuut2")]
+position = Vector2(1100, 790)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_06" parent="ResourceSpawnMarkers" unique_id=1231862743 instance=ExtResource("3_uuut2")]
+position = Vector2(1210, 800)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_07" parent="ResourceSpawnMarkers" unique_id=1960710679 instance=ExtResource("3_uuut2")]
+position = Vector2(1330, 1090)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="Forest_Wood_Set2_08" parent="ResourceSpawnMarkers" unique_id=1666994094 instance=ExtResource("3_uuut2")]
+position = Vector2(1180, 1210)
+marker_kind = "resource"
+lane_or_zone = "forest"
+resource_type = "wood"
+variation_set = 1
+
+[node name="DayEnemySpawnMarkers" type="Node2D" parent="." unique_id=540584126]
+
+[node name="ForestEnemy_01" parent="DayEnemySpawnMarkers" unique_id=286107675 instance=ExtResource("3_uuut2")]
+position = Vector2(760, 970)
+marker_kind = "day_enemy"
+lane_or_zone = "forest"
+
+[node name="ForestEnemy_02" parent="DayEnemySpawnMarkers" unique_id=1674818387 instance=ExtResource("3_uuut2")]
+position = Vector2(900, 1170)
+marker_kind = "day_enemy"
+lane_or_zone = "forest"
+
+[node name="ForestEnemy_03" parent="DayEnemySpawnMarkers" unique_id=1460752716 instance=ExtResource("3_uuut2")]
+position = Vector2(1080, 930)
+marker_kind = "day_enemy"
+lane_or_zone = "forest"
+
+[node name="ForestEnemy_04" parent="DayEnemySpawnMarkers" unique_id=589782208 instance=ExtResource("3_uuut2")]
+position = Vector2(1190, 1110)
+marker_kind = "day_enemy"
+lane_or_zone = "forest"
+
+[node name="ForestEnemy_05" parent="DayEnemySpawnMarkers" unique_id=1256404294 instance=ExtResource("3_uuut2")]
+position = Vector2(1300, 790)
+marker_kind = "day_enemy"
+lane_or_zone = "forest"
+
+[node name="PopulationMarkers" type="Node2D" parent="." unique_id=2077173060]
+
+[node name="Survivor_01" parent="PopulationMarkers" unique_id=168345334 instance=ExtResource("3_uuut2")]
+position = Vector2(1160, 760)
+marker_kind = "survivor"
+lane_or_zone = "forest"

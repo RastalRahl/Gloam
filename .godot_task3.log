@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 616.64 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+Task3 capture: res://visual_comparison/task3_entities_normal.png
+Task3 capture: res://visual_comparison/task3_entities_debug_collisions.png
+Task3 capture: res://visual_comparison/task3_night_scale.png
+Task3 scales: unit=0.90 lancer=0.58 large=0.65 castle=0.90 building=0.75 tree=1.00 camera=(1.0, 1.0)
+[WaveLifecycle] pending wave work cancelled: scene reload or scene unload

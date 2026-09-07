@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/gate.gd" id="1_gate_script"]
+[ext_resource type="Texture2D" path="res://assets/tiny_swords/props/fortifications/wooden_fence_64x64.png" id="2_fortification_texture"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(112, 18)
+
+[node name="Gate" type="Node2D"]
+script = ExtResource("1_gate_script")
+max_hp = 180
+
+[node name="IntactArt" type="Sprite2D" parent="."]
+z_index = 2
+texture_filter = 1
+texture = ExtResource("2_fortification_texture")
+region_enabled = true
+region_rect = Rect2(0, 0, 256, 64)
+position = Vector2(0, -16)
+scale = Vector2(0.4375, 0.52)
+
+[node name="BreachedLeft" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+texture_filter = 1
+texture = ExtResource("2_fortification_texture")
+region_enabled = true
+region_rect = Rect2(0, 128, 128, 64)
+position = Vector2(-30, -10)
+scale = Vector2(0.4375, 0.52)
+
+[node name="BreachedRight" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+texture_filter = 1
+texture = ExtResource("2_fortification_texture")
+region_enabled = true
+region_rect = Rect2(128, 128, 128, 64)
+position = Vector2(30, -10)
+scale = Vector2(0.4375, 0.52)
+
+[node name="GateBlocker" type="StaticBody2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GateBlocker"]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_gate")
+
+[node name="HealthBar" type="ColorRect" parent="."]
+visible = false
+z_index = 5
+offset_left = -30.0
+offset_top = -48.0
+offset_right = 30.0
+offset_bottom = -42.0
+mouse_filter = 2
+color = Color(0.025, 0.025, 0.025, 0.88)
+
+[node name="Fill" type="ColorRect" parent="HealthBar"]
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 59.0
+offset_bottom = 5.0
+mouse_filter = 2
+color = Color(0.48, 0.70, 0.30, 1)

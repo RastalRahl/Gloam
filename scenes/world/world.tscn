@@ -1,0 +1,249 @@
+[gd_scene format=3 uid="uid://cabk1iokcpffb"]
+
+[ext_resource type="Script" uid="uid://b7f5de26lyfe5" path="res://scripts/world_visuals.gd" id="1_gb53w"]
+[ext_resource type="PackedScene" uid="uid://6sgiiyph7sck" path="res://scenes/world/terrain.tscn" id="2_5qq27"]
+[ext_resource type="PackedScene" uid="uid://byq6yvmiwigh6" path="res://scenes/world/village.tscn" id="3_dlabj"]
+[ext_resource type="PackedScene" uid="uid://btaaxnvdnktof" path="res://scenes/world/forest.tscn" id="4_srmg5"]
+[ext_resource type="PackedScene" uid="uid://cnyiesf1hct6v" path="res://scenes/world/mine.tscn" id="5_umvgx"]
+[ext_resource type="PackedScene" uid="uid://pccdp3u8ofax" path="res://scenes/world/ruins.tscn" id="6_mxkvs"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/passage_marker.tscn" id="7_m114p"]
+[ext_resource type="PackedScene" path="res://scenes/world/components/spawn_marker.tscn" id="9_bt7bg"]
+
+[sub_resource type="Curve2D" id="Curve2D_tytul"]
+bake_interval = 48.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 176, 780, 0, 0, 0, 0, 181.28584, 789.301, 0, 0, 0, 0, 186.12587, 799.85876, 0, 0, 0, 0, 190.96587, 809.838, 0, 0, 0, 0, 200, 820, 0, 0, 0, 0, 205.48586, 827.33777, 0, 0, 0, 0, 212.74586, 836.16003, 0, 0, 0, 0, 220.81252, 844.40375, 0, 0, 0, 0, 226.45918, 851.77966, 0, 0, 0, 0, 232, 858, 0, 0, 0, 0, 236.94585, 866.38696, 0, 0, 0, 0, 244.20586, 874.9199, 0, 0, 0, 0, 248.23918, 883.3082, 0, 0, 0, 0, 251.46587, 889.0933, 0, 0, 0, 0, 256, 896)
+}
+point_count = 15
+
+[sub_resource type="Curve2D" id="Curve2D_t634p"]
+bake_interval = 48.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 272.366, 645.08813, 0, 0, 0, 0, 274.20718, 670.95135, 0, 0, 0, 0, 274.41177, 694.1124, 0, 0, 0, 0, 273.3889, 714.9574, 0, 0, 0, 0, 274.00262, 741.59265, 0, 0, 0, 0, 273.59344, 762.82367, 0, 0, 0, 0, 273.18433, 787.5288, 0, 0, 0, 0, 273.3889, 806.8298, 0, 0, 0, 0, 273.3889, 825.35864, 0, 0, 0, 0, 272.97974, 842.34344, 0, 0, 0, 0, 273.18433, 866.2766, 0, 0, 0, 0, 272.97974, 898.31604)
+}
+point_count = 12
+
+[sub_resource type="Curve2D" id="Curve2D_6hctx"]
+bake_interval = 48.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 336, 780, 0, 0, 0, 0, 327.05664, 793.4751, 0, 0, 0, 0, 321.75256, 802.46155, 0, 0, 0, 0, 316.27393, 811.8292, 0, 0, 0, 0, 312, 820, 0, 0, 0, 0, 305.8402, 827.2813, 0, 0, 0, 0, 298.76807, 837.9795, 0, 0, 0, 0, 288.15985, 848.82025, 0, 0, 0, 0, 280, 858, 0, 0, 0, 0, 277.55164, 864.7962, 0, 0, 0, 0, 270.4795, 878.06195, 0, 0, 0, 0, 262.52332, 887.19104, 0, 0, 0, 0, 256, 896)
+}
+point_count = 13
+
+[sub_resource type="Curve2D" id="Curve2D_ues17"]
+bake_interval = 48.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2284.8977, 1084.272, 0, 0, 0, 0, 2204.905, 1100.8253, 0, 0, 0, 0, 2118.3823, 1119.5146, 0, 0, 0, 0, 1994.3121, 1133.9321, 0, 0, 0, 0, 1840.8568, 1137.136, 0, 0, 0, 0, 1692.2992, 1137.136, 0, 0, 0, 0, 1522.5189, 1143.5437, 0, 0, 0, 0, 1375.5938, 1140.3398, 0, 0, 0, 0, 1180, 1160, 0, 0, 0, 0, 940, 1160, 0, 0, 0, 0, 755.2428, 1177.1846, 0, 0, 0, 0, 644.23267, 1188.3982, 0, 0, 0, 0, 512, 1184)
+}
+point_count = 13
+
+[sub_resource type="Curve2D" id="Curve2D_xq18t"]
+bake_interval = 48.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2280, 1120, 0, 0, 0, 0, 2208.4346, 1125.446, 0, 0, 0, 0, 2138.495, 1137.862, 0, 0, 0, 0, 2058.7969, 1138.8733, 0, 0, 0, 0, 1979.0988, 1148.4828, 0, 0, 0, 0, 1875.003, 1148.4828, 0, 0, 0, 0, 1788.7987, 1151.3794, 0, 0, 0, 0, 1687.9562, 1152.3448, 0, 0, 0, 0, 1565.9689, 1153.3333, 0, 0, 0, 0, 1388.6809, 1154.3662, 0, 0, 0, 0, 1180, 1160, 0, 0, 0, 0, 940, 1160, 0, 0, 0, 0, 783.62476, 1165.862, 0, 0, 0, 0, 653.5051, 1180.8276, 0, 0, 0, 0, 512, 1184)
+}
+point_count = 15
+
+[sub_resource type="Curve2D" id="Curve2D_x0nq1"]
+bake_interval = 48.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2286.5178, 1104, 0, 0, 0, 0, 2226.2268, 1122, 0, 0, 0, 0, 2156.1584, 1141, 0, 0, 0, 0, 2002.9862, 1116, 0, 0, 0, 0, 1841.6664, 1111, 0, 0, 0, 0, 1695.0121, 1115, 0, 0, 0, 0, 1564.6526, 1126, 0, 0, 0, 0, 1489.6959, 1131, 0, 0, 0, 0, 1424.5162, 1136, 0, 0, 0, 0, 1303.9337, 1140, 0, 0, 0, 0, 1140.9844, 1147, 0, 0, 0, 0, 940, 1160, 0, 0, 0, 0, 700, 1160, 0, 0, 0, 0, 610, 1190, 0, 0, 0, 0, 512, 1184)
+}
+point_count = 15
+
+[node name="World" type="Node2D" unique_id=665375962]
+script = ExtResource("1_gb53w")
+
+[node name="Terrain" parent="." unique_id=1789062943 instance=ExtResource("2_5qq27")]
+
+[node name="Regions" type="Node2D" parent="." unique_id=634700175]
+
+[node name="Village" parent="Regions" unique_id=658244458 instance=ExtResource("3_dlabj")]
+
+[node name="Forest" parent="Regions" unique_id=772835531 instance=ExtResource("4_srmg5")]
+
+[node name="Mine" parent="Regions" unique_id=811731030 instance=ExtResource("5_umvgx")]
+
+[node name="Ruins" parent="Regions" unique_id=1135330271 instance=ExtResource("6_mxkvs")]
+
+[node name="TerrainRegions" type="Node2D" parent="." unique_id=1467197139]
+
+[node name="VillageMeadow" type="Node2D" parent="TerrainRegions" unique_id=279873077]
+metadata/region_id = "village_meadow"
+metadata/zone = "village"
+metadata/cell_rect = Rect2i(0, 14, 8, 8)
+
+[node name="ForestWayledge" type="Node2D" parent="TerrainRegions" unique_id=896701868]
+metadata/region_id = "forest_wayledge"
+metadata/zone = "forest"
+metadata/cell_rect = Rect2i(9, 10, 6, 3)
+
+[node name="MineUpperShelf" type="Node2D" parent="TerrainRegions" unique_id=2131747948]
+metadata/region_id = "mine_upper_shelf"
+metadata/zone = "mine"
+metadata/cell_rect = Rect2i(25, 10, 12, 3)
+
+[node name="MineLowerShelf" type="Node2D" parent="TerrainRegions" unique_id=1703570439]
+metadata/region_id = "mine_lower_shelf"
+metadata/zone = "mine"
+metadata/cell_rect = Rect2i(26, 17, 10, 4)
+
+[node name="RuinsWestTerrace" type="Node2D" parent="TerrainRegions" unique_id=1727428513]
+metadata/region_id = "ruins_west_terrace"
+metadata/zone = "ruins"
+metadata/cell_rect = Rect2i(20, 2, 9, 5)
+
+[node name="RuinsEastTerrace" type="Node2D" parent="TerrainRegions" unique_id=2028044286]
+metadata/region_id = "ruins_east_terrace"
+metadata/zone = "ruins"
+metadata/cell_rect = Rect2i(30, 1, 7, 6)
+
+[node name="Passages" type="Node2D" parent="." unique_id=530230902]
+
+[node name="VillageNorthGate" parent="Passages" unique_id=1039751862 instance=ExtResource("7_m114p")]
+position = Vector2(256, 896)
+passage_id = "village_north_gate"
+passage_kind = "gate"
+opening_width = 128.0
+
+[node name="VillageEastGate" parent="Passages" unique_id=446953352 instance=ExtResource("7_m114p")]
+position = Vector2(512, 1184)
+passage_id = "village_east_gate"
+passage_kind = "gate"
+direction = Vector2(1, 0)
+
+[node name="ForestWestPassage" parent="Passages" unique_id=2128495686 instance=ExtResource("7_m114p")]
+position = Vector2(576, 672)
+passage_id = "forest_west_passage"
+direction = Vector2(-1, 0)
+
+[node name="ForestEastPassage" parent="Passages" unique_id=1405009408 instance=ExtResource("7_m114p")]
+position = Vector2(960, 672)
+passage_id = "forest_east_passage"
+direction = Vector2(1, 0)
+
+[node name="ForestSouthStairs" parent="Passages" unique_id=1794059129 instance=ExtResource("7_m114p")]
+position = Vector2(800, 832)
+passage_id = "forest_south_stairs"
+passage_kind = "stairs"
+direction = Vector2(0, 1)
+
+[node name="MineUpperWestPassage" parent="Passages" unique_id=1988803419 instance=ExtResource("7_m114p")]
+position = Vector2(1600, 672)
+passage_id = "mine_upper_west_passage"
+direction = Vector2(-1, 0)
+
+[node name="MineUpperNorthStairs" parent="Passages" unique_id=1532068451 instance=ExtResource("7_m114p")]
+position = Vector2(2240, 640)
+passage_id = "mine_upper_north_stairs"
+passage_kind = "stairs"
+opening_width = 128.0
+
+[node name="MineUpperStairs" parent="Passages" unique_id=1863677561 instance=ExtResource("7_m114p")]
+position = Vector2(2176, 832)
+passage_id = "mine_upper_stairs"
+passage_kind = "stairs"
+direction = Vector2(0, 1)
+opening_width = 128.0
+
+[node name="MineLowerStairs" parent="Passages" unique_id=1336095147 instance=ExtResource("7_m114p")]
+position = Vector2(1728, 1088)
+passage_id = "mine_lower_stairs"
+passage_kind = "stairs"
+opening_width = 128.0
+
+[node name="RuinsShrineStairs" parent="Passages" unique_id=1658892146 instance=ExtResource("7_m114p")]
+position = Vector2(1728, 448)
+passage_id = "ruins_shrine_stairs"
+passage_kind = "stairs"
+direction = Vector2(0, 1)
+opening_width = 128.0
+
+[node name="RuinsEastStairs" parent="Passages" unique_id=710437750 instance=ExtResource("7_m114p")]
+position = Vector2(2240, 448)
+passage_id = "ruins_east_stairs"
+passage_kind = "stairs"
+direction = Vector2(0, 1)
+opening_width = 128.0
+
+[node name="NightApproaches" type="Node2D" parent="." unique_id=397105304]
+
+[node name="SpawnMarkers" type="Node2D" parent="NightApproaches" unique_id=452805948]
+
+[node name="NorthSpawn01" parent="NightApproaches/SpawnMarkers" unique_id=561532262 instance=ExtResource("9_bt7bg")]
+position = Vector2(170, 240)
+route_id = "north_1"
+
+[node name="NorthSpawn02" parent="NightApproaches/SpawnMarkers" unique_id=615259323 instance=ExtResource("9_bt7bg")]
+position = Vector2(250, 236)
+route_id = "north_2"
+
+[node name="NorthSpawn03" parent="NightApproaches/SpawnMarkers" unique_id=1977885551 instance=ExtResource("9_bt7bg")]
+position = Vector2(330, 240)
+route_id = "north_3"
+
+[node name="EastSpawn01" parent="NightApproaches/SpawnMarkers" unique_id=782379333 instance=ExtResource("9_bt7bg")]
+position = Vector2(1602, 985)
+lane_or_zone = "east"
+route_id = "east_1"
+
+[node name="EastSpawn02" parent="NightApproaches/SpawnMarkers" unique_id=1000186234 instance=ExtResource("9_bt7bg")]
+position = Vector2(1602, 1046)
+lane_or_zone = "east"
+route_id = "east_2"
+
+[node name="EastSpawn03" parent="NightApproaches/SpawnMarkers" unique_id=1606933208 instance=ExtResource("9_bt7bg")]
+position = Vector2(1602, 1105)
+lane_or_zone = "east"
+route_id = "east_3"
+
+[node name="NorthBossSpawn" parent="NightApproaches/SpawnMarkers" unique_id=1740578938 instance=ExtResource("9_bt7bg")]
+position = Vector2(256, 780)
+marker_kind = "night_boss"
+route_id = "north_2"
+
+[node name="ApproachPaths" type="Node2D" parent="NightApproaches" unique_id=362300148]
+
+[node name="North1" type="Path2D" parent="NightApproaches/ApproachPaths" unique_id=1044453064]
+position = Vector2(0, -4101.517)
+scale = Vector2(1, 5.577586)
+curve = SubResource("Curve2D_tytul")
+metadata/route_id = "north_1"
+
+[node name="North2" type="Path2D" parent="NightApproaches/ApproachPaths" unique_id=2017737667]
+position = Vector2(-1080.3733, -1425.1338)
+scale = Vector2(4.888177, 2.5905511)
+curve = SubResource("Curve2D_t634p")
+metadata/route_id = "north_2"
+
+[node name="North3" type="Path2D" parent="NightApproaches/ApproachPaths" unique_id=106567548]
+position = Vector2(22.399994, -4171.034)
+scale = Vector2(0.9125, 5.6551723)
+curve = SubResource("Curve2D_6hctx")
+metadata/route_id = "north_3"
+
+[node name="East1" type="Path2D" parent="NightApproaches/ApproachPaths" unique_id=1137175204]
+position = Vector2(198.37103, -1038.5455)
+scale = Vector2(0.6125566, 1.8727273)
+curve = SubResource("Curve2D_ues17")
+metadata/route_id = "east_1"
+
+[node name="East2" type="Path2D" parent="NightApproaches/ApproachPaths" unique_id=1356551526]
+position = Vector2(197.21269, -1274.9988)
+scale = Vector2(0.61481893, 2.0714276)
+curve = SubResource("Curve2D_xq18t")
+metadata/route_id = "east_2"
+
+[node name="East3" type="Path2D" parent="NightApproaches/ApproachPaths" unique_id=558431182]
+position = Vector2(197.79184, 0)
+scale = Vector2(0.61368775, 1)
+curve = SubResource("Curve2D_x0nq1")
+metadata/route_id = "east_3"
+
+[node name="BreachMarkers" type="Node2D" parent="NightApproaches" unique_id=454553443]
+
+[node name="NorthBreachMarker" type="Marker2D" parent="NightApproaches/BreachMarkers" unique_id=21376047]
+position = Vector2(256, 944)
+
+[node name="EastBreachMarker" type="Marker2D" parent="NightApproaches/BreachMarkers" unique_id=410757195]
+position = Vector2(464, 1184)

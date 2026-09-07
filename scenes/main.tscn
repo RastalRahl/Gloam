@@ -1,0 +1,1145 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player_scene"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="2_main_script"]
+[ext_resource type="PackedScene" path="res://scenes/world/world.tscn" id="4_world"]
+[ext_resource type="Script" path="res://scripts/audio_hooks.gd" id="6_audio_hooks"]
+[ext_resource type="Script" path="res://scripts/game_settings.gd" id="17_game_settings"]
+[ext_resource type="Script" path="res://scripts/collision_debug_overlay.gd" id="18_collision_debug"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/icons/icon_01.png" id="7_wood_icon"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/icons/icon_02.png" id="8_stone_icon"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/icons/icon_03.png" id="9_iron_icon"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/icons/icon_04.png" id="10_food_icon"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/icons/icon_07.png" id="11_essence_icon"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/icons/icon_05.png" id="12_weapon_icon"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/avatars/avatar_01.png" id="13_population_avatar"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/avatars/avatar_02.png" id="14_worker_avatar"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/avatars/avatar_03.png" id="15_guard_avatar"]
+[ext_resource type="Texture2D" path="res://assets/generated/tiny_swords/ui/avatars/avatar_04.png" id="16_archer_avatar"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("2_main_script")
+day_duration = 180.0
+night_duration = 0.0
+nights_to_survive = 10
+final_boss_spawn_delay = 15.0
+
+[node name="WorldLight" type="CanvasModulate" parent="."]
+color = Color(0.99, 0.98, 0.94, 1)
+
+[node name="AudioHooks" type="Node" parent="."]
+script = ExtResource("6_audio_hooks")
+
+[node name="GameSettings" type="Node" parent="."]
+script = ExtResource("17_game_settings")
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -5
+offset_right = 2400.0
+offset_bottom = 1400.0
+mouse_filter = 2
+color = Color(0.15, 0.43, 0.45, 1)
+
+[node name="VillageZone" type="ColorRect" parent="."]
+offset_right = 580.0
+offset_top = 900.0
+offset_bottom = 1400.0
+mouse_filter = 2
+color = Color(0.18, 0.145, 0.085, 0.60)
+visible = false
+
+[node name="ForestZone" type="ColorRect" parent="."]
+offset_left = 600.0
+offset_top = 700.0
+offset_right = 1350.0
+offset_bottom = 1400.0
+mouse_filter = 2
+color = Color(0.055, 0.16, 0.065, 0.58)
+visible = false
+
+[node name="ForestLabel" type="Label" parent="."]
+visible = false
+offset_left = 760.0
+offset_top = 745.0
+offset_right = 980.0
+offset_bottom = 790.0
+text = "FOREST"
+theme_override_colors/font_color = Color(0.52, 0.67, 0.49, 0.60)
+theme_override_colors/font_outline_color = Color(0.03, 0.03, 0.03, 0.70)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+z_index = 3
+
+[node name="MineZone" type="ColorRect" parent="."]
+offset_left = 1400.0
+offset_top = 760.0
+offset_right = 2400.0
+offset_bottom = 1400.0
+mouse_filter = 2
+color = Color(0.15, 0.14, 0.125, 0.62)
+visible = false
+
+[node name="MineLabel" type="Label" parent="."]
+visible = false
+offset_left = 1680.0
+offset_top = 810.0
+offset_right = 1900.0
+offset_bottom = 855.0
+text = "MINE"
+theme_override_colors/font_color = Color(0.66, 0.61, 0.53, 0.58)
+theme_override_colors/font_outline_color = Color(0.03, 0.03, 0.03, 0.70)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+z_index = 3
+
+[node name="RuinsZone" type="ColorRect" parent="."]
+offset_left = 1180.0
+offset_top = 80.0
+offset_right = 2320.0
+offset_bottom = 680.0
+mouse_filter = 2
+color = Color(0.13, 0.105, 0.17, 0.60)
+visible = false
+
+[node name="RuinsLabel" type="Label" parent="."]
+visible = false
+offset_left = 1580.0
+offset_top = 130.0
+offset_right = 1800.0
+offset_bottom = 175.0
+text = "RUINS"
+theme_override_colors/font_color = Color(0.65, 0.55, 0.76, 0.58)
+theme_override_colors/font_outline_color = Color(0.03, 0.03, 0.03, 0.70)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+z_index = 3
+
+[node name="VillageLabel" type="Label" parent="."]
+visible = false
+offset_left = 120.0
+offset_top = 920.0
+offset_right = 420.0
+offset_bottom = 965.0
+text = "VILLAGE"
+theme_override_colors/font_color = Color(0.78, 0.68, 0.46, 0.62)
+theme_override_colors/font_outline_color = Color(0.03, 0.03, 0.03, 0.70)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+z_index = 3
+
+[node name="NorthApproach" type="ColorRect" parent="."]
+offset_left = 220.0
+offset_top = 590.0
+offset_right = 300.0
+offset_bottom = 995.0
+mouse_filter = 2
+color = Color(0.28, 0.21, 0.12, 0.78)
+visible = false
+
+[node name="EastApproach" type="ColorRect" parent="."]
+offset_left = 505.0
+offset_top = 1150.0
+offset_right = 1100.0
+offset_bottom = 1230.0
+mouse_filter = 2
+color = Color(0.28, 0.21, 0.12, 0.78)
+visible = false
+
+
+[node name="World" parent="." instance=ExtResource("4_world")]
+
+[node name="CollisionDebugOverlay" type="Node2D" parent="."]
+script = ExtResource("18_collision_debug")
+
+[node name="DayObstacles" type="Node2D" parent="."]
+
+[node name="Resources" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Survivors" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Soldiers" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="VillageBuildings" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Defenses" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="DayEnemies" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Shrines" type="Node2D" parent="."]
+
+
+[node name="PhaseTimer" type="Timer" parent="."]
+one_shot = true
+
+
+[node name="Player" parent="." instance=ExtResource("1_player_scene")]
+position = Vector2(260, 1300)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="WorldGrade" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.025, 0.045, 0.065, 0.06)
+
+[node name="DuskTint" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ModalDimmer" type="ColorRect" parent="UI"]
+process_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.015, 0.018, 0.022, 0.78)
+visible = false
+
+[node name="StatsPanel" type="PanelContainer" parent="UI"]
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 230.0
+offset_bottom = 184.0
+mouse_filter = 2
+
+[node name="Content" type="MarginContainer" parent="UI/StatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 13
+
+[node name="VBox" type="VBoxContainer" parent="UI/StatsPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LoadoutRow" type="HBoxContainer" parent="UI/StatsPanel/Content/VBox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="WeaponIcon" type="TextureRect" parent="UI/StatsPanel/Content/VBox/LoadoutRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("12_weapon_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponLabel" type="Label" parent="UI/StatsPanel/Content/VBox/LoadoutRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.72, 0.32, 1)
+theme_override_font_sizes/font_size = 18
+text = "BOW"
+
+[node name="LevelLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.69, 0.70, 0.67, 1)
+theme_override_font_sizes/font_size = 11
+text = "LV 1"
+
+[node name="XPLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+text = "XP  0 / 5"
+
+[node name="XPBar" type="ProgressBar" parent="UI/StatsPanel/Content/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+max_value = 5.0
+show_percentage = false
+
+[node name="PlayerHPLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+text = "Player HP: 100 / 100"
+
+[node name="PlayerHPBar" type="ProgressBar" parent="UI/StatsPanel/Content/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="DamageLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+text = "Damage: 1"
+visible = false
+
+[node name="SpeedLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+text = "Cooldown: 0.32s"
+visible = false
+
+[node name="ProjectilesLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+text = "Shot Speed: 520"
+visible = false
+
+[node name="CoreHPLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+text = "Village Core: 100 / 100"
+
+[node name="CoreHPBar" type="ProgressBar" parent="UI/StatsPanel/Content/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="ControlsLabel" type="Label" parent="UI/StatsPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.56, 0.54, 1)
+theme_override_font_sizes/font_size = 11
+text = "MOVE   •   ATTACK   •   INTERACT"
+visible = false
+
+[node name="ElementPanel" type="PanelContainer" parent="UI"]
+offset_left = 258.0
+offset_top = 18.0
+offset_right = 406.0
+offset_bottom = 156.0
+mouse_filter = 2
+
+[node name="Content" type="MarginContainer" parent="UI/ElementPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 13
+
+[node name="VBox" type="VBoxContainer" parent="UI/ElementPanel/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UI/ElementPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.65, 0.29, 1)
+theme_override_font_sizes/font_size = 12
+text = "AFFINITIES"
+
+[node name="FireLabel" type="Label" parent="UI/ElementPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.38, 0.22, 1)
+text = "Fire: 0"
+
+[node name="WaterLabel" type="Label" parent="UI/ElementPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.62, 0.90, 1)
+text = "Water: 0"
+
+[node name="EarthLabel" type="Label" parent="UI/ElementPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.58, 0.37, 1)
+text = "Earth: 0"
+
+[node name="AirLabel" type="Label" parent="UI/ElementPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.61, 0.82, 0.80, 1)
+text = "Air: 0"
+
+[node name="ResourcePanel" type="PanelContainer" parent="UI"]
+offset_left = 18.0
+offset_top = 236.0
+offset_right = 238.0
+offset_bottom = 382.0
+mouse_filter = 2
+visible = false
+
+[node name="Content" type="MarginContainer" parent="UI/ResourcePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 13
+
+[node name="VBox" type="VBoxContainer" parent="UI/ResourcePanel/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UI/ResourcePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.65, 0.29, 1)
+theme_override_font_sizes/font_size = 12
+text = "SUPPLIES"
+
+[node name="WoodLabel" type="Label" parent="UI/ResourcePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.76, 0.56, 0.32, 1)
+text = "WOOD  •  0"
+
+[node name="StoneLabel" type="Label" parent="UI/ResourcePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.70, 0.70, 0.67, 1)
+text = "STONE  •  0"
+
+[node name="IronLabel" type="Label" parent="UI/ResourcePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.66, 0.73, 1)
+text = "IRON  •  0"
+
+[node name="FoodLabel" type="Label" parent="UI/ResourcePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.59, 0.72, 0.43, 1)
+text = "FOOD  •  3"
+
+[node name="EssenceLabel" type="Label" parent="UI/ResourcePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.71, 0.53, 0.88, 1)
+text = "ESSENCE  •  0"
+
+[node name="ResourceStrip" type="PanelContainer" parent="UI"]
+offset_left = 14.0
+offset_top = 190.0
+offset_right = 260.0
+offset_bottom = 230.0
+mouse_filter = 2
+
+[node name="Content" type="MarginContainer" parent="UI/ResourceStrip"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="UI/ResourceStrip/Content"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="WoodIcon" type="TextureRect" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+texture = ExtResource("7_wood_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WoodValue" type="Label" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
+
+[node name="StoneIcon" type="TextureRect" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+texture = ExtResource("8_stone_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StoneValue" type="Label" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
+
+[node name="IronIcon" type="TextureRect" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+texture = ExtResource("9_iron_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IronValue" type="Label" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
+
+[node name="FoodIcon" type="TextureRect" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+texture = ExtResource("10_food_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FoodValue" type="Label" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+text = "3"
+vertical_alignment = 1
+
+[node name="EssenceIcon" type="TextureRect" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+texture = ExtResource("11_essence_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EssenceValue" type="Label" parent="UI/ResourceStrip/Content/HBox"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
+
+[node name="PopulationPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -252.0
+offset_top = 14.0
+offset_right = -14.0
+offset_bottom = 184.0
+mouse_filter = 2
+
+[node name="Content" type="MarginContainer" parent="UI/PopulationPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 13
+
+[node name="VBox" type="VBoxContainer" parent="UI/PopulationPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="UI/PopulationPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.65, 0.29, 1)
+theme_override_font_sizes/font_size = 12
+text = "PEOPLE"
+
+[node name="PopulationRow" type="HBoxContainer" parent="UI/PopulationPanel/Content/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Avatar" type="TextureRect" parent="UI/PopulationPanel/Content/VBox/PopulationRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("13_population_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PopulationLabel" type="Label" parent="UI/PopulationPanel/Content/VBox/PopulationRow"]
+layout_mode = 2
+text = "POPULATION  4 / 6"
+vertical_alignment = 1
+
+[node name="UnassignedLabel" type="Label" parent="UI/PopulationPanel/Content/VBox"]
+layout_mode = 2
+text = "Unassigned: 0"
+
+[node name="WorkersRow" type="HBoxContainer" parent="UI/PopulationPanel/Content/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Avatar" type="TextureRect" parent="UI/PopulationPanel/Content/VBox/WorkersRow"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("14_worker_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WorkersLabel" type="Label" parent="UI/PopulationPanel/Content/VBox/WorkersRow"]
+layout_mode = 2
+text = "WORKERS  •  4"
+vertical_alignment = 1
+
+[node name="GuardsRow" type="HBoxContainer" parent="UI/PopulationPanel/Content/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Avatar" type="TextureRect" parent="UI/PopulationPanel/Content/VBox/GuardsRow"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("15_guard_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GuardsLabel" type="Label" parent="UI/PopulationPanel/Content/VBox/GuardsRow"]
+layout_mode = 2
+text = "GUARDS  •  0"
+vertical_alignment = 1
+
+[node name="ArchersRow" type="HBoxContainer" parent="UI/PopulationPanel/Content/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Avatar" type="TextureRect" parent="UI/PopulationPanel/Content/VBox/ArchersRow"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("16_archer_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ArchersLabel" type="Label" parent="UI/PopulationPanel/Content/VBox/ArchersRow"]
+layout_mode = 2
+text = "ARCHERS  •  0"
+vertical_alignment = 1
+
+[node name="AssignWorkerButton" type="Button" parent="UI/PopulationPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+layout_mode = 2
+text = "ASSIGN WORKER"
+visible = false
+icon = ExtResource("14_worker_avatar")
+expand_icon = true
+icon_max_width = 22
+
+[node name="AssignGuardButton" type="Button" parent="UI/PopulationPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+layout_mode = 2
+text = "ASSIGN GUARD"
+visible = false
+icon = ExtResource("15_guard_avatar")
+expand_icon = true
+icon_max_width = 22
+
+[node name="AssignArcherButton" type="Button" parent="UI/PopulationPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+layout_mode = 2
+text = "ASSIGN ARCHER"
+visible = false
+icon = ExtResource("16_archer_avatar")
+expand_icon = true
+icon_max_width = 22
+
+[node name="ManageVillageButton" type="Button" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -252.0
+offset_top = 190.0
+offset_right = -14.0
+offset_bottom = 232.0
+mouse_default_cursor_shape = 2
+mouse_filter = 0
+text = "MANAGE VILLAGE"
+
+[node name="BuildingsPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -252.0
+offset_top = 238.0
+offset_right = -14.0
+offset_bottom = 356.0
+mouse_filter = 2
+
+[node name="Content" type="MarginContainer" parent="UI/BuildingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 13
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 13
+
+[node name="VBox" type="VBoxContainer" parent="UI/BuildingsPanel/Content"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84, 0.65, 0.29, 1)
+theme_override_font_sizes/font_size = 12
+text = "SETTLEMENT"
+
+[node name="HousesLabel" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+text = "Houses: 0"
+
+[node name="FarmsLabel" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+text = "Farms: 0"
+
+[node name="BarracksLabel" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+text = "Barracks: No"
+
+[node name="BlacksmithLabel" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+text = "Blacksmith: No"
+
+[node name="NorthGateLabel" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+text = "North Gate: 180 / 180"
+
+[node name="EastGateLabel" type="Label" parent="UI/BuildingsPanel/Content/VBox"]
+layout_mode = 2
+text = "East Gate: 180 / 180"
+
+[node name="PhasePanel" type="PanelContainer" parent="UI"]
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -140.0
+offset_top = 10.0
+offset_right = 140.0
+offset_bottom = 82.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Content" type="MarginContainer" parent="UI/PhasePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 13
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="UI/PhasePanel/Content"]
+layout_mode = 2
+
+[node name="PhaseLabel" type="Label" parent="UI/PhasePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.65, 0.28, 1)
+theme_override_font_sizes/font_size = 13
+text = "GLOAM"
+horizontal_alignment = 1
+
+[node name="PhaseTimeLabel" type="Label" parent="UI/PhasePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.91, 0.78, 1)
+theme_override_font_sizes/font_size = 20
+text = "--"
+horizontal_alignment = 1
+
+[node name="ObjectiveLabel" type="Label" parent="UI/PhasePanel/Content/VBox"]
+layout_mode = 2
+text = "Choose your starting weapon"
+horizontal_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="UI/PhasePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.69, 0.70, 0.67, 1)
+theme_override_font_sizes/font_size = 12
+text = "NO ASSAULT"
+horizontal_alignment = 1
+
+[node name="ZoneLabel" type="Label" parent="UI/PhasePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.59, 0.63, 0.57, 1)
+theme_override_font_sizes/font_size = 11
+text = "VILLAGE • SAFE"
+horizontal_alignment = 1
+visible = false
+
+[node name="SkipToNightButton" type="Button" parent="UI"]
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 194.0
+offset_top = 14.0
+offset_right = 354.0
+offset_bottom = 54.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+text = "SKIP TO NIGHT"
+
+[node name="LevelReadyLabel" type="Label" parent="UI"]
+offset_left = 18.0
+offset_top = 210.0
+offset_right = 330.0
+offset_bottom = 235.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.30, 1)
+theme_override_font_sizes/font_size = 12
+text = "LEVEL UP READY  •  CHOOSE DURING DAY"
+
+[node name="ReturnPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 104.0
+offset_right = 200.0
+offset_bottom = 144.0
+grow_horizontal = 2
+
+[node name="ReturnLabel" type="Label" parent="UI/ReturnPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "↙  RETURN TO VILLAGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ToastPanel" type="PanelContainer" parent="UI"]
+process_mode = 3
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 150.0
+offset_right = 180.0
+offset_bottom = 188.0
+grow_horizontal = 2
+mouse_filter = 2
+visible = false
+
+[node name="Content" type="MarginContainer" parent="UI/ToastPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 9
+
+[node name="ToastLabel" type="Label" parent="UI/ToastPanel/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Action complete"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BossPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -155.0
+offset_top = 128.0
+offset_right = 155.0
+offset_bottom = 168.0
+grow_horizontal = 2
+
+[node name="Content" type="MarginContainer" parent="UI/BossPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 9
+
+[node name="VBox" type="VBoxContainer" parent="UI/BossPanel/Content"]
+layout_mode = 2
+
+[node name="BossHPLabel" type="Label" parent="UI/BossPanel/Content/VBox"]
+layout_mode = 2
+text = "⚠ TROLL CHIEFTAIN  •  45 / 45"
+horizontal_alignment = 1
+
+[node name="ShrinePanel" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -315.0
+offset_top = -175.0
+offset_right = 315.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Content" type="MarginContainer" parent="UI/ShrinePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="UI/ShrinePanel/Content"]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="UI/ShrinePanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.90, 0.86, 0.76, 1)
+theme_override_font_sizes/font_size = 14
+text = "RUIN SHRINE"
+horizontal_alignment = 1
+
+[node name="FortificationPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -245.0
+offset_top = -145.0
+offset_right = 245.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Content" type="MarginContainer" parent="UI/FortificationPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="UI/FortificationPanel/Content"]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="UI/FortificationPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.90, 0.86, 0.76, 1)
+theme_override_font_sizes/font_size = 14
+text = "FORTIFICATION"
+horizontal_alignment = 1
+
+[node name="VillageBuildPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -205.0
+offset_right = 310.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Content" type="MarginContainer" parent="UI/VillageBuildPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="UI/VillageBuildPanel/Content"]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="UI/VillageBuildPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.90, 0.86, 0.76, 1)
+theme_override_font_sizes/font_size = 14
+text = "VILLAGE BUILDING"
+horizontal_alignment = 1
+
+[node name="BuildPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -150.0
+offset_right = 220.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Content" type="MarginContainer" parent="UI/BuildPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="UI/BuildPanel/Content"]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="UI/BuildPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.90, 0.86, 0.76, 1)
+theme_override_font_sizes/font_size = 14
+text = "BUILD SPOT"
+horizontal_alignment = 1
+
+[node name="DownedLabel" type="Label" parent="UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -50.0
+offset_right = 180.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DOWNED\nRespawning..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponPanel" type="PanelContainer" parent="UI"]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -175.0
+offset_right = 290.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="MarginContainer" parent="UI/WeaponPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="UI/WeaponPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="UI/WeaponPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.72, 0.32, 1)
+theme_override_font_sizes/font_size = 22
+text = "CHOOSE YOUR WEAPON"
+horizontal_alignment = 1
+
+[node name="SwordButton" type="Button" parent="UI/WeaponPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 82)
+layout_mode = 2
+alignment = 0
+text = "SWORD\nFast melee cleave • 2 damage\nFire burns longer • Water slows harder"
+
+[node name="BowButton" type="Button" parent="UI/WeaponPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 82)
+layout_mode = 2
+alignment = 0
+text = "BOW\nRanged precision • 1 damage\nSafest range • Air boosts projectile speed"
+
+[node name="SpearButton" type="Button" parent="UI/WeaponPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 82)
+layout_mode = 2
+alignment = 0
+text = "SPEAR\nLong-reach thrust • 3 damage\nPierces the line • Earth adds force"
+
+[node name="LevelUpPanel" type="PanelContainer" parent="UI"]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="MarginContainer" parent="UI/LevelUpPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="UI/LevelUpPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="UI/LevelUpPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.72, 0.32, 1)
+theme_override_font_sizes/font_size = 21
+text = "LEVEL UP\nCHOOSE YOUR PATH"
+horizontal_alignment = 1
+
+[node name="UpgradeButton1" type="Button" parent="UI/LevelUpPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+alignment = 0
+text = "ELEMENTAL PATH\nChoose a concrete upgrade."
+
+[node name="UpgradeButton2" type="Button" parent="UI/LevelUpPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+alignment = 0
+text = "ELEMENTAL PATH\nChoose a concrete upgrade."
+
+[node name="UpgradeButton3" type="Button" parent="UI/LevelUpPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+alignment = 0
+text = "ELEMENTAL PATH\nChoose a concrete upgrade."
+
+[node name="GameOverPanel" type="PanelContainer" parent="UI"]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -105.0
+offset_right = 180.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="MarginContainer" parent="UI/GameOverPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="UI/GameOverPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="UI/GameOverPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.72, 0.32, 1)
+theme_override_font_sizes/font_size = 21
+text = "THE VILLAGE HAS FALLEN"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="UI/GameOverPanel/Content/VBox"]
+layout_mode = 2
+text = "The Gloam consumed the heart of the settlement."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RestartButton" type="Button" parent="UI/GameOverPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+text = "RESTART RUN"
+
+[node name="VictoryPanel" type="PanelContainer" parent="UI"]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -110.0
+offset_right = 200.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="MarginContainer" parent="UI/VictoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="UI/VictoryPanel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="UI/VictoryPanel/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.72, 0.32, 1)
+theme_override_font_sizes/font_size = 21
+text = "DAWN HOLDS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="UI/VictoryPanel/Content/VBox"]
+layout_mode = 2
+text = "You survived the Gloam and defeated the Troll Chieftain."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RestartButton" type="Button" parent="UI/VictoryPanel/Content/VBox"]
+mouse_default_cursor_shape = 2
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+text = "Restart Run"

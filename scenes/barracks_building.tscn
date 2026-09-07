@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/village_building.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/components/static_sprite_visual.tscn" id="2_sprite_visual"]
+
+[node name="BarracksBuilding" type="Node2D"]
+script = ExtResource("1_script")
+building_type = "barracks"
+display_name = "Barracks"
+max_hp = 150
+
+[node name="SpriteVisual" parent="." instance=ExtResource("2_sprite_visual")]
+z_index = 2
+
+[node name="Visual" type="ColorRect" parent="."]
+offset_left = -28.0
+offset_top = -22.0
+offset_right = 28.0
+offset_bottom = 22.0
+mouse_filter = 2
+color = Color(0.42, 0.42, 0.46, 1)
+
+[node name="Banner" type="ColorRect" parent="."]
+offset_left = -5.0
+offset_top = -32.0
+offset_right = 5.0
+offset_bottom = -10.0
+mouse_filter = 2
+color = Color(0.70, 0.12, 0.12, 1)
