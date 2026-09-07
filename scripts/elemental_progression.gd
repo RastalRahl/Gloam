@@ -261,8 +261,8 @@ static func describe_upgrade(upgrade_id: String, weapon_type: String, levels: Di
 		"earth_force":
 			description = "+%d knockback and %0.2fs stagger." % [int(round(EARTH_FORCE_KNOCKBACK)), EARTH_FORCE_STAGGER]
 			match weapon_type:
-				"sword": description += " Sword force: +20%% knockback." 
-				"spear": description += " Spear force: +35%% knockback."
+				"sword": description += " Sword force: +20% knockback."
+				"spear": description += " Spear force: +35% knockback."
 				_: description += " Bow impact: +12 knockback."
 
 		"earth_weight":
@@ -298,9 +298,9 @@ static func describe_upgrade(upgrade_id: String, weapon_type: String, levels: Di
 				AIR_GALE_COOLDOWN,
 			]
 			if weapon_type == "sword":
-				description += " Also +5%% movement speed."
+				description += " Also +5% movement speed."
 			elif weapon_type == "bow":
-				description += " Also +8%% projectile speed."
+				description += " Also +8% projectile speed."
 
 		_:
 			description = "No effect defined."

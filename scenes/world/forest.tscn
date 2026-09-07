@@ -19,7 +19,6 @@ cluster_name = "north_rim"
 metadata/placement_id = "forest_tree_north_01"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeNorth02" parent="Props" unique_id=1718657127 instance=ExtResource("1_tvyim")]
 z_index = 748
@@ -33,7 +32,6 @@ animation_phase = 1
 metadata/placement_id = "forest_tree_north_02"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeNorth03" parent="Props" unique_id=69757999 instance=ExtResource("1_tvyim")]
 z_index = 730
@@ -47,7 +45,6 @@ animation_phase = 2
 metadata/placement_id = "forest_tree_north_03"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeNorth04" parent="Props" unique_id=1289702907 instance=ExtResource("1_tvyim")]
 z_index = 760
@@ -62,7 +59,6 @@ animation_phase = 3
 metadata/placement_id = "forest_tree_north_04"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeNorth05" parent="Props" unique_id=439090180 instance=ExtResource("1_tvyim")]
 z_index = 810
@@ -77,7 +73,6 @@ animation_phase = 4
 metadata/placement_id = "forest_tree_north_05"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeWest02" parent="Props" unique_id=1376233385 instance=ExtResource("1_tvyim")]
 z_index = 1080
@@ -92,7 +87,6 @@ animation_phase = 6
 metadata/placement_id = "forest_tree_west_02"
 metadata/zone = "forest"
 metadata/cluster = "west_edge"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeWest03" parent="Props" unique_id=1912336167 instance=ExtResource("1_tvyim")]
 z_index = 1280
@@ -107,7 +101,6 @@ animation_phase = 7
 metadata/placement_id = "forest_tree_west_03"
 metadata/zone = "forest"
 metadata/cluster = "west_edge"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeSouth01" parent="Props" unique_id=1628366022 instance=ExtResource("1_tvyim")]
 z_index = 1375
@@ -121,7 +114,6 @@ animation_phase = 8
 metadata/placement_id = "forest_tree_south_01"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeSouth02" parent="Props" unique_id=1610105334 instance=ExtResource("1_tvyim")]
 z_index = 1360
@@ -135,7 +127,6 @@ animation_phase = 9
 metadata/placement_id = "forest_tree_south_02"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeSouth03" parent="Props" unique_id=1310821862 instance=ExtResource("1_tvyim")]
 z_index = 1380
@@ -150,7 +141,6 @@ animation_phase = 10
 metadata/placement_id = "forest_tree_south_03"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeSouth04" parent="Props" unique_id=2030812460 instance=ExtResource("1_tvyim")]
 z_index = 1360
@@ -165,7 +155,6 @@ animation_phase = 11
 metadata/placement_id = "forest_tree_south_04"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeEast01" parent="Props" unique_id=298014538 instance=ExtResource("1_tvyim")]
 z_index = 920
@@ -180,7 +169,6 @@ animation_phase = 12
 metadata/placement_id = "forest_tree_east_01"
 metadata/zone = "forest"
 metadata/cluster = "east_landmark"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeEast02" parent="Props" unique_id=528952170 instance=ExtResource("1_tvyim")]
 z_index = 1060
@@ -195,7 +183,6 @@ animation_phase = 13
 metadata/placement_id = "forest_tree_east_02"
 metadata/zone = "forest"
 metadata/cluster = "east_landmark"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeEast03" parent="Props" unique_id=608764417 instance=ExtResource("1_tvyim")]
 z_index = 1220
@@ -209,7 +196,6 @@ animation_phase = 14
 metadata/placement_id = "forest_tree_east_03"
 metadata/zone = "forest"
 metadata/cluster = "east_landmark"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeInner02" parent="Props" unique_id=1893812155 instance=ExtResource("1_tvyim")]
 z_index = 820
@@ -224,7 +210,6 @@ animation_phase = 16
 metadata/placement_id = "forest_tree_inner_02"
 metadata/zone = "forest"
 metadata/cluster = "wayledge_south"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestTreeInner03" parent="Props" unique_id=578277942 instance=ExtResource("1_tvyim")]
 z_index = 1280
@@ -238,7 +223,6 @@ animation_phase = 17
 metadata/placement_id = "forest_tree_inner_03"
 metadata/zone = "forest"
 metadata/cluster = "south_landmark"
-metadata/footprint = Vector2(36, 18)
 
 [node name="ForestBushWest01" parent="Props" unique_id=1330490993 instance=ExtResource("1_tvyim")]
 z_index = 1060
@@ -249,12 +233,10 @@ asset_kind = "bush_1"
 placement_id = "forest_bush_west_01"
 zone_name = "forest"
 cluster_name = "west_edge"
-footprint_size = Vector2(24, 10)
 animation_phase = 18
 metadata/placement_id = "forest_bush_west_01"
 metadata/zone = "forest"
 metadata/cluster = "west_edge"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushWest02" parent="Props" unique_id=1224261297 instance=ExtResource("1_tvyim")]
 z_index = 1120
@@ -265,12 +247,10 @@ asset_kind = "bush_1"
 placement_id = "forest_bush_west_02"
 zone_name = "forest"
 cluster_name = "west_edge"
-footprint_size = Vector2(24, 10)
 animation_phase = 19
 metadata/placement_id = "forest_bush_west_02"
 metadata/zone = "forest"
 metadata/cluster = "west_edge"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushNorth01" parent="Props" unique_id=1748311352 instance=ExtResource("1_tvyim")]
 z_index = 810
@@ -281,12 +261,10 @@ asset_kind = "bush_2"
 placement_id = "forest_bush_north_01"
 zone_name = "forest"
 cluster_name = "north_rim"
-footprint_size = Vector2(24, 10)
 animation_phase = 20
 metadata/placement_id = "forest_bush_north_01"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushNorth02" parent="Props" unique_id=1080887736 instance=ExtResource("1_tvyim")]
 z_index = 790
@@ -297,12 +275,10 @@ asset_kind = "bush_2"
 placement_id = "forest_bush_north_02"
 zone_name = "forest"
 cluster_name = "north_rim"
-footprint_size = Vector2(24, 10)
 animation_phase = 21
 metadata/placement_id = "forest_bush_north_02"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushNorth03" parent="Props" unique_id=1059297387 instance=ExtResource("1_tvyim")]
 z_index = 720
@@ -313,12 +289,10 @@ asset_kind = "bush_1"
 placement_id = "forest_bush_north_03"
 zone_name = "forest"
 cluster_name = "north_rim"
-footprint_size = Vector2(24, 10)
 animation_phase = 22
 metadata/placement_id = "forest_bush_north_03"
 metadata/zone = "forest"
 metadata/cluster = "north_rim"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushEast01" parent="Props" unique_id=1950402771 instance=ExtResource("1_tvyim")]
 z_index = 980
@@ -329,12 +303,10 @@ asset_kind = "bush_1"
 placement_id = "forest_bush_east_01"
 zone_name = "forest"
 cluster_name = "east_landmark"
-footprint_size = Vector2(24, 10)
 animation_phase = 23
 metadata/placement_id = "forest_bush_east_01"
 metadata/zone = "forest"
 metadata/cluster = "east_landmark"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushEast02" parent="Props" unique_id=1112555810 instance=ExtResource("1_tvyim")]
 z_index = 1160
@@ -345,12 +317,10 @@ asset_kind = "bush_2"
 placement_id = "forest_bush_east_02"
 zone_name = "forest"
 cluster_name = "east_landmark"
-footprint_size = Vector2(24, 10)
 animation_phase = 24
 metadata/placement_id = "forest_bush_east_02"
 metadata/zone = "forest"
 metadata/cluster = "east_landmark"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushSouth01" parent="Props" unique_id=1322752940 instance=ExtResource("1_tvyim")]
 z_index = 1320
@@ -361,12 +331,10 @@ asset_kind = "bush_2"
 placement_id = "forest_bush_south_01"
 zone_name = "forest"
 cluster_name = "south_rim"
-footprint_size = Vector2(24, 10)
 animation_phase = 25
 metadata/placement_id = "forest_bush_south_01"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushSouth02" parent="Props" unique_id=503833677 instance=ExtResource("1_tvyim")]
 z_index = 1320
@@ -377,12 +345,10 @@ asset_kind = "bush_1"
 placement_id = "forest_bush_south_02"
 zone_name = "forest"
 cluster_name = "south_rim"
-footprint_size = Vector2(24, 10)
 animation_phase = 26
 metadata/placement_id = "forest_bush_south_02"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestBushSouth03" parent="Props" unique_id=404939693 instance=ExtResource("1_tvyim")]
 z_index = 1320
@@ -393,12 +359,10 @@ asset_kind = "bush_2"
 placement_id = "forest_bush_south_03"
 zone_name = "forest"
 cluster_name = "south_rim"
-footprint_size = Vector2(24, 10)
 animation_phase = 27
 metadata/placement_id = "forest_bush_south_03"
 metadata/zone = "forest"
 metadata/cluster = "south_rim"
-metadata/footprint = Vector2(24, 10)
 
 [node name="ForestStumpWest" parent="Props" unique_id=972342451 instance=ExtResource("1_tvyim")]
 z_index = 1260
@@ -409,12 +373,10 @@ asset_kind = "stump_1"
 placement_id = "forest_stump_west"
 zone_name = "forest"
 cluster_name = "west_edge"
-footprint_size = Vector2(28, 25)
 animation_phase = 28
 metadata/placement_id = "forest_stump_west"
 metadata/zone = "forest"
 metadata/cluster = "west_edge"
-metadata/footprint = Vector2(28, 25)
 
 [node name="ForestStumpEast" parent="Props" unique_id=1444520833 instance=ExtResource("1_tvyim")]
 z_index = 1320
@@ -425,12 +387,10 @@ asset_kind = "stump_1"
 placement_id = "forest_stump_east"
 zone_name = "forest"
 cluster_name = "east_landmark"
-footprint_size = Vector2(28, 12)
 animation_phase = 29
 metadata/placement_id = "forest_stump_east"
 metadata/zone = "forest"
 metadata/cluster = "east_landmark"
-metadata/footprint = Vector2(28, 12)
 
 [node name="ResourceSpawnMarkers" type="Node2D" parent="." unique_id=1421925148]
 

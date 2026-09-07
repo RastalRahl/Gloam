@@ -15,6 +15,11 @@ func _init() -> void:
 
 
 func _run() -> void:
+	if not _renderer_can_capture_viewport():
+		print("UI spacing capture: SKIP (active renderer cannot capture viewport images: %s)" % _renderer_description())
+		quit(0)
+		return
+
 	var main: Node2D = MAIN_SCENE.instantiate() as Node2D
 	main.day_duration = 999.0
 	main.night_duration = 30.0
@@ -23,9 +28,13 @@ func _run() -> void:
 	current_scene = main
 	await _frames(4)
 
-	await _capture_at_size(main, Vector2i(1260, 710), "weapon_1260x710")
+	await _capture_at_size(main, Vector2i(1260, 710), "title_1260x710")
+	await _capture_at_size(main, Vector2i(1280, 720), "title_1280x720")
+	await _capture_at_size(main, Vector2i(1920, 1080), "title_1920x1080")
+
+	main.start_new_run_from_title()
+	await _frames(2)
 	await _capture_at_size(main, Vector2i(1280, 720), "weapon_1280x720")
-	await _capture_at_size(main, Vector2i(1920, 1080), "weapon_1920x1080")
 
 	main._choose_starting_weapon("sword")
 	await _frames(3)
@@ -50,7 +59,9 @@ func _run() -> void:
 	var settings_menu: GloamAudioSettingsMenu = main.get_node("UI/AudioSettingsMenu") as GloamAudioSettingsMenu
 	settings_menu.open_menu(main.pause_menu.settings_button)
 	await _frames(2)
+	await _capture_at_size(main, Vector2i(1260, 710), "settings_1260x710")
 	await _capture_at_size(main, Vector2i(1280, 720), "settings_1280x720")
+	await _capture_at_size(main, Vector2i(1920, 1080), "settings_1920x1080")
 	settings_menu.close_menu()
 	main.pause_menu.close_menu()
 
@@ -94,10 +105,21 @@ func _run() -> void:
 func _capture_at_size(main: Node2D, size: Vector2i, label: String) -> void:
 	DisplayServer.window_set_size(size)
 	await _frames(4)
-	var image: Image = root.get_texture().get_image()
-	_check(image.get_size() == size, "%s is %s" % [label, str(size)])
-	var result := image.save_png(OUTPUT_ROOT + label + ".png")
-	_check(result == OK, "%s saved" % label)
+	await RenderingServer.frame_post_draw
+
+	var viewport_texture: Texture2D = root.get_texture() as Texture2D
+	if not is_instance_valid(viewport_texture):
+		_check(false, "%s has no valid viewport texture" % label)
+		return
+
+	var image: Image = viewport_texture.get_image()
+	if not is_instance_valid(image) or image.is_empty():
+		_check(false, "%s produced no viewport image" % label)
+		return
+	if image.get_size() != size:
+		_check(false, "%s is %s" % [label, str(size)])
+		return
+	_check(_save_verified_image(image, OUTPUT_ROOT + label + ".png"), "%s saved" % label)
 
 
 func _frames(count: int) -> void:
@@ -106,6 +128,63 @@ func _frames(count: int) -> void:
 
 
 func _check(condition: bool, description: String) -> void:
-	if not condition:
+	if condition:
+		print("PASS: %s" % description)
+	else:
 		failures += 1
-		push_error(description)
+		print("FAIL: %s" % description)
+
+
+func _renderer_can_capture_viewport() -> bool:
+	var display_name := DisplayServer.get_name().to_lower()
+	var adapter_name := RenderingServer.get_video_adapter_name().to_lower()
+	return (
+		not display_name.contains("headless")
+		and not display_name.contains("dummy")
+		and not adapter_name.contains("dummy")
+	)
+
+
+func _renderer_description() -> String:
+	return "display=%s adapter=%s" % [DisplayServer.get_name(), RenderingServer.get_video_adapter_name()]
+
+
+func _save_verified_image(image: Image, target_path: String) -> bool:
+	var token := str(Time.get_ticks_usec())
+	var temporary_path := "%s.capture_tmp_%s.png" % [target_path, token]
+	var backup_path := "%s.capture_backup_%s.png" % [target_path, token]
+	var temporary_absolute := ProjectSettings.globalize_path(temporary_path)
+	var target_absolute := ProjectSettings.globalize_path(target_path)
+	var backup_absolute := ProjectSettings.globalize_path(backup_path)
+
+	var save_result: Error = image.save_png(temporary_path)
+	if save_result != OK:
+		_remove_absolute(temporary_absolute)
+		return false
+
+	var verification_image := Image.new()
+	var load_result: Error = verification_image.load(temporary_path)
+	if load_result != OK or verification_image.is_empty() or verification_image.get_size() != image.get_size():
+		_remove_absolute(temporary_absolute)
+		return false
+
+	var had_existing_target := FileAccess.file_exists(target_absolute)
+	if had_existing_target and DirAccess.rename_absolute(target_absolute, backup_absolute) != OK:
+		_remove_absolute(temporary_absolute)
+		return false
+
+	var commit_result: Error = DirAccess.rename_absolute(temporary_absolute, target_absolute)
+	if commit_result != OK:
+		if had_existing_target:
+			DirAccess.rename_absolute(backup_absolute, target_absolute)
+		_remove_absolute(temporary_absolute)
+		return false
+
+	if had_existing_target:
+		_remove_absolute(backup_absolute)
+	return true
+
+
+func _remove_absolute(path: String) -> void:
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(path)

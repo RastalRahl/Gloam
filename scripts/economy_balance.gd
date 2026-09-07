@@ -6,11 +6,18 @@ class_name GloamEconomyBalance
 
 const RESOURCE_ORDER: Array[String] = ["wood", "stone", "iron", "essence"]
 
-const PREDICTABLE_PICKUP_COUNTS: Dictionary = {
-	"forest": {"wood": 8},
-	"mine": {"stone": 5, "iron": 3},
-	"ruins": {"essence": 6},
-}
+const PICKUP_RESPAWN_SCHEDULE: Array[Dictionary] = [
+	{"forest": {"wood": 8}, "mine": {"stone": 5, "iron": 3}, "ruins": {"essence": 6}},
+	{"forest": {"wood": 6}, "mine": {"stone": 4, "iron": 2}, "ruins": {"essence": 3}},
+	{"forest": {"wood": 6}, "mine": {"stone": 4, "iron": 2}, "ruins": {"essence": 3}},
+	{"forest": {"wood": 5}, "mine": {"stone": 3, "iron": 2}, "ruins": {"essence": 2}},
+	{"forest": {"wood": 5}, "mine": {"stone": 3, "iron": 2}, "ruins": {"essence": 2}},
+	{"forest": {"wood": 4}, "mine": {"stone": 3, "iron": 1}, "ruins": {"essence": 2}},
+	{"forest": {"wood": 4}, "mine": {"stone": 2, "iron": 1}, "ruins": {"essence": 1}},
+	{"forest": {"wood": 3}, "mine": {"stone": 2, "iron": 1}, "ruins": {"essence": 1}},
+	{"forest": {"wood": 3}, "mine": {"stone": 2, "iron": 1}, "ruins": {"essence": 1}},
+	{"forest": {"wood": 3}, "mine": {"stone": 2, "iron": 1}, "ruins": {"essence": 1}},
+]
 
 const BASE_POPULATION_CAPACITY: int = 6
 const STARTING_FOOD: int = 3
@@ -18,10 +25,10 @@ const STARTING_POPULATION: int = 4
 const STARTING_WORKERS: int = 4
 const RESCUE_FOOD_COST: int = 1
 
-const DAY_ENEMY_BASE_COUNTS: Dictionary = {
-	"forest": 3,
-	"mine": 3,
-	"ruins": 2,
+const DAY_ENEMY_COUNT_SCHEDULE: Dictionary = {
+	"forest": [3, 4, 4, 5, 5, 4, 4, 4, 4, 4],
+	"mine": [3, 4, 4, 5, 5, 4, 4, 4, 4, 4],
+	"ruins": [2, 3, 3, 4, 4, 3, 3, 3, 3, 3],
 }
 
 const DAY_ENEMY_REWARDS: Dictionary = {
@@ -35,7 +42,7 @@ const DAY_ENEMY_REWARDS: Dictionary = {
 		"resource": "stone",
 		"amount": 1,
 		"bonus_resource": "iron",
-		"bonus_chance": 0.35,
+		"bonus_chance": 0.25,
 	},
 	"ruins": {
 		"resource": "essence",
@@ -87,9 +94,9 @@ const VILLAGE_DEFINITIONS: Dictionary = {
 }
 
 const SHRINE_COSTS: Dictionary = {
-	"heal": {"wood": 0, "stone": 0, "iron": 0, "essence": 1},
-	"blessing": {"wood": 0, "stone": 0, "iron": 0, "essence": 2},
-	"ward": {"wood": 0, "stone": 0, "iron": 0, "essence": 3},
+	"heal": {"wood": 0, "stone": 0, "iron": 0, "essence": 2},
+	"blessing": {"wood": 0, "stone": 0, "iron": 0, "essence": 4},
+	"ward": {"wood": 0, "stone": 0, "iron": 0, "essence": 5},
 }
 
 const SHRINE_WARD_FORTIFICATION_BONUS: int = 35
@@ -130,7 +137,10 @@ static func rescue_food_cost() -> int:
 
 
 static func day_enemy_count(zone: String, day: int) -> int:
-	return maxi(0, int(DAY_ENEMY_BASE_COUNTS.get(zone, 0)) + maxi(0, day - 1))
+	var schedule: Array = DAY_ENEMY_COUNT_SCHEDULE.get(zone, [])
+	if schedule.is_empty():
+		return 0
+	return maxi(0, int(schedule[clampi(day, 1, schedule.size()) - 1]))
 
 
 static func enemy_reward_profile(zone: String) -> Dictionary:
@@ -139,10 +149,13 @@ static func enemy_reward_profile(zone: String) -> Dictionary:
 
 static func worker_income(worker_count: int) -> Dictionary:
 	var workers: int = maxi(0, worker_count)
+	var veteran_workers: int = maxi(0, workers - 4)
 	return {
-		"wood": workers,
-		"stone": int(floor(workers / 2.0)),
-		"iron": int(floor(workers / 4.0)),
+		# The four starting workers remain immediately useful. Extra workers add
+		# breadth without turning population growth into runaway resource growth.
+		"wood": mini(6, mini(workers, 4) + int(ceil(float(veteran_workers) / 2.0))),
+		"stone": mini(3, int(floor(mini(workers, 6) / 3.0)) + int(floor(veteran_workers / 4.0))),
+		"iron": mini(1, int(floor(workers / 6.0))),
 	}
 
 
@@ -151,7 +164,7 @@ static func house_capacity_for_level(level: int) -> int:
 
 
 static func farm_income_for_level(level: int) -> int:
-	return 3 + maxi(0, level - 1) * 2
+	return 2 + maxi(0, level - 1)
 
 
 static func barracks_training_bonus_for_level(level: int) -> int:
@@ -163,7 +176,11 @@ static func blacksmith_damage_bonus_for_level(level: int) -> int:
 
 
 static func pickup_counts() -> Dictionary:
-	return PREDICTABLE_PICKUP_COUNTS.duplicate(true)
+	return pickup_counts_for_day(1)
+
+
+static func pickup_counts_for_day(day: int) -> Dictionary:
+	return PICKUP_RESPAWN_SCHEDULE[clampi(day, 1, PICKUP_RESPAWN_SCHEDULE.size()) - 1].duplicate(true)
 
 
 static func defense_repair_cost(is_gate: bool, is_breached: bool) -> Dictionary:
@@ -176,24 +193,24 @@ static func fortification_upgrade_cost(is_gate: bool, next_level: int) -> Dictio
 	if is_gate:
 		match next_level:
 			2:
-				return cost(2, 3, 1)
-			3:
 				return cost(3, 4, 2)
+			3:
+				return cost(5, 6, 4)
 	else:
 		match next_level:
 			2:
-				return cost(2, 1, 1)
+				return cost(3, 2, 1)
 			3:
-				return cost(3, 2, 2)
+				return cost(5, 3, 3)
 	return cost(0, 0, 0)
 
 
 static func defense_upgrade_cost(next_level: int) -> Dictionary:
 	match next_level:
 		2:
-			return cost(2, 1, 1)
+			return cost(3, 2, 1)
 		3:
-			return cost(3, 2, 2)
+			return cost(5, 3, 3)
 	return cost(0, 0, 0)
 
 
@@ -206,21 +223,21 @@ static func village_upgrade_cost(kind: String, next_level: int) -> Dictionary:
 		"house", "farm":
 			match next_level:
 				2:
-					return cost(2, 1, 0)
-				3:
 					return cost(3, 2, 0)
+				3:
+					return cost(5, 3, 1)
 		"barracks":
 			match next_level:
 				2:
-					return cost(2, 2, 1)
-				3:
 					return cost(3, 3, 2)
+				3:
+					return cost(5, 4, 4)
 		"blacksmith":
 			match next_level:
 				2:
-					return cost(2, 1, 2)
-				3:
 					return cost(3, 2, 3)
+				3:
+					return cost(5, 3, 5)
 	return cost(0, 0, 0)
 
 
@@ -239,11 +256,11 @@ static func expected_day_income(
 	}
 	var defeat_rate: float = clampf(enemy_defeat_rate, 0.0, 1.0)
 
-	for pickup_profile: Dictionary in pickup_counts().values():
+	for pickup_profile: Dictionary in pickup_counts_for_day(day).values():
 		for resource_name: String in pickup_profile:
 			result[resource_name] += float(pickup_profile[resource_name])
 
-	for zone: String in DAY_ENEMY_BASE_COUNTS:
+	for zone: String in DAY_ENEMY_COUNT_SCHEDULE:
 		var count: int = day_enemy_count(zone, day)
 		var reward: Dictionary = enemy_reward_profile(zone)
 		var resource_name: String = str(reward.get("resource", ""))

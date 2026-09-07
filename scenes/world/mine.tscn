@@ -15,11 +15,9 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_01"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 metadata/placement_id = "mine_rock_01"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock09" parent="Props" unique_id=1666314852 instance=ExtResource("1_pw5e6")]
 z_index = 1040
@@ -28,12 +26,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_09"
 zone_name = "mine"
 cluster_name = "quarry_floor"
-footprint_size = Vector2(28, 12)
 animation_phase = 8
 metadata/placement_id = "mine_rock_09"
 metadata/zone = "mine"
 metadata/cluster = "quarry_floor"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock02" parent="Props" unique_id=748132849 instance=ExtResource("1_pw5e6")]
 z_index = 620
@@ -42,12 +38,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_02"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 1
 metadata/placement_id = "mine_rock_02"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock10" parent="Props" unique_id=122623277 instance=ExtResource("1_pw5e6")]
 z_index = 980
@@ -56,12 +50,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_10"
 zone_name = "mine"
 cluster_name = "quarry_floor"
-footprint_size = Vector2(28, 12)
 animation_phase = 9
 metadata/placement_id = "mine_rock_10"
 metadata/zone = "mine"
 metadata/cluster = "quarry_floor"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock03" parent="Props" unique_id=2136855270 instance=ExtResource("1_pw5e6")]
 z_index = 760
@@ -70,12 +62,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_03"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 2
 metadata/placement_id = "mine_rock_03"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock11" parent="Props" unique_id=1130512202 instance=ExtResource("1_pw5e6")]
 z_index = 1020
@@ -84,12 +74,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_11"
 zone_name = "mine"
 cluster_name = "quarry_floor"
-footprint_size = Vector2(28, 25)
 animation_phase = 10
 metadata/placement_id = "mine_rock_11"
 metadata/zone = "mine"
 metadata/cluster = "quarry_floor"
-metadata/footprint = Vector2(28, 25)
 
 [node name="MineRock04" parent="Props" unique_id=1497846832 instance=ExtResource("1_pw5e6")]
 z_index = 740
@@ -98,12 +86,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_04"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 3
 metadata/placement_id = "mine_rock_04"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock12" parent="Props" unique_id=471212861 instance=ExtResource("1_pw5e6")]
 z_index = 1000
@@ -112,12 +98,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_12"
 zone_name = "mine"
 cluster_name = "quarry_floor"
-footprint_size = Vector2(28, 12)
 animation_phase = 11
 metadata/placement_id = "mine_rock_12"
 metadata/zone = "mine"
 metadata/cluster = "quarry_floor"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock05" parent="Props" unique_id=1571719122 instance=ExtResource("1_pw5e6")]
 z_index = 740
@@ -126,12 +110,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_05"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 4
 metadata/placement_id = "mine_rock_05"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock13" parent="Props" unique_id=100303832 instance=ExtResource("1_pw5e6")]
 z_index = 1020
@@ -140,12 +122,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_13"
 zone_name = "mine"
 cluster_name = "quarry_floor"
-footprint_size = Vector2(28, 12)
 animation_phase = 12
 metadata/placement_id = "mine_rock_13"
 metadata/zone = "mine"
 metadata/cluster = "quarry_floor"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock06" parent="Props" unique_id=312573145 instance=ExtResource("1_pw5e6")]
 z_index = 620
@@ -154,12 +134,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_06"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 5
 metadata/placement_id = "mine_rock_06"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock14" parent="Props" unique_id=706845634 instance=ExtResource("1_pw5e6")]
 z_index = 1040
@@ -168,12 +146,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_14"
 zone_name = "mine"
 cluster_name = "quarry_floor"
-footprint_size = Vector2(28, 12)
 animation_phase = 13
 metadata/placement_id = "mine_rock_14"
 metadata/zone = "mine"
 metadata/cluster = "quarry_floor"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock07" parent="Props" unique_id=1182911657 instance=ExtResource("1_pw5e6")]
 z_index = 700
@@ -182,12 +158,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_07"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 6
 metadata/placement_id = "mine_rock_07"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock15" parent="Props" unique_id=1583154360 instance=ExtResource("1_pw5e6")]
 z_index = 1240
@@ -196,12 +170,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_15"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 14
 metadata/placement_id = "mine_rock_15"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock08" parent="Props" unique_id=1397624272 instance=ExtResource("1_pw5e6")]
 z_index = 790
@@ -210,12 +182,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_08"
 zone_name = "mine"
 cluster_name = "upper_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 7
 metadata/placement_id = "mine_rock_08"
 metadata/zone = "mine"
 metadata/cluster = "upper_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock16" parent="Props" unique_id=948511382 instance=ExtResource("1_pw5e6")]
 z_index = 1300
@@ -224,12 +194,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_16"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 15
 metadata/placement_id = "mine_rock_16"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock17" parent="Props" unique_id=1318599340 instance=ExtResource("1_pw5e6")]
 z_index = 1280
@@ -238,12 +206,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_17"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 16
 metadata/placement_id = "mine_rock_17"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock18" parent="Props" unique_id=435159276 instance=ExtResource("1_pw5e6")]
 z_index = 1200
@@ -252,12 +218,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_18"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 17
 metadata/placement_id = "mine_rock_18"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock19" parent="Props" unique_id=1695828026 instance=ExtResource("1_pw5e6")]
 z_index = 1300
@@ -266,12 +230,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_19"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 18
 metadata/placement_id = "mine_rock_19"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock20" parent="Props" unique_id=1643343294 instance=ExtResource("1_pw5e6")]
 z_index = 1180
@@ -280,12 +242,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_20"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 19
 metadata/placement_id = "mine_rock_20"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock21" parent="Props" unique_id=1850783140 instance=ExtResource("1_pw5e6")]
 z_index = 1280
@@ -294,12 +254,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_21"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 20
 metadata/placement_id = "mine_rock_21"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock22" parent="Props" unique_id=159145485 instance=ExtResource("1_pw5e6")]
 z_index = 1200
@@ -308,12 +266,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_22"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 21
 metadata/placement_id = "mine_rock_22"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock23" parent="Props" unique_id=317721858 instance=ExtResource("1_pw5e6")]
 z_index = 1160
@@ -322,12 +278,10 @@ asset_kind = "rock_2"
 placement_id = "mine_rock_23"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 22
 metadata/placement_id = "mine_rock_23"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="MineRock24" parent="Props" unique_id=1255902466 instance=ExtResource("1_pw5e6")]
 z_index = 1120
@@ -336,12 +290,10 @@ asset_kind = "rock_1"
 placement_id = "mine_rock_24"
 zone_name = "mine"
 cluster_name = "lower_shelf"
-footprint_size = Vector2(28, 12)
 animation_phase = 23
 metadata/placement_id = "mine_rock_24"
 metadata/zone = "mine"
 metadata/cluster = "lower_shelf"
-metadata/footprint = Vector2(28, 12)
 
 [node name="ResourceSpawnMarkers" type="Node2D" parent="." unique_id=582062561]
 

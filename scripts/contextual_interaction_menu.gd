@@ -7,6 +7,7 @@ signal closed
 
 const UI_STYLE := preload("res://scripts/ui_style.gd")
 const INPUT_ACTIONS := preload("res://scripts/input_actions.gd")
+const UI_FOCUS := preload("res://scripts/ui_focus.gd")
 
 var prompt_button: Button
 var menu_panel: PanelContainer
@@ -86,6 +87,7 @@ func _ready() -> void:
 
 	menu_panel.hide()
 	prompt_button.hide()
+	_sync_mouse_filters()
 	refresh_device_prompt()
 	_apply_local_style()
 
@@ -103,10 +105,12 @@ func _apply_local_style() -> void:
 
 
 func set_prompt(prompt_text: String, visible_prompt: bool = true) -> void:
+	if not is_instance_valid(prompt_button) or not is_instance_valid(menu_panel):
+		return
 	prompt_button.text = prompt_text
 	prompt_button.visible = visible_prompt and not menu_panel.visible
 	if prompt_button.visible:
-		prompt_button.grab_focus()
+		UI_FOCUS.request(prompt_button, is_inside_tree() and not menu_panel.visible, true)
 
 
 func hide_prompt() -> void:
@@ -182,12 +186,14 @@ func open_menu(menu_title: String, menu_description: String, choices: Array[Dict
 
 	menu_panel.show()
 	prompt_button.hide()
+	_sync_mouse_filters()
 	_grab_first_available_focus()
 
 
 func close_menu(notify: bool = true) -> void:
 	choice_latched = false
 	menu_panel.hide()
+	_sync_mouse_filters()
 	if notify:
 		closed.emit()
 
@@ -209,11 +215,13 @@ func _clear_choices() -> void:
 
 
 func _grab_first_available_focus() -> void:
+	if not is_instance_valid(menu_panel) or not menu_panel.visible:
+		return
 	for button: Button in choice_buttons:
-		if not button.disabled:
-			button.grab_focus()
+		if not button.disabled and UI_FOCUS.can_request(button):
+			UI_FOCUS.request(button, menu_panel.visible)
 			return
-	close_button.grab_focus()
+	UI_FOCUS.request(close_button, menu_panel.visible)
 
 
 func _on_prompt_pressed() -> void:
@@ -233,6 +241,22 @@ func _on_choice_pressed(button: Button) -> void:
 
 func _on_close_pressed() -> void:
 	close_menu(true)
+
+
+func _sync_mouse_filters() -> void:
+	# The full-screen menu shell is passive. Its prompt/panel and the live
+	# buttons inside the panel are the only controls that may hit-test.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	prompt_button.mouse_filter = Control.MOUSE_FILTER_STOP if prompt_button.visible else Control.MOUSE_FILTER_IGNORE
+	menu_panel.mouse_filter = Control.MOUSE_FILTER_STOP if menu_panel.visible else Control.MOUSE_FILTER_IGNORE
+	_set_interactive_filters(menu_panel, menu_panel.visible)
+
+
+func _set_interactive_filters(node: Node, enabled: bool) -> void:
+	for child: Node in node.get_children():
+		if child is BaseButton or child is HSlider or child is VSlider:
+			(child as Control).mouse_filter = Control.MOUSE_FILTER_STOP if enabled and (child as Control).visible else Control.MOUSE_FILTER_IGNORE
+		_set_interactive_filters(child, enabled)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -278,9 +302,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _move_focus(direction: int) -> void:
 	var focusable: Array[Button] = []
 	for button: Button in choice_buttons:
-		if not button.disabled:
+		if not button.disabled and UI_FOCUS.can_request(button):
 			focusable.append(button)
-	focusable.append(close_button)
+	if UI_FOCUS.can_request(close_button):
+		focusable.append(close_button)
 	if focusable.is_empty():
 		return
 
@@ -290,7 +315,7 @@ func _move_focus(direction: int) -> void:
 		current_index = 0 if direction > 0 else focusable.size() - 1
 	else:
 		current_index = posmod(current_index + direction, focusable.size())
-	focusable[current_index].grab_focus()
+	UI_FOCUS.request(focusable[current_index], menu_panel.visible)
 
 
 func _activate_focused_control() -> void:

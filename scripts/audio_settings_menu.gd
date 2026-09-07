@@ -4,6 +4,7 @@ class_name GloamAudioSettingsMenu
 const UI_STYLE := preload("res://scripts/ui_style.gd")
 const INPUT_ACTIONS := preload("res://scripts/input_actions.gd")
 const TINY_UI_FRAME_SCENE := preload("res://scenes/components/tiny_ui_frame.tscn")
+const UI_FOCUS := preload("res://scripts/ui_focus.gd")
 
 const BUS_NAMES: Array[String] = ["Master", "Music", "SFX", "UI"]
 const REMAP_ACTIONS: Array[StringName] = [
@@ -50,6 +51,7 @@ func _ready() -> void:
 	_apply_style()
 	_refresh_values()
 	_sync_open_button_visibility()
+	_sync_mouse_filters()
 
 
 func _build_ui() -> void:
@@ -80,9 +82,10 @@ func _build_ui() -> void:
 	panel = PanelContainer.new()
 	panel.name = "AudioSettingsPanel"
 	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.position = Vector2(-360.0, -330.0)
-	panel.size = Vector2(720.0, 660.0)
-	panel.custom_minimum_size = Vector2(720.0, 660.0)
+	# Leave a safe margin at 1280×720 and permit scrolling on shorter windows.
+	panel.position = Vector2(-340.0, -290.0)
+	panel.size = Vector2(680.0, 580.0)
+	panel.custom_minimum_size = Vector2(0.0, 0.0)
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	panel.hide()
 	add_child(panel)
@@ -127,7 +130,8 @@ func _build_ui() -> void:
 		vbox.add_child(row)
 
 		var label := Label.new()
-		label.text = bus_name
+		var music_unavailable: bool = bus_name == "Music"
+		label.text = "MUSIC (NO TRACK)" if music_unavailable else bus_name
 		label.custom_minimum_size = Vector2(72.0, 0.0)
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		row.add_child(label)
@@ -141,12 +145,15 @@ func _build_ui() -> void:
 		slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		slider.focus_mode = Control.FOCUS_ALL
 		slider.value_changed.connect(_on_volume_changed.bind(bus_name))
+		slider.editable = not music_unavailable
+		slider.focus_mode = Control.FOCUS_NONE if music_unavailable else Control.FOCUS_ALL
+		slider.mouse_filter = Control.MOUSE_FILTER_IGNORE if music_unavailable else Control.MOUSE_FILTER_STOP
 		row.add_child(slider)
 		sliders[bus_name] = slider
 
 		var value_label := Label.new()
 		value_label.name = "%sPercent" % bus_name
-		value_label.custom_minimum_size = Vector2(48.0, 0.0)
+		value_label.custom_minimum_size = Vector2(58.0, 0.0)
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		row.add_child(value_label)
@@ -157,6 +164,7 @@ func _build_ui() -> void:
 		mute_button.text = "Mute"
 		mute_button.focus_mode = Control.FOCUS_ALL
 		mute_button.toggled.connect(_on_mute_toggled.bind(bus_name))
+		mute_button.disabled = music_unavailable
 		row.add_child(mute_button)
 		mute_buttons[bus_name] = mute_button
 
@@ -274,7 +282,8 @@ func _refresh_values() -> void:
 
 func _update_value_label(bus_name: String, value: float) -> void:
 	var value_label: Label = value_labels[bus_name] as Label
-	value_label.text = "%d%%" % int(round(value * 100.0))
+	# Music currently has no active stream; a percentage would imply otherwise.
+	value_label.text = "—" if bus_name == "Music" else "%d%%" % int(round(value * 100.0))
 
 
 func _on_volume_changed(value: float, bus_name: String) -> void:
@@ -335,7 +344,9 @@ func open_menu(focus_return: Control = null) -> void:
 	backdrop.show()
 	panel.show()
 	open_button.hide()
+	_sync_mouse_filters()
 	get_tree().paused = true
+	_refresh_host_hud_controls()
 	_grab_first_focus()
 	if is_instance_valid(audio_router):
 		audio_router.request("ui_open", Vector2.ZERO, 0.8)
@@ -355,10 +366,12 @@ func close_menu() -> void:
 	open_button.show()
 	get_tree().paused = was_paused
 	_sync_open_button_visibility()
-	if is_instance_valid(return_focus):
-		return_focus.grab_focus()
+	_sync_mouse_filters()
+	_refresh_host_hud_controls()
+	if is_instance_valid(return_focus) and UI_FOCUS.can_request(return_focus):
+		UI_FOCUS.request(return_focus, not menu_open)
 	else:
-		open_button.grab_focus()
+		UI_FOCUS.request(open_button, not menu_open and open_button.visible)
 	return_focus = null
 	if is_instance_valid(audio_router):
 		audio_router.request("ui_cancel", Vector2.ZERO, 0.7)
@@ -378,10 +391,10 @@ func _refresh_close_prompt() -> void:
 
 
 func _grab_first_focus() -> void:
-	if sliders.has("Master"):
-		(sliders["Master"] as Control).grab_focus()
+	if sliders.has("Master") and UI_FOCUS.can_request(sliders["Master"] as Control):
+		UI_FOCUS.request(sliders["Master"] as Control, menu_open and panel.visible)
 	else:
-		close_button.grab_focus()
+		UI_FOCUS.request(close_button, menu_open and panel.visible)
 
 
 func _focusable_controls() -> Array[Control]:
@@ -399,7 +412,10 @@ func _focusable_controls() -> Array[Control]:
 
 
 func _move_focus(direction: int) -> void:
-	var controls: Array[Control] = _focusable_controls()
+	var controls: Array[Control] = []
+	for control: Control in _focusable_controls():
+		if UI_FOCUS.can_request(control):
+			controls.append(control)
 	if controls.is_empty():
 		return
 	var current: Control = get_viewport().gui_get_focus_owner() as Control
@@ -408,7 +424,7 @@ func _move_focus(direction: int) -> void:
 		index = 0
 	else:
 		index = posmod(index + direction, controls.size())
-	controls[index].grab_focus()
+	UI_FOCUS.request(controls[index], menu_open and panel.visible)
 
 
 func _can_open_menu() -> bool:
@@ -427,8 +443,34 @@ func _sync_open_button_visibility() -> void:
 		open_button.visible = _can_open_menu()
 
 
+func _sync_mouse_filters() -> void:
+	# The full-screen shell is passive. Only the live settings button, backdrop,
+	# and panel are allowed to participate in mouse hit testing.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	open_button.mouse_filter = Control.MOUSE_FILTER_STOP if open_button.visible else Control.MOUSE_FILTER_IGNORE
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP if backdrop.visible else Control.MOUSE_FILTER_IGNORE
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP if panel.visible else Control.MOUSE_FILTER_IGNORE
+	_set_interactive_filters(panel, panel.visible)
+
+
+func _refresh_host_hud_controls() -> void:
+	var host := get_parent().get_parent()
+	if is_instance_valid(host) and host.has_method("_refresh_skip_to_night_control"):
+		host.call("_refresh_skip_to_night_control")
+	if is_instance_valid(host) and host.has_method("_refresh_manage_village_control"):
+		host.call("_refresh_manage_village_control")
+
+
+func _set_interactive_filters(node: Node, enabled: bool) -> void:
+	for child: Node in node.get_children():
+		if child is BaseButton or child is HSlider or child is VSlider:
+			(child as Control).mouse_filter = Control.MOUSE_FILTER_STOP if enabled and (child as Control).visible else Control.MOUSE_FILTER_IGNORE
+		_set_interactive_filters(child, enabled)
+
+
 func _process(_delta: float) -> void:
 	_sync_open_button_visibility()
+	_sync_mouse_filters()
 
 
 func _action_display_name(action_name: StringName) -> String:

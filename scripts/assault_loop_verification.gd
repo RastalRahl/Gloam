@@ -20,7 +20,7 @@ func _run() -> void:
 	main._choose_starting_weapon("sword")
 	await process_frame
 
-	_check(is_equal_approx(main.day_duration, 180.0), "normal day configuration is 180 seconds")
+	_check(is_equal_approx(main.day_duration, 165.0), "ten-night day configuration is 165 seconds")
 	_check(main.nights_to_survive == 10, "run configuration contains ten nights")
 	_check(main.skip_to_night_button.visible and not main.skip_to_night_button.disabled, "Skip to Night is visible and enabled during a safe village day")
 

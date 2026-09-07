@@ -4,6 +4,7 @@ class_name GloamPauseMenu
 const UI_STYLE := preload("res://scripts/ui_style.gd")
 const INPUT_ACTIONS := preload("res://scripts/input_actions.gd")
 const TINY_UI_FRAME_SCENE := preload("res://scenes/components/tiny_ui_frame.tscn")
+const UI_FOCUS := preload("res://scripts/ui_focus.gd")
 
 var game_controller: Node = null
 var settings_menu: GloamAudioSettingsMenu = null
@@ -158,11 +159,14 @@ func open_menu() -> void:
 	confirmation_action = ""
 	pause_was_active = get_tree().paused
 	_refresh_hint()
+	show()
 	backdrop.show()
 	panel.show()
 	confirm_panel.hide()
+	_sync_mouse_filters()
 	get_tree().paused = true
-	resume_button.grab_focus()
+	_refresh_host_hud_controls()
+	UI_FOCUS.request(resume_button, menu_open and panel.visible)
 	if is_instance_valid(game_controller) and game_controller.has_method("play_audio_hook"):
 		game_controller.call("play_audio_hook", "ui_open", Vector2.ZERO, 0.70)
 
@@ -174,16 +178,43 @@ func close_menu() -> void:
 		_cancel_confirmation()
 		return
 	menu_open = false
+	hide()
 	backdrop.hide()
 	panel.hide()
 	confirm_panel.hide()
+	_sync_mouse_filters()
 	get_tree().paused = pause_was_active
+	_refresh_host_hud_controls()
 	if is_instance_valid(game_controller) and game_controller.has_method("play_audio_hook"):
 		game_controller.call("play_audio_hook", "ui_cancel", Vector2.ZERO, 0.60)
 
 
 func is_open() -> bool:
 	return menu_open
+
+
+func _sync_mouse_filters() -> void:
+	# Pause's full-screen shell is passive; its backdrop and the active panel are
+	# the only intentional blockers while the menu is open.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	backdrop.mouse_filter = Control.MOUSE_FILTER_STOP if backdrop.visible else Control.MOUSE_FILTER_IGNORE
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP if panel.visible else Control.MOUSE_FILTER_IGNORE
+	confirm_panel.mouse_filter = Control.MOUSE_FILTER_STOP if confirm_panel.visible else Control.MOUSE_FILTER_IGNORE
+	_set_interactive_filters(self, menu_open)
+
+
+func _refresh_host_hud_controls() -> void:
+	if is_instance_valid(game_controller) and game_controller.has_method("_refresh_skip_to_night_control"):
+		game_controller.call("_refresh_skip_to_night_control")
+	if is_instance_valid(game_controller) and game_controller.has_method("_refresh_manage_village_control"):
+		game_controller.call("_refresh_manage_village_control")
+
+
+func _set_interactive_filters(node: Node, enabled: bool) -> void:
+	for child: Node in node.get_children():
+		if child is BaseButton or child is HSlider or child is VSlider:
+			(child as Control).mouse_filter = Control.MOUSE_FILTER_STOP if enabled and (child as Control).visible else Control.MOUSE_FILTER_IGNORE
+		_set_interactive_filters(child, enabled)
 
 
 func _open_settings() -> void:
@@ -198,6 +229,8 @@ func _ask_confirmation(action: String) -> void:
 	confirmation_action = action
 	panel.hide()
 	confirm_panel.show()
+	confirm_panel.z_index = 1
+	_sync_mouse_filters()
 	confirm_label.text = (
 		"Restart this run? All progress will be lost."
 		if action == "restart"
@@ -205,7 +238,7 @@ func _ask_confirmation(action: String) -> void:
 	)
 	confirm_yes_button.text = "CONFIRM %s" % action.to_upper()
 	confirm_no_button.text = "CANCEL  [%s]" % INPUT_ACTIONS.action_hint(INPUT_ACTIONS.MENU_CANCEL)
-	confirm_yes_button.grab_focus()
+	UI_FOCUS.request(confirm_yes_button, menu_open and confirm_panel.visible)
 
 
 func _confirm_action() -> void:
@@ -220,7 +253,8 @@ func _cancel_confirmation() -> void:
 	confirmation_action = ""
 	confirm_panel.hide()
 	panel.show()
-	restart_button.grab_focus()
+	_sync_mouse_filters()
+	UI_FOCUS.request(restart_button, menu_open and panel.visible)
 
 
 func _refresh_hint() -> void:
@@ -273,16 +307,25 @@ func _activate_focused_control() -> void:
 func _move_focus(direction: int) -> void:
 	var focusable: Array[Button] = []
 	if not confirmation_action.is_empty():
-		focusable = [confirm_yes_button, confirm_no_button]
+		for button: Button in [confirm_yes_button, confirm_no_button]:
+			if UI_FOCUS.can_request(button):
+				focusable.append(button)
 	else:
-		focusable = [resume_button, settings_button, restart_button, quit_button]
+		for button: Button in [resume_button, settings_button, restart_button, quit_button]:
+			if UI_FOCUS.can_request(button):
+				focusable.append(button)
+	if focusable.is_empty():
+		return
 	var current := get_viewport().gui_get_focus_owner() as Button
 	var index: int = focusable.find(current)
 	if index < 0:
 		index = 0
 	else:
 		index = posmod(index + direction, focusable.size())
-	focusable[index].grab_focus()
+	UI_FOCUS.request(
+		focusable[index],
+		menu_open and (confirm_panel.visible if not confirmation_action.is_empty() else panel.visible)
+	)
 
 
 func _is_echo(event: InputEvent) -> bool:

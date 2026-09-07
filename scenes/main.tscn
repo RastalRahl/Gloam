@@ -19,7 +19,7 @@
 
 [node name="Main" type="Node2D"]
 script = ExtResource("2_main_script")
-day_duration = 180.0
+day_duration = 165.0
 night_duration = 0.0
 nights_to_survive = 10
 final_boss_spawn_delay = 15.0
@@ -1063,10 +1063,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -105.0
-offset_right = 180.0
-offset_bottom = 105.0
+offset_left = -225.0
+offset_top = -190.0
+offset_right = 225.0
+offset_bottom = 190.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -1094,11 +1094,16 @@ text = "The Gloam consumed the heart of the settlement."
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="RunResults" type="Label" parent="UI/GameOverPanel/Content/VBox"]
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="RestartButton" type="Button" parent="UI/GameOverPanel/Content/VBox"]
 mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
-text = "RESTART RUN"
+text = "RETURN TO TITLE"
 
 [node name="VictoryPanel" type="PanelContainer" parent="UI"]
 process_mode = 2
@@ -1107,10 +1112,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -110.0
-offset_right = 200.0
-offset_bottom = 110.0
+offset_left = -225.0
+offset_top = -190.0
+offset_right = 225.0
+offset_bottom = 190.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -1138,8 +1143,13 @@ text = "You survived the Gloam and defeated the Troll Chieftain."
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="RunResults" type="Label" parent="UI/VictoryPanel/Content/VBox"]
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="RestartButton" type="Button" parent="UI/VictoryPanel/Content/VBox"]
 mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
-text = "Restart Run"
+text = "RETURN TO TITLE"

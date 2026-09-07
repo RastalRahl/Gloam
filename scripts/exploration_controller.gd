@@ -57,7 +57,9 @@ func spawn_day_resources() -> void:
 	var day_value: int = _day_value()
 	var main := get_tree().current_scene
 	var world_visuals: Node = main.get_node_or_null("World") if is_instance_valid(main) else null
-	var layout: Array[Dictionary] = world_visuals.get_resource_layout(seed_value, day_value) if is_instance_valid(world_visuals) else []
+	var layout: Array[Dictionary] = []
+	if is_instance_valid(world_visuals):
+		layout.assign(world_visuals.call("get_resource_layout", seed_value, day_value))
 	for data: Dictionary in layout:
 		var resource_type: String = str(data["type"])
 		var zone: String = str(data.get("zone", "wilderness"))
@@ -173,6 +175,9 @@ func _spawn_day_enemy_group(scene: PackedScene, positions: Array[Vector2], zone:
 		var enemy: GloamDayEnemy = scene.instantiate() as GloamDayEnemy
 		enemy.position = placement["position"]
 		enemy.set_player(player_actor)
+		var controller: Node = get_tree().current_scene
+		if is_instance_valid(controller) and controller.has_method("_record_run_kill"):
+			enemy.defeated.connect(Callable(controller, "_record_run_kill"), CONNECT_ONE_SHOT)
 		day_enemies_root.add_child(enemy)
 		reservations.append({
 			"id": "%s_enemy_%d" % [zone, reservations.size() + 1],
@@ -186,7 +191,10 @@ func _spawn_day_enemy_group(scene: PackedScene, positions: Array[Vector2], zone:
 func _get_enemy_spawn_positions(zone: String, seed_value: int, day_value: int, count: int) -> Array[Vector2]:
 	var main := get_tree().current_scene
 	var world_visuals: Node = main.get_node_or_null("World") if is_instance_valid(main) else null
-	return world_visuals.get_day_enemy_spawn_positions(zone, seed_value, day_value, count) if is_instance_valid(world_visuals) else []
+	var positions: Array[Vector2] = []
+	if is_instance_valid(world_visuals):
+		positions.assign(world_visuals.call("get_day_enemy_spawn_positions", zone, seed_value, day_value, count))
+	return positions
 
 
 func _day_value() -> int:

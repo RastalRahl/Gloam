@@ -17,12 +17,9 @@ asset_kind = "tower"
 placement_id = "ruins_west_tower"
 zone_name = "ruins"
 cluster_name = "west_terrace"
-footprint_size = Vector2(64, 16)
-visual_scale = 0.75
 metadata/placement_id = "ruins_west_tower"
 metadata/zone = "ruins"
 metadata/cluster = "west_terrace"
-metadata/footprint = Vector2(64, 16)
 
 [node name="RuinsEastTower" parent="Props" unique_id=1525588670 instance=ExtResource("1_cqhnm")]
 z_index = 420
@@ -33,13 +30,10 @@ asset_kind = "tower"
 placement_id = "ruins_east_tower"
 zone_name = "ruins"
 cluster_name = "east_terrace"
-footprint_size = Vector2(64, 16)
-visual_scale = 0.75
 animation_phase = 1
 metadata/placement_id = "ruins_east_tower"
 metadata/zone = "ruins"
 metadata/cluster = "east_terrace"
-metadata/footprint = Vector2(64, 16)
 
 [node name="RuinSpike01" parent="Props" unique_id=922140705 instance=ExtResource("1_cqhnm")]
 z_index = 286
@@ -50,12 +44,10 @@ asset_kind = "skull_spike_01"
 placement_id = "ruin_spike_01"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 3
 metadata/placement_id = "ruin_spike_01"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike02" parent="Props" unique_id=1760845522 instance=ExtResource("1_cqhnm")]
 z_index = 232
@@ -66,12 +58,10 @@ asset_kind = "skull_spike_02"
 placement_id = "ruin_spike_02"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 4
 metadata/placement_id = "ruin_spike_02"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike03" parent="Props" unique_id=290080384 instance=ExtResource("1_cqhnm")]
 z_index = 224
@@ -82,12 +72,10 @@ asset_kind = "skull_spike_01"
 placement_id = "ruin_spike_03"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 5
 metadata/placement_id = "ruin_spike_03"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike04" parent="Props" unique_id=1782106913 instance=ExtResource("1_cqhnm")]
 z_index = 236
@@ -98,12 +86,10 @@ asset_kind = "skull_spike_02"
 placement_id = "ruin_spike_04"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 6
 metadata/placement_id = "ruin_spike_04"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike05" parent="Props" unique_id=313150672 instance=ExtResource("1_cqhnm")]
 z_index = 230
@@ -114,12 +100,10 @@ asset_kind = "skull_spike_01"
 placement_id = "ruin_spike_05"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 7
 metadata/placement_id = "ruin_spike_05"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike06" parent="Props" unique_id=1421052269 instance=ExtResource("1_cqhnm")]
 z_index = 246
@@ -130,12 +114,10 @@ asset_kind = "skull_spike_02"
 placement_id = "ruin_spike_06"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 8
 metadata/placement_id = "ruin_spike_06"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike07" parent="Props" unique_id=194286211 instance=ExtResource("1_cqhnm")]
 z_index = 354
@@ -146,12 +128,10 @@ asset_kind = "skull_spike_01"
 placement_id = "ruin_spike_07"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 9
 metadata/placement_id = "ruin_spike_07"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike08" parent="Props" unique_id=347864987 instance=ExtResource("1_cqhnm")]
 z_index = 610
@@ -162,12 +142,10 @@ asset_kind = "skull_spike_02"
 placement_id = "ruin_spike_08"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 10
 metadata/placement_id = "ruin_spike_08"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike09" parent="Props" unique_id=266624646 instance=ExtResource("1_cqhnm")]
 z_index = 618
@@ -178,12 +156,10 @@ asset_kind = "skull_spike_01"
 placement_id = "ruin_spike_09"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 11
 metadata/placement_id = "ruin_spike_09"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinSpike10" parent="Props" unique_id=1460059609 instance=ExtResource("1_cqhnm")]
 z_index = 610
@@ -194,12 +170,10 @@ asset_kind = "skull_spike_02"
 placement_id = "ruin_spike_10"
 zone_name = "ruins"
 cluster_name = "ruin_perimeter"
-footprint_size = Vector2(20, 10)
 animation_phase = 12
 metadata/placement_id = "ruin_spike_10"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_perimeter"
-metadata/footprint = Vector2(20, 10)
 
 [node name="RuinRubble01" parent="Props" unique_id=1457273798 instance=ExtResource("1_cqhnm")]
 z_index = 382
@@ -210,12 +184,10 @@ asset_kind = "rock_2"
 placement_id = "ruin_rubble_01"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 13
 metadata/placement_id = "ruin_rubble_01"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble02" parent="Props" unique_id=1645309928 instance=ExtResource("1_cqhnm")]
 z_index = 420
@@ -226,12 +198,10 @@ asset_kind = "rock_1"
 placement_id = "ruin_rubble_02"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 14
 metadata/placement_id = "ruin_rubble_02"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble03" parent="Props" unique_id=951686617 instance=ExtResource("1_cqhnm")]
 z_index = 360
@@ -242,12 +212,10 @@ asset_kind = "rock_1"
 placement_id = "ruin_rubble_03"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 15
 metadata/placement_id = "ruin_rubble_03"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble04" parent="Props" unique_id=1305004505 instance=ExtResource("1_cqhnm")]
 z_index = 400
@@ -258,12 +226,10 @@ asset_kind = "rock_2"
 placement_id = "ruin_rubble_04"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 16
 metadata/placement_id = "ruin_rubble_04"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble05" parent="Props" unique_id=397970498 instance=ExtResource("1_cqhnm")]
 z_index = 400
@@ -274,12 +240,10 @@ asset_kind = "rock_1"
 placement_id = "ruin_rubble_05"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 17
 metadata/placement_id = "ruin_rubble_05"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble06" parent="Props" unique_id=1201384302 instance=ExtResource("1_cqhnm")]
 z_index = 400
@@ -290,12 +254,10 @@ asset_kind = "rock_1"
 placement_id = "ruin_rubble_06"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 18
 metadata/placement_id = "ruin_rubble_06"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble07" parent="Props" unique_id=1257983662 instance=ExtResource("1_cqhnm")]
 z_index = 390
@@ -306,12 +268,10 @@ asset_kind = "rock_2"
 placement_id = "ruin_rubble_07"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 19
 metadata/placement_id = "ruin_rubble_07"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble08" parent="Props" unique_id=952569977 instance=ExtResource("1_cqhnm")]
 z_index = 380
@@ -322,12 +282,10 @@ asset_kind = "rock_1"
 placement_id = "ruin_rubble_08"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 20
 metadata/placement_id = "ruin_rubble_08"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="RuinRubble09" parent="Props" unique_id=384653040 instance=ExtResource("1_cqhnm")]
 z_index = 610
@@ -338,12 +296,10 @@ asset_kind = "rock_1"
 placement_id = "ruin_rubble_09"
 zone_name = "ruins"
 cluster_name = "ruin_rubble"
-footprint_size = Vector2(28, 12)
 animation_phase = 21
 metadata/placement_id = "ruin_rubble_09"
 metadata/zone = "ruins"
 metadata/cluster = "ruin_rubble"
-metadata/footprint = Vector2(28, 12)
 
 [node name="ResourceSpawnMarkers" type="Node2D" parent="." unique_id=613315392]
 

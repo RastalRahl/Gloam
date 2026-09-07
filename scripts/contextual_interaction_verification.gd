@@ -115,9 +115,10 @@ func _run() -> void:
 	main._open_contextual_interaction()
 	_check(main.contextual_interaction_menu.choice_buttons.size() == 3, "shrine menu lists healing, blessing, and ward")
 	_check(main.contextual_interaction_menu.choice_buttons[0].text.contains("not a respawn"), "shrine healing distinguishes healing from respawning")
+	var heal_essence_cost: int = int(ECONOMY_BALANCE.shrine_cost("heal")["essence"])
 	main.contextual_interaction_menu.choice_buttons[0].pressed.emit()
 	await process_frame
-	_check(main.player.hp == main.player.max_hp and main.essence == 9, "shrine selection charges the displayed essence cost once")
+	_check(main.player.hp == main.player.max_hp and main.essence == 10 - heal_essence_cost, "shrine selection charges the displayed essence cost once")
 
 	main.player.global_position = main.north_gate.global_position
 	main.north_gate.hp = 1

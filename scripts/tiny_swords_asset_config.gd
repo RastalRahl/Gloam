@@ -108,6 +108,7 @@ const STATIC_TEXTURES: Dictionary = {
     "gold_resource": preload("res://assets/generated/tiny_swords/terrain/resources/gold/gold_resource.png"),
     "stump_1": preload("res://assets/generated/tiny_swords/props/decorations/stump_1.png"),
 	"wood_resource": preload("res://assets/generated/tiny_swords/props/decorations/wood_resource.png"),
+	"icon_07": preload("res://assets/generated/tiny_swords/ui/icons/icon_07.png"),
 	"skull_spike_01": preload("res://assets/generated/tiny_swords/props/decorations/skull_spike_01.png"),
 	"skull_spike_02": preload("res://assets/generated/tiny_swords/props/decorations/skull_spike_02.png"),
 }
@@ -120,17 +121,39 @@ const STATIC_LAYOUTS: Dictionary = {
     "house_2": {"source_size": Vector2i(128, 192), "foundation_y": 177},
     "house_3": {"source_size": Vector2i(128, 192), "foundation_y": 171},
     "barracks": {"source_size": Vector2i(192, 256), "foundation_y": 244},
-    "tower": {"source_size": Vector2i(128, 256), "foundation_y": 229},
+    "tower": {"source_size": Vector2i(128, 256), "foundation_y": 230},
     "archery": {"source_size": Vector2i(192, 256), "foundation_y": 239},
     "monastery": {"source_size": Vector2i(192, 320), "foundation_y": 309},
-    "rock_1": {"source_size": Vector2i(64, 64), "foundation_y": 63},
-    "rock_2": {"source_size": Vector2i(64, 64), "foundation_y": 63},
-    "gold_stone_1": {"source_size": Vector2i(128, 128), "foundation_y": 127},
-    "gold_resource": {"source_size": Vector2i(128, 128), "foundation_y": 127},
-    "stump_1": {"source_size": Vector2i(192, 256), "foundation_y": 244},
-	"wood_resource": {"source_size": Vector2i(64, 64), "foundation_y": 63},
-	"skull_spike_01": {"source_size": Vector2i(64, 128), "foundation_y": 127},
-	"skull_spike_02": {"source_size": Vector2i(64, 128), "foundation_y": 127},
+    "rock_1": {"source_size": Vector2i(64, 64), "foundation_y": 51},
+    "rock_2": {"source_size": Vector2i(64, 64), "foundation_y": 53},
+    "gold_stone_1": {"source_size": Vector2i(128, 128), "foundation_y": 79},
+    "gold_resource": {"source_size": Vector2i(128, 128), "foundation_y": 75},
+    "stump_1": {"source_size": Vector2i(192, 256), "foundation_y": 240},
+	"wood_resource": {"source_size": Vector2i(64, 64), "foundation_y": 46},
+	"icon_07": {"source_size": Vector2i(64, 64), "foundation_y": 59},
+	"skull_spike_01": {"source_size": Vector2i(64, 128), "foundation_y": 95},
+	"skull_spike_02": {"source_size": Vector2i(64, 128), "foundation_y": 107},
+}
+
+## Gameplay alignment contract for every reusable environmental prop.  The
+## sprite position is derived from the imported PNG's meaningful opaque
+## bounds, while category-specific scale and footprint stay here.  Scene
+## instances may keep legacy exported values for editor compatibility, but
+## this table is authoritative at runtime.
+const PROP_ALIGNMENT: Dictionary = {
+	"tree_1": {"category": "tree", "visual_scale": 1.0, "footprint_size": Vector2(30.0, 14.0), "collision_enabled": true},
+	"tree_2": {"category": "tree", "visual_scale": 1.0, "footprint_size": Vector2(30.0, 14.0), "collision_enabled": true},
+	"bush_1": {"category": "bush", "visual_scale": 1.0, "footprint_size": Vector2(24.0, 8.0), "collision_enabled": true},
+	"bush_2": {"category": "bush", "visual_scale": 1.0, "footprint_size": Vector2(24.0, 8.0), "collision_enabled": true},
+	"rock_1": {"category": "rock", "visual_scale": 1.0, "footprint_size": Vector2(28.0, 12.0), "collision_enabled": true},
+	"rock_2": {"category": "rock", "visual_scale": 1.0, "footprint_size": Vector2(32.0, 14.0), "collision_enabled": true},
+	"gold_stone_1": {"category": "ore", "visual_scale": 1.0, "footprint_size": Vector2(30.0, 14.0), "collision_enabled": true},
+	"gold_resource": {"category": "ore", "visual_scale": 1.0, "footprint_size": Vector2(26.0, 12.0), "collision_enabled": true},
+	"stump_1": {"category": "stump", "visual_scale": 1.0, "footprint_size": Vector2(32.0, 16.0), "collision_enabled": true},
+	"wood_resource": {"category": "collectible", "visual_scale": 0.9, "footprint_size": Vector2.ZERO, "collision_enabled": false},
+	"skull_spike_01": {"category": "rubble", "visual_scale": 1.0, "footprint_size": Vector2(20.0, 10.0), "collision_enabled": true},
+	"skull_spike_02": {"category": "rubble", "visual_scale": 1.0, "footprint_size": Vector2(20.0, 10.0), "collision_enabled": true},
+	"tower": {"category": "structure", "visual_scale": 0.75, "footprint_size": Vector2(64.0, 16.0), "collision_enabled": true},
 }
 
 const TERRAIN_TEXTURE: Texture2D = preload("res://assets/generated/tiny_swords/terrain/tileset/tilemap_color_1.png")
@@ -158,6 +181,49 @@ static func texture(asset_key: String) -> Texture2D:
     if TEXTURES.has(asset_key):
         return TEXTURES[asset_key] as Texture2D
     return STATIC_TEXTURES.get(asset_key) as Texture2D
+
+
+static func prop_profile(asset_key: String) -> Dictionary:
+    return (PROP_ALIGNMENT.get(asset_key, PROP_ALIGNMENT["rock_1"]) as Dictionary).duplicate(true)
+
+
+static func alignment_for_asset(asset_key: String, visual_scale: float = 1.0) -> Dictionary:
+    var source_texture := texture(asset_key)
+    return alignment_for_texture(source_texture, visual_scale, SHEET_LAYOUTS.has(asset_key))
+
+
+static func alignment_for_texture(source_texture: Texture2D, visual_scale: float = 1.0, animated: bool = false) -> Dictionary:
+    if source_texture == null:
+        return {"sprite_position": Vector2.ZERO, "visible_rect": Rect2(), "opaque_bounds": Rect2i()}
+    var image := source_texture.get_image()
+    var frame_size := Vector2i(image.get_width(), image.get_height())
+    if animated:
+        var layout := layout_for_texture(source_texture)
+        frame_size = layout.get("frame_size", frame_size)
+    var frame_rect := Rect2i(Vector2i.ZERO, frame_size)
+    var opaque_bounds := image.get_region(frame_rect).get_used_rect()
+    if opaque_bounds.size == Vector2i.ZERO:
+        opaque_bounds = frame_rect
+    var sprite_position: Vector2
+    if animated:
+        var frame_center := Vector2(frame_size) * 0.5
+        sprite_position = Vector2(
+            -(float(opaque_bounds.get_center().x) - frame_center.x),
+            -(float(opaque_bounds.end.y) - frame_center.y)
+        ) * visual_scale
+    else:
+        sprite_position = Vector2(-float(opaque_bounds.get_center().x), -float(opaque_bounds.end.y)) * visual_scale
+    var visible_rect := Rect2(
+        Vector2(-Vector2(opaque_bounds.size).x * 0.5 * visual_scale, -Vector2(opaque_bounds.size).y * visual_scale),
+        Vector2(opaque_bounds.size) * visual_scale
+    )
+    return {
+        "sprite_position": sprite_position,
+        "visible_rect": visible_rect,
+        "opaque_bounds": opaque_bounds,
+        "frame_size": frame_size,
+        "visual_scale": visual_scale,
+    }
 
 
 static func terrain_texture() -> Texture2D:

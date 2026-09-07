@@ -94,12 +94,12 @@ func _run() -> void:
 
 	await _build(main, farm_spot, "farm")
 	await _upgrade(main, farm_spot)
-	_check(main.farm_food_income == 5, "level 2 farm income is derived")
+	_check(main.farm_food_income == 3, "level 2 farm income is derived")
 	var upgraded_farm: GloamVillageBuilding = farm_spot.building
 	await _destroy(upgraded_farm)
 	_check(main.farms == 0 and main.farm_food_income == 0, "farm destruction removes income")
 	await _build(main, farm_spot, "farm")
-	_check(main.farms == 1 and main.farm_food_income == 3, "rebuilt farm restores level 1 income once")
+	_check(main.farms == 1 and main.farm_food_income == 2, "rebuilt farm restores level 1 income once")
 
 	_check(main.wood >= 0 and main.stone >= 0 and main.iron >= 0 and main.food >= 0, "resources never become negative")
 	_check(main.population_capacity >= 0 and main.farm_food_income >= 0, "capacity and income never become negative")

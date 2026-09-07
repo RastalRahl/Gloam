@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://34cxgbhfhmek"]
 
 [ext_resource type="Script" uid="uid://c570qhslmhs3e" path="res://scripts/village_core.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://boengsalyp1gn" path="res://TinySwords/Buildings/Blue Buildings/Monastery.png" id="2_4mx8e"]
+[ext_resource type="Texture2D" path="res://assets/tiny_swords/buildings/blue/monastery.png" id="2_4mx8e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foundation"]
 size = Vector2(107, 94)

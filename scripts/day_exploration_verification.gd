@@ -1,6 +1,7 @@
 extends SceneTree
 
 const MAIN_SCENE := preload("res://scenes/main.tscn")
+const RESOURCE_PROFILES := preload("res://scripts/resource_profiles.gd")
 const DAY_LAYOUT := preload("res://scripts/day_exploration_layout.gd")
 
 var failures: int = 0
@@ -127,7 +128,8 @@ func _layouts_avoid_cliff_faces(world: GloamWorldVisuals, first_seed: int, last_
 		for day: int in range(1, 4):
 			for entry: Dictionary in world.get_resource_layout(seed, day):
 				var position: Vector2 = entry["position"]
-				if not world.is_walkable_ground_anchor(position, Vector2(20.0, 10.0)):
+				var resource_profile := RESOURCE_PROFILES.profile(str(entry["type"]))
+				if not world.is_walkable_ground_anchor(position, resource_profile["placement_footprint"]):
 					print("Unsafe authored marker seed %d day %d: %s at %s" % [seed, day, str(entry["type"]), str(position)])
 					return false
 	return true

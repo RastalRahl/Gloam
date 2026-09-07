@@ -73,7 +73,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_footprint"]
-size = Vector2(36, 34)
+size = Vector2(30, 14)
 
 [node name="WorldProp" type="Node2D" unique_id=1835877313]
 z_as_relative = false
@@ -82,11 +82,11 @@ script = ExtResource("1_script")
 metadata/placement_id = ""
 metadata/zone = "village"
 metadata/cluster = ""
-metadata/footprint = Vector2(36, 18)
+metadata/footprint = Vector2(30, 14)
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=377368882]
 texture_filter = 1
-position = Vector2(0, -112)
+position = Vector2(-0.5, -113)
 sprite_frames = SubResource("SpriteFrames_tvq84")
 animation = &"sway"
 
@@ -100,5 +100,5 @@ collision_mask = 0
 metadata/collision_category = "prop"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundFootprint" unique_id=1176545385]
-position = Vector2(0, -17)
+position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_footprint")

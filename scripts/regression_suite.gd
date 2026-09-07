@@ -40,6 +40,7 @@ func _init() -> void:
 func _run() -> void:
 	print("GLOAM FAST LOGIC REGRESSION")
 	_test_wave_plan()
+	_test_ten_day_economy()
 	await _test_phase_and_wave_lifecycle()
 	await _test_required_hostile_completion()
 	_test_settlement_accounting()
@@ -83,6 +84,30 @@ func _test_wave_plan() -> void:
 		_expect(NIGHT_WAVE_SCHEDULE.ordinary_total(night_number) == target_totals[night_number - 1], "Night %d ordinary pressure total" % night_number, target_totals[night_number - 1], NIGHT_WAVE_SCHEDULE.ordinary_total(night_number))
 		_expect((str(plan.back().get("lane", "")) == "boss") == (night_number == 10), "boss is scheduled only on Night 10")
 		_expect(NIGHT_WAVE_SCHEDULE.active_enemy_cap(night_number) in [20, 30, 40, 48], "Night %d has a scalable active cap" % night_number)
+
+
+func _test_ten_day_economy() -> void:
+	print("-- ten-day economy")
+	var expected_pickup_totals: Array[int] = [22, 15, 15, 12, 12, 10, 8, 7, 7, 7]
+	var expected_enemy_totals: Array[int] = [8, 11, 11, 14, 14, 11, 11, 11, 11, 11]
+	for day: int in range(1, 11):
+		var pickup_total: int = 0
+		for zone_counts: Dictionary in ECONOMY_BALANCE.pickup_counts_for_day(day).values():
+			for amount: int in zone_counts.values():
+				pickup_total += amount
+		var enemy_total: int = 0
+		for zone: String in ["forest", "mine", "ruins"]:
+			enemy_total += ECONOMY_BALANCE.day_enemy_count(zone, day)
+		_expect(pickup_total == expected_pickup_totals[day - 1], "Day %d pickup respawn budget" % day, expected_pickup_totals[day - 1], pickup_total)
+		_expect(enemy_total == expected_enemy_totals[day - 1], "Day %d optional enemy reward budget" % day, expected_enemy_totals[day - 1], enemy_total)
+	var cumulative: Dictionary = ECONOMY_BALANCE.expected_cumulative_income(10)
+	_expect(is_equal_approx(float(cumulative["wood"]), 124.0), "Day 1-10 Wood projection is bounded", 124.0, cumulative["wood"])
+	_expect(is_equal_approx(float(cumulative["stone"]), 80.0), "Day 1-10 Stone projection is bounded", 80.0, cumulative["stone"])
+	_expect(is_equal_approx(float(cumulative["iron"]), 26.25), "Day 1-10 Iron projection is bounded", 26.25, cumulative["iron"])
+	_expect(is_equal_approx(float(cumulative["essence"]), 53.0), "Day 1-10 Essence projection is bounded", 53.0, cumulative["essence"])
+	_expect(ECONOMY_BALANCE.worker_income(6) == {"wood": 5, "stone": 2, "iron": 1}, "population investment has bounded resource returns")
+	_expect(ECONOMY_BALANCE.worker_income(20) == {"wood": 6, "stone": 3, "iron": 1}, "late population cannot create runaway passive income")
+	_expect(ECONOMY_BALANCE.farm_income_for_level(1) == 2 and ECONOMY_BALANCE.farm_income_for_level(3) == 4, "Farm upgrades remain useful without exponential food growth")
 
 
 func _test_phase_and_wave_lifecycle() -> void:

@@ -9,6 +9,9 @@ class_name GloamWorldVisuals
 
 const VISUALS := preload("res://scripts/visual_constants.gd")
 const PLACEMENT := preload("res://scripts/placement_validation.gd")
+const ASSETS := preload("res://scripts/tiny_swords_asset_config.gd")
+const RESOURCE_PROFILES := preload("res://scripts/resource_profiles.gd")
+const ECONOMY_BALANCE := preload("res://scripts/economy_balance.gd")
 
 @onready var lower_terrain: TileMapLayer = $Terrain/LowerTerrain
 @onready var village_terrain: TileMapLayer = $Terrain/VillageTerrain
@@ -55,6 +58,8 @@ func _index_authored_props() -> void:
 		if not node.has_meta("placement_id"):
 			continue
 		var anchor := node as Node2D
+		var asset_kind := str(node.get("asset_kind"))
+		var alignment_profile := ASSETS.prop_profile(asset_kind)
 		var footprint: Vector2 = node.get_meta("footprint", Vector2.ZERO)
 		var placement_id: String = str(node.get_meta("placement_id", node.name))
 		if not PLACEMENT.is_ground_anchor_valid(anchor.global_position, footprint, walkable_ground_cells, cliff_rects):
@@ -66,25 +71,27 @@ func _index_authored_props() -> void:
 		placement_footprints.append({
 			"id": placement_id,
 			"zone": node.get_meta("zone", "wilderness"),
-			"kind": "static" if str(node.get("asset_kind")) not in ["tree_1", "tree_2", "bush_1", "bush_2"] else str(node.get("asset_kind")).split("_")[0],
-			"asset": str(node.get("asset_kind")),
+			"kind": alignment_profile["category"],
+			"asset": asset_kind,
 			"rect": rect,
-			"occlusion_rect": _occlusion_rect(anchor, str(node.get("asset_kind"))),
+			"occlusion_rect": _occlusion_rect(anchor, asset_kind),
 			"position": anchor.global_position,
 			"footprint": footprint,
 		})
 
 
 func _occlusion_rect(anchor: Node2D, asset_kind: String) -> Rect2:
-	if asset_kind.begins_with("tree_"):
-		return Rect2(anchor.global_position + Vector2(-52.0, -196.0), Vector2(104.0, 188.0))
-	if asset_kind.begins_with("bush_"):
-		return Rect2(anchor.global_position + Vector2(-34.0, -56.0), Vector2(68.0, 48.0))
+	var profile := ASSETS.prop_profile(asset_kind)
+	if str(profile["category"]) in ["tree", "bush"]:
+		var alignment := ASSETS.alignment_for_asset(asset_kind, float(profile["visual_scale"]))
+		var visible_rect: Rect2 = alignment["visible_rect"]
+		return Rect2(anchor.global_position + visible_rect.position, visible_rect.size)
 	return Rect2()
 
 
 func get_resource_layout(seed: int, day: int) -> Array[Dictionary]:
 	var layout: Array[Dictionary] = []
+	var respawn_counts: Dictionary = ECONOMY_BALANCE.pickup_counts_for_day(day)
 	var variation_rng := RandomNumberGenerator.new()
 	variation_rng.seed = seed + day * 104729 + 17 * 65537
 	var zones: Array[String] = ["forest", "mine", "ruins"]
@@ -95,18 +102,26 @@ func get_resource_layout(seed: int, day: int) -> Array[Dictionary]:
 		for marker: Node in markers:
 			set_count = maxi(set_count, int(marker.get("variation_set")) + 1)
 		var selected_set: int = posmod(seed + day * 7 + zone_index * 11, maxi(1, set_count))
+		var selected_resource_counts: Dictionary = {}
 		for marker: Node in markers:
 			if int(marker.get("variation_set")) != selected_set:
 				continue
+			var resource_type: String = str(marker.get("resource_type"))
+			var desired_count: int = int((respawn_counts.get(zone, {}) as Dictionary).get(resource_type, 0))
+			var selected_count: int = int(selected_resource_counts.get(resource_type, 0))
+			if selected_count >= desired_count:
+				continue
+			selected_resource_counts[resource_type] = selected_count + 1
 			var marker_position: Vector2 = (marker as Node2D).global_position
 			var position: Vector2 = marker_position + Vector2(
 				variation_rng.randf_range(-18.0, 18.0),
 				variation_rng.randf_range(-18.0, 18.0)
 			)
-			if not is_walkable_ground_anchor(position, Vector2(20.0, 10.0)):
+			var resource_profile := RESOURCE_PROFILES.profile(resource_type)
+			if not is_walkable_ground_anchor(position, resource_profile["placement_footprint"]):
 				position = marker_position
 			layout.append({
-				"type": str(marker.get("resource_type")),
+				"type": resource_type,
 				"position": position,
 				"risk_tier": int(marker.get("risk_tier")),
 				"zone": zone,

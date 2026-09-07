@@ -1,45 +1,114 @@
-# Gloam economy balance
+# Gloam ten-night economy balance
 
-The figures below are projections from `scripts/economy_balance.gd`. They assume
-all planned pickups are collected, every daytime enemy is defeated, the Mine's
-35% Iron bonus is averaged, four starting Workers remain assigned, and no Farm
-income is included unless noted. Enemy rewards are variable in a real run.
+Gloam is balanced as one ten-day, ten-night run. Night 10 still contains the
+only final boss. The figures below come from `scripts/economy_balance.gd` and
+are gross income before building, repairs, rescues, or shrine spending.
 
-| Day | Wood | Stone | Iron | Essence | Food from Farms |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | 11 | 8 | 4.05 | 8 | 0 |
-| 2 | 16 | 11 | 5.40 | 9 | +3 per active Farm |
-| 3 | 17 | 12 | 5.75 | 10 | +3 per active Farm |
-| 1–3 cumulative | 44 | 31 | 15.20 | 27 | +6 per active level-1 Farm |
+## Projection assumptions
 
-Predictable Day 1 pickups alone are 8 Wood, 5 Stone, 3 Iron, and 6 Essence.
-That supports either an immediate fortification package (Archer Tower + Ballista
-+ Barricade: 8 Wood, 2 Stone, 2 Iron) or an infrastructure opening (Barracks +
-Farm + Barricade: 7 Wood, 4 Stone), but not both. A level-1 Farm produces six
-food before the end of the run if built before Day 2, covering six additional
-rescues at one Food each. A House adds three capacity immediately, allowing the
-player to turn that food into population rather than leaving it idle.
+- The baseline collects every spawned pickup and defeats every daytime enemy.
+- Mine enemies always give Stone; their 25% Iron bonus is represented as an
+  average. Actual runs will receive integer, variable Iron rewards.
+- Four starting Workers stay assigned for the whole projection. Their dawn
+  income begins on Day 2: 4 Wood, 1 Stone, and no Iron.
+- The Food column assumes one level-1 Farm was built on Day 1. It produces 2
+  Food at each dawn from Day 2 onward. Food is not included in the other totals.
+- Daytime enemy rewards are optional. Nights award no construction resources.
+- Day length is 165 seconds. Players can end a day early from the village.
 
-| Purchase | Cost | Useful timing | Opportunity cost |
+| Day | Pickups (W/S/I/E) | Day enemies (Forest/Mine/Ruins) | Wood | Stone | Iron (avg.) | Essence | Farm Food |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | 8 / 5 / 3 / 6 | 3 / 3 / 2 | 11 | 8 | 3.75 | 8 | 0 |
+| 2 | 6 / 4 / 2 / 3 | 4 / 4 / 3 | 14 | 9 | 3.00 | 6 | 2 |
+| 3 | 6 / 4 / 2 / 3 | 4 / 4 / 3 | 14 | 9 | 3.00 | 6 | 2 |
+| 4 | 5 / 3 / 2 / 2 | 5 / 5 / 4 | 14 | 9 | 3.25 | 6 | 2 |
+| 5 | 5 / 3 / 2 / 2 | 5 / 5 / 4 | 14 | 9 | 3.25 | 6 | 2 |
+| 6 | 4 / 3 / 1 / 2 | 4 / 4 / 3 | 12 | 8 | 2.00 | 5 | 2 |
+| 7 | 4 / 2 / 1 / 1 | 4 / 4 / 3 | 12 | 7 | 2.00 | 4 | 2 |
+| 8 | 3 / 2 / 1 / 1 | 4 / 4 / 3 | 11 | 7 | 2.00 | 4 | 2 |
+| 9 | 3 / 2 / 1 / 1 | 4 / 4 / 3 | 11 | 7 | 2.00 | 4 | 2 |
+| 10 | 3 / 2 / 1 / 1 | 4 / 4 / 3 | 11 | 7 | 2.00 | 4 | 2 |
+| **Days 1–10** | **47 / 30 / 16 / 22** | **41 / 41 / 31** | **124** | **80** | **26.25** | **53** | **18** |
+
+The taper is deliberate: Day 1 retains the full authored resource plan, Days
+4–5 carry the largest optional daytime fights, and Days 7–10 contain fewer
+pickups instead of repeating a full-map harvest. A run that collects and defeats
+roughly 70% of both sources, while receiving all Worker income, projects to
+about 98 Wood, 59 Stone, 18.38 Iron, and 37 Essence. That is enough to keep
+building and repairing, but focused Iron upgrades still require deliberate Mine
+trips or a Worker-heavy population plan.
+
+## Openings and competing strategies
+
+Predictable Day 1 pickups alone remain 8 Wood, 5 Stone, 3 Iron, and 6 Essence.
+They support several openings without relying on enemy drops:
+
+- Immediate fortification: Archer Tower + Ballista + Barricade costs 8 Wood,
+  2 Stone, and 2 Iron.
+- Barracks economy: Barracks + Farm + Barricade costs 7 Wood and 4 Stone.
+- Population growth: House + Farm + Barricade costs 7 Wood and 2 Stone.
+
+No pair of complete opening packages fits the pickup budget. Fortification is
+safer immediately; Barracks converts rescued population into soldiers; House
+and Farm increase long-run role choices but spend slots and materials before
+adding combat power.
+
+Worker output has diminishing returns. Four Workers yield 4 Wood/1 Stone/0
+Iron each dawn; six yield 5/2/1; ten yield the cap of 6/3/1. Assigning two early
+rescues as Workers raises the ten-day projection to 133 Wood, 89 Stone, and 35.25 Iron,
+but those villagers are not Guards or Archers during the harder nights. Farm
+levels produce 2/3/4 Food, while House levels add 3/5/7 capacity. Farms enable
+rescues; Houses create room; Barracks determines whether population becomes
+combat power. None is useful in isolation.
+
+Two representative max-level plans show the intended resource tension:
+
+| Plan | Included investments | Wood | Stone | Iron |
+| --- | --- | ---: | ---: | ---: |
+| Combat specialist | Lv.3 Blacksmith, two Lv.3 Archer Towers, one Lv.3 Ballista | 45 | 22 | 24 |
+| Population specialist | Lv.3 House, Farm, and Barracks | 32 | 20 | 8 |
+| Both plans | All of the above | 77 | 42 | 32 |
+
+The fixed-four-Worker projection can afford either specialist plan but not both
+because it averages only 26.25 Iron before repairs. Six early Workers can cross
+the combined Iron threshold, trading away two immediate soldiers. Even the
+baseline cannot fill all seven defense slots with max-level Barricades. This
+keeps focused builds viable without making total completion routine.
+
+## Costs and upgrade value
+
+Base building costs are unchanged so Day 1 remains flexible. Upgrade costs rise
+more sharply across the longer run:
+
+| Upgrade | Level 2 (W/S/I) | Level 3 (W/S/I) | Role |
 | --- | --- | --- | --- |
-| Archer Tower | 4 Wood | Day 1–2 | Competes with House/Blacksmith Wood |
-| Ballista | 2 Wood + 1 Stone + 2 Iron | Day 1–2 | Consumes Mine materials needed by Blacksmith |
-| Barricade | 2 Wood + 1 Stone | Day 1 | Low-cost first-night time buffer |
-| House | 3 Wood | Day 1–2 | Delays a combat structure; pays back through rescued population |
-| Farm | 2 Wood + 1 Stone | Day 1–2 | Pays back only through future dawns/rescues |
-| Barracks | 3 Wood + 2 Stone | Day 1 | Enables Guards/Archers, but competes with Farm/defenses |
-| Blacksmith | 3 Wood + 1 Stone + 2 Iron | Day 2–3 | Immediate +1 damage, but competes with Ballista and Barracks upgrades |
-| Shrine: heal / blessing / ward | 1 / 2 / 3 Essence | Situational each day | Spends the same Essence needed for later choices |
+| Defense | 3 / 2 / 1 | 5 / 3 / 3 | Broad lane strength; expensive to repeat across seven slots |
+| Gate | 3 / 4 / 2 | 5 / 6 / 4 | Durable fallback when a damage build lacks coverage |
+| House or Farm | 3 / 2 / 0 | 5 / 3 / 1 | Converts late capacity/Food into population options |
+| Barracks | 3 / 3 / 2 | 5 / 4 / 4 | Improves every soldier, favoring population builds |
+| Blacksmith | 3 / 2 / 3 | 5 / 3 / 5 | Improves hero and soldiers, favoring concentrated damage |
 
-Balance audit: no opening purchase is dominant. Immediate fortification protects
-the first night but gives up population and future food; Barracks/Farm/House
-growth gives more options but leaves less immediate structure coverage. The main
-trap is spending Mine Iron on both Ballistas and Blacksmith upgrades before
-choosing which defense plan the night needs. Level-3 Blacksmith and defense
-upgrades are intentionally late-run luxuries: they are useful before Night 3,
-but their escalating costs prevent them from crowding out the first-night plan.
+Repairs remain cheaper than replacement, so recovery is practical but consumes
+part of the projected surplus. Shrine costs are now 2 Essence for healing, 4
+for a blessing, and 5 for a ward. Day 1's expected 8 Essence cannot buy both a
+blessing and a ward, and the ten-day total cannot fund a ward every night plus
+unlimited progression. Essence therefore remains a tactical budget.
 
-Upgrade costs escalate by next level. Blacksmith upgrades cost 2 Wood + 1 Stone
-+ 2 Iron, then 3 Wood + 2 Stone + 3 Iron; non-gate defenses cost 2/1/1 and
-then 3/2/2 (Wood/Stone/Iron). Repairs stay cheaper than replacement, so losing
-a structure hurts the current plan without making the run unrecoverable.
+## Progression targets
+
+| Timing | Healthy target, not a requirement |
+| --- | --- |
+| Day 1 | Commit to immediate defenses, Barracks access, or House/Farm growth; cover at least one lane |
+| Days 2–3 | Reach 2–3 defenses and one enabling village building; decide whether early rescues become Workers or soldiers |
+| Days 4–5 | Establish the run's main identity; begin level-2 upgrades and maintain a repair reserve |
+| Days 6–7 | Complete one level-3 keystone (Blacksmith, Barracks, Gate, or core defense) rather than upgrading everything evenly |
+| Days 8–9 | Hold 5–7 mixed defenses or an equivalent soldier-heavy plan; prepare both lanes and reserve resources for damage repair |
+| Day 10 | Repair and finish the most valuable upgrade; gathering is optional preparation, not a mandatory full-map sweep |
+
+## Expected run duration
+
+Ten full days total 27 minutes 30 seconds. The deterministic wave scripts add
+9 minutes 58 seconds of minimum spawn pacing across Nights 1–10. Nights are
+kill-gated, so combat cleanup, the final boss, village management, and travel
+after dusk add variable time. A successful run is expected to take roughly
+42–50 minutes; experienced players who skip completed days can finish faster.

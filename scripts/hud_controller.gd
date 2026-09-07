@@ -146,16 +146,26 @@ func _configure_compact_hud() -> void:
 
 	stats_panel.offset_left = 14.0
 	stats_panel.offset_top = 14.0
-	stats_panel.offset_right = 230.0
+	stats_panel.offset_right = 244.0
+	stats_panel.offset_bottom = 104.0
 	stats_panel.get_node("Content/VBox").add_theme_constant_override("separation", 4)
-	weapon_icon.custom_minimum_size = Vector2(20.0, 20.0)
-	weapon_label.add_theme_font_size_override("font_size", 16)
+	weapon_icon.hide()
+	weapon_label.hide()
+	level_label.hide()
+	xp_label.hide()
+	xp_bar.hide()
+	damage_label.hide()
+	speed_label.hide()
+	projectiles_label.hide()
+	controls_label.hide()
 	xp_bar.custom_minimum_size.y = 7.0
 	hp_bar.custom_minimum_size.y = 8.0
 	core_hp_bar.custom_minimum_size.y = 7.0
 
 	resource_strip.offset_left = 14.0
-	resource_strip.offset_right = 260.0
+	resource_strip.offset_top = 110.0
+	resource_strip.offset_right = 270.0
+	resource_strip.offset_bottom = 146.0
 	resource_strip.get_node("Content/HBox").add_theme_constant_override("separation", 5)
 	for child: Node in resource_strip.get_node("Content/HBox").get_children():
 		if child is TextureRect:
@@ -163,7 +173,7 @@ func _configure_compact_hud() -> void:
 
 	population_panel.anchor_left = 1.0
 	population_panel.anchor_right = 1.0
-	population_panel.offset_left = -252.0
+	population_panel.offset_left = -272.0
 	population_panel.offset_top = 14.0
 	population_panel.offset_right = -14.0
 	population_panel.get_node("Content/VBox").add_theme_constant_override("separation", 5)
@@ -175,20 +185,21 @@ func _configure_compact_hud() -> void:
 
 	buildings_panel.anchor_left = 1.0
 	buildings_panel.anchor_right = 1.0
-	buildings_panel.offset_left = -252.0
+	buildings_panel.offset_left = -272.0
 	buildings_panel.offset_right = -14.0
 	buildings_panel.get_node("Content/VBox").add_theme_constant_override("separation", 5)
-	phase_panel.offset_left = -180.0
+	phase_panel.offset_left = -220.0
 	phase_panel.offset_top = 10.0
-	phase_panel.offset_right = 180.0
-	phase_panel.offset_bottom = 98.0
+	phase_panel.offset_right = 220.0
+	phase_panel.offset_bottom = 92.0
 	phase_panel.get_node("Content/VBox").add_theme_constant_override("separation", 3)
 	var phase_time: Label = phase_panel.get_node("Content/VBox/PhaseTimeLabel") as Label
-	phase_time.add_theme_font_size_override("font_size", 20)
+	phase_time.add_theme_font_size_override("font_size", 18)
 	var phase_title: Label = phase_panel.get_node("Content/VBox/PhaseLabel") as Label
 	phase_title.add_theme_font_size_override("font_size", 13)
 	var objective: Label = phase_panel.get_node("Content/VBox/ObjectiveLabel") as Label
-	objective.add_theme_font_size_override("font_size", 11)
+	objective.add_theme_font_size_override("font_size", 12)
+	objective.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var wave: Label = phase_panel.get_node("Content/VBox/WaveLabel") as Label
 	wave.add_theme_font_size_override("font_size", 10)
 
@@ -213,8 +224,8 @@ func configure_weapon_tooltips() -> void:
 	manage_village_button.tooltip_text = "Open village assignments and settlement details."
 	var restart_button: Button = ui_root.get_node("GameOverPanel/Content/VBox/RestartButton") as Button
 	var victory_restart_button: Button = ui_root.get_node("VictoryPanel/Content/VBox/RestartButton") as Button
-	restart_button.tooltip_text = "Restart the current run."
-	victory_restart_button.tooltip_text = "Start a new run."
+	restart_button.tooltip_text = "Return to the title screen."
+	victory_restart_button.tooltip_text = "Return to the title screen."
 
 
 func show_toast(message: String, tone: String = "info") -> void:
@@ -471,35 +482,36 @@ func update_downed(time_left: float, duration: float, down_number: int, next_del
 
 
 func update_contextual(phase: int, downed: bool, level_panel_visible: bool) -> void:
-	controls_label.text = INPUT_ACTIONS.controls_hint()
 	var in_village: bool = is_village.is_valid() and bool(is_village.call())
-	var show_core_status: bool = in_village or phase == 1
-	core_hp_label.visible = show_core_status
-	core_hp_bar.visible = show_core_status
+	core_hp_label.show()
+	core_hp_bar.show()
 	var stats_panel: PanelContainer = ui_root.get_node("StatsPanel") as PanelContainer
-	stats_panel.offset_bottom = 184.0 if show_core_status else 157.0
-	resource_strip.offset_top = 190.0 if show_core_status else 163.0
-	resource_strip.offset_bottom = 230.0 if show_core_status else 203.0
-	element_panel.visible = player_actor.fire_level + player_actor.water_level + player_actor.earth_level + player_actor.air_level > 0
+	stats_panel.offset_bottom = 104.0
+	resource_strip.offset_top = 110.0
+	resource_strip.offset_bottom = 146.0
+	element_panel.hide()
+	var managing: bool = management_open.is_valid() and bool(management_open.call()) and in_village and phase == 0
 	if phase == 0:
 		resource_panel.hide()
 		resource_strip.show()
-		population_panel.visible = in_village
-		buildings_panel.visible = in_village
-		manage_village_button.visible = in_village
+		population_panel.visible = managing
+		buildings_panel.visible = managing
+		# Keep the action visible during the day so an unavailable state can
+		# explain itself; main.gd supplies the authoritative reason/disabled state.
+		manage_village_button.visible = true
 		manage_village_button.disabled = downed
-		set_village_management_layout(management_open.is_valid() and bool(management_open.call()) and in_village)
+		set_village_management_layout(managing)
 		houses_label.show()
 		farms_label.show()
 		barracks_label.hide()
 		blacksmith_label.hide()
-		phase_panel.offset_bottom = 98.0
+		phase_panel.offset_bottom = 92.0
 		ui_root.get_node("PhasePanel/Content/VBox/WaveLabel").hide()
 	else:
 		resource_panel.hide()
-		resource_strip.hide()
+		resource_strip.show()
 		population_panel.hide()
-		buildings_panel.show()
+		buildings_panel.hide()
 		manage_village_button.hide()
 		set_village_management_layout(false)
 		buildings_panel.offset_top = 120.0
@@ -508,10 +520,10 @@ func update_contextual(phase: int, downed: bool, level_panel_visible: bool) -> v
 		farms_label.hide()
 		barracks_label.hide()
 		blacksmith_label.hide()
-		phase_panel.offset_bottom = 122.0
+		phase_panel.offset_bottom = 112.0
 		ui_root.get_node("PhasePanel/Content/VBox/WaveLabel").show()
-	north_gate_label.show()
-	east_gate_label.show()
+	north_gate_label.visible = managing
+	east_gate_label.visible = managing
 	var pending: int = pending_upgrades.call() if pending_upgrades.is_valid() else 0
 	level_ready_label.visible = pending > 0 and not level_panel_visible
 	if pending > 0:

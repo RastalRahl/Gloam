@@ -1,3 +1,13 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Local release artifacts and archives
+*.exe
+*.pck
+*.zip
+*.rar
+
+# Captures, logs, and other verification output
+*.log
+/visual_comparison/

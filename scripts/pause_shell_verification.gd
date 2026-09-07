@@ -40,6 +40,7 @@ func _run() -> void:
 	_send_action(pause_menu, INPUT_ACTIONS.MENU_ACCEPT)
 	_check(settings_menu.is_open() and paused and pause_menu.is_open(), "Settings opens without losing pause ownership")
 	_check(settings_menu.sliders.size() == 4, "Settings exposes Master, Music, SFX, and UI volume")
+	_check(not (settings_menu.sliders["Music"] as HSlider).editable and (settings_menu.value_labels["Music"] as Label).text == "—", "Music is clearly unavailable when no music track is active")
 	_check(is_instance_valid(settings_menu.fullscreen_button), "Settings exposes fullscreen/windowed mode")
 	_check(is_instance_valid(settings_menu.reduce_shake_button), "Settings exposes screen-shake reduction")
 	_check(is_instance_valid(settings_menu.high_contrast_button), "Settings exposes high-contrast mode")

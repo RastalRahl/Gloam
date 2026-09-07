@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name GloamDayEnemy
 
+signal defeated
+
 const XP_ORB_SCENE := preload("res://scenes/xp_orb.tscn")
 const VISUAL_FEEDBACK := preload("res://scripts/visual_feedback.gd")
 const GIANT_BAT_IDLE := preload("res://assets/generated/tiny_swords/enemies/giant_bat/giant_bat_idle.png")
@@ -334,4 +336,5 @@ func _die() -> void:
         if bonus_resource != "" and randf() < bonus_chance:
             main.grant_exploration_reward(bonus_resource, 1)
 
+    defeated.emit()
     queue_free()
