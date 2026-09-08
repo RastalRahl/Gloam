@@ -42,6 +42,7 @@ var primary_gate: GloamGate
 var breach_marker: Node2D
 var approach_waypoints: PackedVector2Array = PackedVector2Array()
 var approach_index: int = 0
+var formation_lateral_offset: float = 0.0
 
 var hp: int
 var attack_cooldown: float = 0.0
@@ -62,6 +63,9 @@ var attack_animation_time: float = 0.0
 var facing_left: bool = false
 var night_outline_sprite: AnimatedSprite2D
 var night_readability_active: bool = false
+var encounter_behavior_id: String = ""
+var encounter_marker_color: Color = Color(1.0, 0.36, 0.20, 0.68)
+var elite_marker: Label
 
 @onready var sprite_visual: GloamAnimatedSpriteVisual = get_node_or_null("SpriteVisual") as GloamAnimatedSpriteVisual
 
@@ -74,6 +78,7 @@ func _ready() -> void:
 	_configure_visual()
 	_ensure_night_outline()
 	_setup_health_bar()
+	_setup_elite_marker()
 
 
 func _ensure_combat_colliders() -> void:
@@ -133,11 +138,48 @@ func set_approach_path(points: PackedVector2Array) -> void:
 	approach_index = 0
 
 
+func set_formation_slot(slot: int) -> void:
+	# Four deterministic sub-lanes reduce sprite stacking without changing path
+	# progression, movement speed, target choice, or collision statistics.
+	var offsets: Array[float] = [-36.0, -12.0, 12.0, 36.0]
+	formation_lateral_offset = offsets[posmod(slot, offsets.size())]
+
+
+func route_position_with_formation(point_index: int) -> Vector2:
+	if approach_waypoints.is_empty():
+		return global_position
+	var index: int = clampi(point_index, 0, approach_waypoints.size() - 1)
+	if is_zero_approx(formation_lateral_offset):
+		return approach_waypoints[index]
+	var previous: Vector2 = approach_waypoints[maxi(0, index - 1)]
+	var following: Vector2 = approach_waypoints[mini(approach_waypoints.size() - 1, index + 1)]
+	var direction: Vector2 = previous.direction_to(following)
+	if direction.length_squared() <= 0.001:
+		return approach_waypoints[index]
+	return approach_waypoints[index] + Vector2(-direction.y, direction.x) * formation_lateral_offset
+
+
 func set_night_readability(active: bool) -> void:
 	night_readability_active = active
 	_ensure_night_outline()
 	if is_instance_valid(night_outline_sprite):
 		night_outline_sprite.visible = active
+	if is_instance_valid(elite_marker):
+		elite_marker.visible = active and not encounter_behavior_id.is_empty()
+	_update_health_bar()
+
+
+func apply_encounter_behavior(behavior: Dictionary) -> void:
+	encounter_behavior_id = str(behavior.get("id", ""))
+	if encounter_behavior_id.is_empty():
+		return
+	max_hp = maxi(1, roundi(float(max_hp) * maxf(0.1, float(behavior.get("hp_multiplier", 1.0)))))
+	move_speed *= maxf(0.1, float(behavior.get("speed_multiplier", 1.0)))
+	attack_damage = maxi(1, roundi(float(attack_damage) * maxf(0.1, float(behavior.get("damage_multiplier", 1.0)))))
+	attack_interval *= maxf(0.1, float(behavior.get("attack_interval_multiplier", 1.0)))
+	encounter_marker_color = behavior.get("marker_color", encounter_marker_color) as Color
+	set_meta("encounter_behavior", encounter_behavior_id)
+	set_meta("encounter_behavior_label", str(behavior.get("label", encounter_behavior_id.to_upper())))
 
 
 func _ensure_night_outline() -> void:
@@ -153,11 +195,29 @@ func _ensure_night_outline() -> void:
 	night_outline_sprite.z_index = -1
 	night_outline_sprite.show_behind_parent = true
 	night_outline_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	night_outline_sprite.modulate = Color(1.0, 0.36, 0.20, 0.68)
+	night_outline_sprite.modulate = encounter_marker_color
 	night_outline_sprite.scale = source_sprite.scale * VISUALS.NIGHT_OUTLINE_SCALE
 	night_outline_sprite.stop()
 	night_outline_sprite.visible = night_readability_active
 	sprite_visual.add_child(night_outline_sprite)
+
+
+func _setup_elite_marker() -> void:
+	if encounter_behavior_id.is_empty() or is_instance_valid(elite_marker):
+		return
+	elite_marker = Label.new()
+	elite_marker.name = "EliteMarker"
+	elite_marker.text = "◆"
+	elite_marker.position = Vector2(-6.0, -48.0 if visual_profile == "troll" else -34.0)
+	elite_marker.add_theme_font_size_override("font_size", 13)
+	elite_marker.add_theme_color_override("font_color", encounter_marker_color)
+	elite_marker.add_theme_color_override("font_shadow_color", Color(0.04, 0.03, 0.04, 0.95))
+	elite_marker.add_theme_constant_override("shadow_offset_x", 1)
+	elite_marker.add_theme_constant_override("shadow_offset_y", 1)
+	elite_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	elite_marker.z_index = 12
+	elite_marker.visible = night_readability_active
+	add_child(elite_marker)
 
 
 func _sync_night_outline() -> void:
@@ -228,10 +288,10 @@ func _physics_process(delta: float) -> void:
 func _movement_target_for(target: Node2D) -> Vector2:
 	if target != primary_gate and target != breach_marker:
 		return target.global_position
-	while approach_index < approach_waypoints.size() and global_position.distance_to(approach_waypoints[approach_index]) <= 24.0:
+	while approach_index < approach_waypoints.size() and global_position.distance_to(route_position_with_formation(approach_index)) <= 24.0:
 		approach_index += 1
 	if approach_index < approach_waypoints.size():
-		return approach_waypoints[approach_index]
+		return route_position_with_formation(approach_index)
 	return target.global_position
 
 
@@ -425,7 +485,7 @@ func _update_health_bar() -> void:
 
 	var ratio: float = clampf(float(hp) / float(max_hp), 0.0, 1.0)
 	health_bar_fill.size = Vector2(34.0 * ratio, 3.0)
-	health_bar_bg.visible = hp > 0 and hp < max_hp
+	health_bar_bg.visible = hp > 0 and (hp < max_hp or (night_readability_active and visual_profile == "troll"))
 
 
 func _show_hit_feedback() -> void:

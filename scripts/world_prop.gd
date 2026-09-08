@@ -4,6 +4,7 @@ class_name GloamWorldProp
 
 const ASSETS := preload("res://scripts/tiny_swords_asset_config.gd")
 const VISUALS := preload("res://scripts/visual_constants.gd")
+const COMBAT_FADE_ALPHA: float = 0.38
 
 @export_enum(
 	"tree_1", "tree_2", "bush_1", "bush_2", "rock_1", "rock_2",
@@ -55,6 +56,11 @@ func _apply_configuration() -> void:
 	var profile_scale: float = float(profile["visual_scale"])
 	var profile_footprint: Vector2 = profile["footprint_size"]
 	var profile_collision: bool = bool(profile["collision_enabled"])
+	var is_foliage: bool = str(profile["category"]) in ["tree", "bush"]
+	if is_foliage and not is_in_group("combat_foliage"):
+		add_to_group("combat_foliage")
+	elif not is_foliage and is_in_group("combat_foliage"):
+		remove_from_group("combat_foliage")
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	z_as_relative = false
 	z_index = int(round(global_position.y))
@@ -63,7 +69,7 @@ func _apply_configuration() -> void:
 	set_meta("cluster", cluster_name)
 	set_meta("footprint", profile_footprint)
 
-	var animated: bool = bool(profile["category"] in ["tree", "bush"])
+	var animated: bool = is_foliage
 	animated_sprite.visible = animated
 	static_sprite.visible = not animated
 	if animated:
@@ -94,3 +100,7 @@ func _apply_configuration() -> void:
 	footprint_body.collision_mask = 0
 	footprint_body.set_meta("collision_category", "prop")
 	footprint_body.add_to_group("prop_collision")
+
+
+func set_combat_readability_fade(active: bool) -> void:
+	modulate.a = COMBAT_FADE_ALPHA if active else 1.0

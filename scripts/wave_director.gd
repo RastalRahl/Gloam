@@ -235,9 +235,7 @@ func _start_next_wave(token: int) -> void:
 
 func _run_wave_spawns(wave: Dictionary, token: int, this_wave_index: int) -> bool:
 	var expected_count: int = maxi(0, int(wave.get("count", 0)))
-	var gap: float = maxf(0.0, float(wave.get("gap", 0.0)))
 	var lane: String = str(wave.get("lane", "north"))
-	var families: Array = wave.get("families", ["grunt"]) as Array
 	for spawn_index: int in range(expected_count):
 		if not await _wait_for_spawn_capacity(token):
 			return false
@@ -246,11 +244,12 @@ func _run_wave_spawns(wave: Dictionary, token: int, this_wave_index: int) -> boo
 			spawned = spawn_boss.is_valid() and bool(spawn_boss.call())
 		else:
 			var spawn_lane: String = ("north" if spawn_index % 2 == 0 else "east") if lane == "split" else lane
-			var family: String = str(families[spawn_index % maxi(1, families.size())]) if not families.is_empty() else "grunt"
-			spawned = spawn_enemy.is_valid() and bool(spawn_enemy.call(spawn_lane, family))
+			var entry: Dictionary = NIGHT_WAVE_SCHEDULE.spawn_entry(wave, spawn_index)
+			spawned = spawn_enemy.is_valid() and bool(spawn_enemy.call(spawn_lane, str(entry["family"]), entry["behavior"]))
 		if not spawned:
 			_cancel_wave("wave %d cancelled: required spawn unavailable" % (this_wave_index + 1))
 			return false
+		var gap: float = NIGHT_WAVE_SCHEDULE.spawn_gap(wave, spawn_index)
 		if gap > 0.0 and spawn_index < expected_count - 1 and not await wait_for_gameplay_delay(gap):
 			return false
 	return true

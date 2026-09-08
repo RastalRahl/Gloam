@@ -38,8 +38,10 @@ func _draw() -> void:
 		var lane: String = str(threat.get("lane", "NORTH"))
 		var direction: String = str(threat.get("direction", "↓"))
 		var urgency: String = str(threat.get("urgency", "WATCH"))
+		var hostile_count: int = int(threat.get("count", 0))
+		var priority: String = str(threat.get("priority", urgency))
 		var accent: Color = Color(1.0, 0.86, 0.24, 1.0) if high_contrast else threat.get("color", Color(0.95, 0.36, 0.24, 1.0))
-		var box_size := Vector2(198.0, 46.0)
+		var box_size := Vector2(218.0, 46.0)
 		var box_position := Vector2(226.0, 14.0)
 
 		if lane == "EAST":
@@ -55,5 +57,11 @@ func _draw() -> void:
 			false,
 			accent
 		)
-		draw_string(font, box_position + Vector2(39.0, 19.0), "%s  %s GATE" % [direction, lane], HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color(0.98, 0.88, 0.67, 1.0))
-		draw_string(font, box_position + Vector2(39.0, 35.0), "OFF-SCREEN  •  %s" % urgency, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 9, accent)
+		var heading: String = "%s %s GATE" % [direction, lane]
+		if hostile_count > 0:
+			heading += "  •  %s" % urgency
+		draw_string(font, box_position + Vector2(39.0, 19.0), heading, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color(0.98, 0.88, 0.67, 1.0))
+		var detail: String = "OFF-SCREEN  •  %s" % urgency
+		if hostile_count > 0:
+			detail = "%d OFF-SCREEN  •  %s" % [hostile_count, priority]
+		draw_string(font, box_position + Vector2(39.0, 35.0), detail, HORIZONTAL_ALIGNMENT_LEFT, -1.0, 9, accent)

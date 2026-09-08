@@ -105,10 +105,39 @@ unlimited progression. Essence therefore remains a tactical budget.
 | Days 8–9 | Hold 5–7 mixed defenses or an equivalent soldier-heavy plan; prepare both lanes and reserve resources for damage repair |
 | Day 10 | Repair and finish the most valuable upgrade; gathering is optional preparation, not a mandatory full-map sweep |
 
+## Night encounter pacing
+
+The assault schedule is authored in `scripts/night_wave_schedule.gd`. Enemy
+counts now rise modestly after Night 3; the main progression from Nights 4–9
+comes from announced formations and marked elites instead of continuously
+larger waves and shorter gaps.
+
+| Night | Ordinary enemies | Active cap | Encounter lesson |
+| ---: | ---: | ---: | --- |
+| 1 | 18 | 20 | Grunts, then the first runners; standard waves only |
+| 2 | 28 | 20 | Lane switching and runner mixes |
+| 3 | 38 | 20 | Ranged enemies and brutes complete the base-family tutorial |
+| 4 | 42 | 24 | **Armored Vanguard:** slow, gold-marked Bulwarks lead selected waves |
+| 5 | 45 | 24 | **Hunting Pack:** orange-marked, fragile Chargers arrive in three-beat bursts |
+| 6 | 48 | 26 | Vanguards and packs alternate in separate waves, with standard recovery waves |
+| 7 | 54 | 28 | **Screened Volley:** purple-marked, fragile Deadeyes fire harder from behind ordinary screens |
+| 8 | 56 | 30 | All three learned rules rotate, never occupying the same wave |
+| 9 | 62 | 32 | **Combined Arms** is announced before marked elites first share a wave |
+| 10 | 72 | 36 | Combined-arms exam, then the existing Troll Chieftain boss |
+
+Every incoming-wave HUD warning names the lane, modifier, and plain-language
+counterplay cue. Elite units also carry a colored diamond and matching outline.
+Bulwarks trade speed for health, while Chargers and Deadeyes trade health for
+their pressure advantage. None changes damage types, targeting, range,
+resistances, or status susceptibility, so an established build keeps its answer.
+Modified waves before the boss grant at least seven seconds of breathing room;
+standard waves between them keep the cadence from becoming continuous pressure.
+
 ## Expected run duration
 
 Ten full days total 27 minutes 30 seconds. The deterministic wave scripts add
-9 minutes 58 seconds of minimum spawn pacing across Nights 1–10. Nights are
+12 minutes 36 seconds of minimum spawn pacing across Nights 1–10, including
+the longer encounter telegraphs and recovery windows. Nights are
 kill-gated, so combat cleanup, the final boss, village management, and travel
 after dusk add variable time. A successful run is expected to take roughly
-42–50 minutes; experienced players who skip completed days can finish faster.
+43–51 minutes; experienced players who skip completed days can finish faster.

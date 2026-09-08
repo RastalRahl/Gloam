@@ -3,15 +3,16 @@ class_name GloamAudioHooks
 
 ## Centralized audio router.
 ##
-## The project intentionally contains no imported sound bank. These short PCM
-## streams are synthesized at runtime, so the placeholder set is original to
-## Gloam and carries no third-party licensing uncertainty.
+## Playback is restricted to manifest-recorded assets; missing assets are
+## intentionally silent rather than synthesized.
 
 signal requested(event_name: String, world_position: Vector2, intensity: float)
 signal event_played(event_name: String, bus_name: String, world_position: Vector2, intensity: float)
 signal settings_changed
+signal asset_missing(event_name: String)
 
 const AUDIO_SETTINGS_MENU := preload("res://scripts/audio_settings_menu.gd")
+const AUDIO_MANIFEST := preload("res://scripts/audio_asset_manifest.gd")
 const SETTINGS_PATH: String = "user://gloam_audio_settings.cfg"
 const SAMPLE_RATE: int = 22050
 const MAX_SFX_VOICES: int = 12
@@ -42,7 +43,16 @@ const EVENT_SPECS: Dictionary = {
 	"ui_open": {"bus": "UI", "frequency": 300.0, "end_frequency": 430.0, "duration": 0.09, "gain": 0.22, "wave": "sine", "cooldown": 0.08, "priority": 1, "positional": false},
 	"ui_confirm": {"bus": "UI", "frequency": 430.0, "end_frequency": 620.0, "duration": 0.12, "gain": 0.25, "wave": "sine", "cooldown": 0.08, "priority": 1, "positional": false},
 	"ui_cancel": {"bus": "UI", "frequency": 300.0, "end_frequency": 190.0, "duration": 0.10, "gain": 0.20, "wave": "sine", "cooldown": 0.08, "priority": 1, "positional": false},
-	"ui_error": {"bus": "UI", "frequency": 135.0, "end_frequency": 105.0, "duration": 0.13, "gain": 0.25, "wave": "square", "cooldown": 0.12, "priority": 1, "positional": false}
+	"ui_error": {"bus": "UI", "frequency": 135.0, "end_frequency": 105.0, "duration": 0.13, "gain": 0.25, "wave": "square", "cooldown": 0.12, "priority": 1, "positional": false},
+	"dawn_transition": {"bus": "UI", "gain": 0.5, "cooldown": 1.0, "priority": 2, "positional": false},
+	"dusk_transition": {"bus": "UI", "gain": 0.5, "cooldown": 1.0, "priority": 2, "positional": false},
+	"ambience_village_day": {"bus": "SFX", "gain": 0.25, "cooldown": 2.0, "priority": 0, "positional": false},
+	"ambience_forest_day": {"bus": "SFX", "gain": 0.25, "cooldown": 2.0, "priority": 0, "positional": false},
+	"ambience_mine_day": {"bus": "SFX", "gain": 0.25, "cooldown": 2.0, "priority": 0, "positional": false},
+	"ambience_ruins_day": {"bus": "SFX", "gain": 0.25, "cooldown": 2.0, "priority": 0, "positional": false},
+	"ambience_night": {"bus": "SFX", "gain": 0.22, "cooldown": 2.0, "priority": 0, "positional": false},
+	"music_day": {"bus": "Music", "gain": 0.20, "cooldown": 2.0, "priority": 0, "positional": false},
+	"music_night": {"bus": "Music", "gain": 0.20, "cooldown": 2.0, "priority": 0, "positional": false}
 }
 
 var settings_path: String = SETTINGS_PATH
@@ -92,6 +102,8 @@ func request(event_name: String, world_position: Vector2, intensity: float = 1.0
 	var previous_time: float = float(last_event_time.get(event_name, -INF))
 	if now - previous_time < cooldown:
 		return
+	# Missing manifest assets participate in the same event cooldown contract.
+	last_event_time[event_name] = now
 
 	var voice: Node = _take_voice(str(spec.get("bus", "SFX")), int(spec.get("priority", 1)))
 	if not is_instance_valid(voice):
@@ -99,14 +111,14 @@ func request(event_name: String, world_position: Vector2, intensity: float = 1.0
 
 	var variants: Array = stream_bank.get(event_name, [])
 	if variants.is_empty():
+		asset_missing.emit(event_name)
 		return
 
 	var variant_index: int = int(abs(Time.get_ticks_msec() + event_name.hash())) % variants.size()
-	var stream: AudioStreamWAV = variants[variant_index] as AudioStreamWAV
+	var stream: AudioStream = variants[variant_index] as AudioStream
 	if not is_instance_valid(stream):
 		return
 
-	last_event_time[event_name] = now
 	var gain: float = clampf(safe_intensity * float(spec.get("gain", 0.3)), 0.0, 1.0)
 	if voice is AudioStreamPlayer2D:
 		var positional_voice: AudioStreamPlayer2D = voice as AudioStreamPlayer2D
@@ -208,62 +220,13 @@ func _save_settings() -> void:
 
 
 func _build_stream_bank() -> void:
-	for event_name: String in EVENT_SPECS.keys():
-		var spec: Dictionary = EVENT_SPECS[event_name]
-		var variants: Array[AudioStreamWAV] = []
-		variants.append(_build_stream(spec, event_name, 0))
-		variants.append(_build_stream(spec, event_name, 1))
+	for event_name: String in AUDIO_MANIFEST.REQUIRED_EVENTS:
+		var variants: Array[AudioStream] = []
+		for path: String in AUDIO_MANIFEST.paths_for(event_name):
+			if ResourceLoader.exists(path):
+				var stream := load(path) as AudioStream
+				if is_instance_valid(stream): variants.append(stream)
 		stream_bank[event_name] = variants
-
-
-func _build_stream(spec: Dictionary, event_name: String, variant: int) -> AudioStreamWAV:
-	var duration: float = maxf(0.025, float(spec.get("duration", 0.1)))
-	var sample_count: int = maxi(1, int(round(duration * SAMPLE_RATE)))
-	var start_frequency: float = maxf(20.0, float(spec.get("frequency", 220.0)))
-	var end_frequency: float = maxf(20.0, float(spec.get("end_frequency", start_frequency)))
-	var gain: float = clampf(float(spec.get("gain", 0.3)), 0.0, 1.0)
-	var wave: String = str(spec.get("wave", "sine"))
-	var data := PackedByteArray()
-	data.resize(sample_count * 2)
-
-	var phase: float = float(variant) * 0.7
-	var noise_rng := RandomNumberGenerator.new()
-	noise_rng.seed = absi(event_name.hash() + variant * 7919)
-	for index in range(sample_count):
-		var progress: float = float(index) / float(maxi(1, sample_count - 1))
-		var frequency: float = lerpf(start_frequency, end_frequency, progress)
-		phase += TAU * frequency / float(SAMPLE_RATE)
-		var tone: float = sin(phase)
-		match wave:
-			"square":
-				tone = 1.0 if tone >= 0.0 else -1.0
-			"saw":
-				tone = 2.0 * fmod(phase / TAU, 1.0) - 1.0
-			"triangle":
-				tone = (2.0 / PI) * asin(clampf(sin(phase), -1.0, 1.0))
-			"noise":
-				tone = noise_rng.randf_range(-1.0, 1.0)
-			"noise_tone":
-				tone = tone * 0.55 + noise_rng.randf_range(-1.0, 1.0) * 0.45
-
-		var envelope: float = 1.0
-		var attack_samples: int = maxi(1, int(SAMPLE_RATE * minf(0.012, duration * 0.25)))
-		var release_samples: int = maxi(1, int(SAMPLE_RATE * minf(0.08, duration * 0.40)))
-		if index < attack_samples:
-			envelope = float(index) / float(attack_samples)
-		elif index >= sample_count - release_samples:
-			envelope = float(sample_count - index) / float(release_samples)
-
-		var sample_value: int = clampi(int(round(tone * envelope * gain * 32767.0)), -32767, 32767)
-		data[index * 2] = sample_value & 0xff
-		data[index * 2 + 1] = (sample_value >> 8) & 0xff
-
-	var stream := AudioStreamWAV.new()
-	stream.format = AudioStreamWAV.FORMAT_16_BITS
-	stream.mix_rate = SAMPLE_RATE
-	stream.stereo = false
-	stream.data = data
-	return stream
 
 
 func _create_voice_pools() -> void:

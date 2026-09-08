@@ -22,6 +22,11 @@ deterministic verification scenes provide their own fixed debug seeds. Any
 failed assertion prints the expected and actual values where available and the
 process exits nonzero; the wrapper stops before later stages on failure.
 
+Late-night profiling and representative visual captures are diagnostics rather
+than machine-dependent pass/fail timing gates. Their commands, fixture shape,
+baseline, and latest measurements are recorded in
+`combat_readability_performance.md`.
+
 Coverage map:
 
 | Failure-prone system | Coverage |
@@ -33,9 +38,11 @@ Coverage map:
 | Scene-authored hierarchy, gate alignment/state, spawn markers, and approach paths | `world_authoring_verification.gd` |
 | Authored prop footprints and marker-driven resources | `vegetation_resource_verification.gd` |
 | 165-second ten-night days, guarded skip/confirmation, outside-village dusk return, authored edge spawns, route/gate behavior, and cancellation safety | `assault_loop_verification.gd` |
-| All ten schedules, exact ordinary-enemy totals, wave mixes, active caps, and final boss wave | `night_wave_verification.gd` |
+| All ten schedules, exact ordinary-enemy totals, modifier introduction order, deterministic elite slots/family order, recovery windows, build-safe behavior keys, active caps, and final boss wave | `night_wave_verification.gd` |
+| Accelerated traversal of all ten nights through production spawners, split lanes, real active caps, required-hostile accounting, and the Night 10 boss | `ten_night_combat_soak.gd` |
 | Kill-gated completion, pending-work preservation at capacity, invalid-instance handling, cancellation, and final-boss victory gating | `regression_suite.gd` |
 | Boss instance spawns exactly once | `boss_spawn_verification.gd` |
+| At-cap formation overlap, foreground-foliage fade, large-hostile health visibility, split-lane warnings, and off-screen count/priority | `assault_progression_capture.gd` |
 | Game over cancellation and player down/respawn escalation | `player_down_verification.gd` |
 | Soldier return-to-post | `regression_suite.gd` |
 | Build/upgrade/destroy/rebuild, bonuses, farm, and population capacity | `settlement_verification.gd` and `regression_suite.gd` |

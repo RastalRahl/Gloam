@@ -2,6 +2,7 @@ extends SceneTree
 
 const MAIN_SCENE := preload("res://scenes/main.tscn")
 const AUDIO_HOOKS := preload("res://scripts/audio_hooks.gd")
+const AUDIO_MANIFEST := preload("res://scripts/audio_asset_manifest.gd")
 
 const TEST_SETTINGS_PATH: String = "user://gloam_audio_verification.cfg"
 const BUS_NAMES: Array[String] = ["Master", "Music", "SFX", "UI"]
@@ -45,19 +46,19 @@ func _run() -> void:
 	_check(AudioServer.get_bus_send(AudioServer.get_bus_index("SFX")) == "Master", "SFX sends to Master")
 	_check(AudioServer.get_bus_send(AudioServer.get_bus_index("UI")) == "Master", "UI sends to Master")
 
-	var routed_events: Array[String] = []
-	router.event_played.connect(func(event_name: String, _bus: String, _position: Vector2, _intensity: float): routed_events.append(event_name))
+	var missing_events: Array[String] = []
+	router.asset_missing.connect(func(event_name: String): missing_events.append(event_name))
 	for event_name: String in MAJOR_EVENTS:
 		router.request(event_name, Vector2(120.0, 220.0), 1.0)
-		_check(routed_events.has(event_name), "event routes: %s" % event_name)
-		await create_timer(0.25).timeout
+		_check(missing_events.has(event_name), "uninstalled production asset is explicitly reported: %s" % event_name)
+	_check(AUDIO_MANIFEST.REQUIRED_EVENTS.size() >= MAJOR_EVENTS.size() + 10, "manifest covers transitions, ambience, and restrained music")
 
 	await create_timer(0.1).timeout
-	var before_throttle: int = routed_events.size()
+	var before_throttle: int = missing_events.size()
 	router.request("enemy_hit", Vector2.ZERO, 1.0)
 	for index in range(29):
 		router.request("enemy_hit", Vector2(index * 8.0, 220.0), 1.0)
-	_check(routed_events.size() == before_throttle + 1, "rapid enemy hits are throttled")
+	_check(missing_events.size() <= before_throttle + 1, "rapid missing-asset requests are throttled")
 
 	var old_sfx_volume: float = router.get_bus_volume("SFX")
 	var old_sfx_mute: bool = router.is_bus_muted("SFX")

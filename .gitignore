@@ -10,4 +10,5 @@
 
 # Captures, logs, and other verification output
 *.log
-/visual_comparison/
+/visual_comparison/*
+!/visual_comparison/assault_night_06_mid.png

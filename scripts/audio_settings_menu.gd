@@ -118,7 +118,7 @@ func _build_ui() -> void:
 	vbox.add_child(title)
 
 	var description := Label.new()
-	description.text = "Generated Gloam feedback tones\nChanges are saved locally."
+	description.text = "Audio controls\nChanges are saved locally."
 	description.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vbox.add_child(description)

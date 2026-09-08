@@ -21,13 +21,13 @@ const EXPECTED_WAVE_COUNTS: Array[Array] = [
 	[5, 6, 7],
 	[6, 7, 7, 8],
 	[8, 9, 10, 11],
-	[9, 9, 10, 10, 12],
-	[11, 12, 12, 13, 14],
-	[11, 12, 12, 13, 14, 14],
-	[14, 14, 15, 15, 16, 16],
-	[14, 15, 15, 15, 15, 16, 16],
-	[16, 17, 17, 18, 18, 19, 19],
-	[18, 19, 19, 20, 21, 21, 22, 1],
+	[8, 8, 9, 8, 9],
+	[8, 9, 9, 9, 10],
+	[8, 8, 8, 8, 8, 8],
+	[8, 8, 9, 9, 10, 10],
+	[8, 8, 8, 8, 8, 8, 8],
+	[8, 8, 9, 9, 9, 9, 10],
+	[9, 9, 10, 10, 10, 11, 13, 1],
 ]
 
 var failures: int = 0
@@ -55,7 +55,7 @@ func _run() -> void:
 
 func _test_wave_plan() -> void:
 	print("-- wave schedule")
-	var target_totals: Array[int] = [18, 28, 38, 50, 62, 76, 90, 106, 124, 140]
+	var target_totals: Array[int] = [18, 28, 38, 42, 45, 48, 54, 56, 62, 72]
 	for night_number in range(1, 11):
 		var plan: Array[Dictionary] = NIGHT_WAVE_SCHEDULE.for_night(night_number, 15.0)
 		var expected_plan: Array = EXPECTED_WAVE_COUNTS[night_number - 1]
@@ -74,8 +74,8 @@ func _test_wave_plan() -> void:
 			])
 			_expect(actual_count == expected_count, "Night %d wave %d completes" % [night_number, wave_index + 1], expected_count, actual_count)
 			elapsed += NIGHT_WAVE_SCHEDULE.pre_spawn_delay(wave)
-			var gap: float = maxf(0.0, float(wave.get("gap", 0.0)))
-			elapsed += float(maxi(0, actual_count - 1)) * gap
+			for spawn_index: int in range(maxi(0, actual_count - 1)):
+				elapsed += NIGHT_WAVE_SCHEDULE.spawn_gap(wave, spawn_index)
 			if wave_index < plan.size() - 1:
 				elapsed += NIGHT_WAVE_SCHEDULE.breathing_delay(wave)
 
@@ -83,7 +83,7 @@ func _test_wave_plan() -> void:
 		_expect(is_equal_approx(declared_duration, elapsed), "Night %d duration matches all spawn work" % night_number, declared_duration, elapsed)
 		_expect(NIGHT_WAVE_SCHEDULE.ordinary_total(night_number) == target_totals[night_number - 1], "Night %d ordinary pressure total" % night_number, target_totals[night_number - 1], NIGHT_WAVE_SCHEDULE.ordinary_total(night_number))
 		_expect((str(plan.back().get("lane", "")) == "boss") == (night_number == 10), "boss is scheduled only on Night 10")
-		_expect(NIGHT_WAVE_SCHEDULE.active_enemy_cap(night_number) in [20, 30, 40, 48], "Night %d has a scalable active cap" % night_number)
+		_expect(NIGHT_WAVE_SCHEDULE.active_enemy_cap(night_number) >= 20 and NIGHT_WAVE_SCHEDULE.active_enemy_cap(night_number) <= 36, "Night %d has a bounded active cap" % night_number)
 
 
 func _test_ten_day_economy() -> void:
@@ -127,7 +127,7 @@ func _test_phase_and_wave_lifecycle() -> void:
 	var wave_director: GloamWaveDirector = WAVE_DIRECTOR.new()
 	root.add_child(wave_director)
 	wave_director.configure(
-		func(_lane: String, _family: String) -> bool: return true,
+		func(_lane: String, _family: String, _behavior: Dictionary) -> bool: return true,
 		func() -> bool: return true,
 		func() -> bool: return true,
 		func(_wave: Dictionary) -> Vector2: return Vector2.ZERO
@@ -151,7 +151,7 @@ func _test_required_hostile_completion() -> void:
 	print("-- required hostile ledger")
 	var director: GloamWaveDirector = WAVE_DIRECTOR.new()
 	root.add_child(director)
-	director.configure(func(_lane: String, _family: String) -> bool: return true, func() -> bool: return true, func() -> bool: return true, func(_wave: Dictionary) -> Vector2: return Vector2.ZERO)
+	director.configure(func(_lane: String, _family: String, _behavior: Dictionary) -> bool: return true, func() -> bool: return true, func() -> bool: return true, func(_wave: Dictionary) -> Vector2: return Vector2.ZERO)
 	director.night_schedule_active = true
 	director.scheduled_spawn_count = 2
 	director.pending_spawn_count = 2

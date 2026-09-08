@@ -61,6 +61,7 @@ const DEPTH_SORT_ROOTS: Array[String] = [
 	"DayEnemies", "Shrines", "World/Regions/Village/Gates",
 	"World/Regions/Village/DefenseBuildSpots", "World/Regions/Village/VillageBuildSpots"
 ]
+const DYNAMIC_DEPTH_SORT_ROOTS: Array[String] = ["Soldiers", "Enemies", "DayEnemies"]
 
 @export var day_duration: float = 165.0
 @export var world_size: Vector2 = Vector2(2400, 1400)
@@ -407,6 +408,7 @@ var final_night_survival_complete: bool = false
 var final_boss_defeated: bool = false
 var dusk_return_pending: bool = false
 var skip_confirmation_time_left: float = 0.0
+var night_lane_spawn_serials: Dictionary = {}
 
 var current_upgrade_choices: Array[String]:
 	get:
@@ -433,6 +435,7 @@ func _ready() -> void:
 	DAY_EXPLORATION_LAYOUT.set_day_obstacles_active(day_obstacles, true)
 	world_visuals.set_layout_seed(exploration_seed)
 	_bind_authored_world()
+	_setup_world_depth_sort()
 
 	if upgrade_debug_seed != 0:
 		upgrade_rng.seed = upgrade_debug_seed
@@ -1071,7 +1074,6 @@ func _process(_delta: float) -> void:
 	_update_zone_status()
 	_update_contextual_hud()
 	_refresh_manage_village_control()
-	_update_night_readability_visuals()
 	_update_dusk_guidance()
 	if dusk_return_pending and _is_player_in_village() and not get_tree().paused:
 		_request_night_transition(false)
@@ -1100,12 +1102,33 @@ func _process(_delta: float) -> void:
 		_invalidate_contextual_interaction()
 
 
+func _setup_world_depth_sort() -> void:
+	# Static roots are sorted once on entry. Only moving actors remain in the
+	# per-frame path; the benchmark fixture previously re-wrote every static z.
+	for root_name: String in DEPTH_SORT_ROOTS:
+		var sort_root: Node = get_node_or_null(root_name)
+		if not is_instance_valid(sort_root):
+			continue
+		for child: Node in sort_root.get_children():
+			_apply_world_depth(child)
+		if not sort_root.child_entered_tree.is_connected(_apply_world_depth):
+			sort_root.child_entered_tree.connect(_apply_world_depth)
+
+
+func _apply_world_depth(child: Node) -> void:
+	var item: CanvasItem = child as CanvasItem
+	if not is_instance_valid(item) or not child is Node2D:
+		return
+	item.z_as_relative = false
+	item.z_index = int(round((child as Node2D).global_position.y))
+
+
 func _update_world_depth_sort() -> void:
 	# The gameplay managers retain their named roots for logic and tests, while
 	# all visible roots share one world-space depth convention.  A foot/foundation
 	# position is converted to an absolute z value so units can cross between
 	# groups and pass naturally behind or in front of trees and buildings.
-	for root_name: String in DEPTH_SORT_ROOTS:
+	for root_name: String in DYNAMIC_DEPTH_SORT_ROOTS:
 		var root: Node = get_node_or_null(root_name)
 		if not is_instance_valid(root):
 			continue
@@ -1368,6 +1391,10 @@ func _find_offscreen_lane_threat(gate: Node2D, lane: String) -> Dictionary:
 
 
 func _start_day(resuming_checkpoint: bool = false) -> void:
+	if not resuming_checkpoint:
+		play_audio_hook("dawn_transition", player.global_position, 0.7)
+	play_audio_hook("ambience_village_day", player.global_position, 0.35)
+	play_audio_hook("music_day", player.global_position, 0.25)
 	_invalidate_contextual_interaction()
 	village_management_input_latched = false
 	dusk_return_pending = false
@@ -1428,6 +1455,9 @@ func _start_day(resuming_checkpoint: bool = false) -> void:
 
 
 func _start_night() -> void:
+	play_audio_hook("dusk_transition", player.global_position, 0.7)
+	play_audio_hook("ambience_night", player.global_position, 0.35)
+	play_audio_hook("music_night", player.global_position, 0.22)
 	# The control disappears before any world mutation, regardless of whether
 	# this transition came from expiry, dusk return, or confirmed skipping.
 	skip_to_night_button.hide()
@@ -1472,15 +1502,18 @@ func _start_night() -> void:
 	# strategy view. Off-screen threats are called out by the edge overlay.
 	_update_contextual_hud()
 	phase_timer.stop()
+	night_lane_spawn_serials.clear()
 	wave_director.start_night(current_day, night_duration, final_boss_spawn_delay)
 
 
-func _spawn_enemy_in_lane(lane: String, family: String = "") -> bool:
+func _spawn_enemy_in_lane(lane: String, family: String = "", behavior: Dictionary = {}) -> bool:
 	if game_over or current_phase != Phase.NIGHT:
 		return false
 
 	var chosen_scene: PackedScene = _choose_enemy_scene(family)
 	var enemy: GloamEnemy = chosen_scene.instantiate() as GloamEnemy
+	if not behavior.is_empty():
+		enemy.apply_encounter_behavior(behavior)
 	enemy.move_speed *= NIGHT_ENEMY_MOVEMENT_MULTIPLIER
 	var authored_spawn: Dictionary = world_visuals.choose_night_spawn(lane, rng)
 	if authored_spawn.is_empty():
@@ -1488,6 +1521,11 @@ func _spawn_enemy_in_lane(lane: String, family: String = "") -> bool:
 		return false
 	enemy.global_position = authored_spawn["position"]
 	enemy.set_approach_path(authored_spawn["waypoints"])
+	var formation_slot: int = int(night_lane_spawn_serials.get(lane, 0))
+	night_lane_spawn_serials[lane] = formation_slot + 1
+	# Offset the east lane's slot cycle so converging lane segments do not pair
+	# identical sub-lanes near the village approach.
+	enemy.set_formation_slot(formation_slot + (2 if lane == "east" else 0))
 
 	if enemy.has_method("set_targets"):
 		enemy.set_targets(village_core, player)

@@ -31,11 +31,13 @@ try {
     Write-Host "=== GLOAM SLOW FULL-SCENE SMOKE REGRESSION ==="
     $sceneTests = @(
         "pause_shell_verification.gd",
+		"audio_verification.gd",
 		"title_checkpoint_navigation_verification.gd",
         "run_checkpoint_verification.gd",
         "architecture_verification.gd",
         "assault_loop_verification.gd",
         "night_wave_verification.gd",
+		"ten_night_combat_soak.gd",
         "boss_spawn_verification.gd",
         "settlement_verification.gd",
         "player_down_verification.gd",

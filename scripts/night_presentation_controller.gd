@@ -10,6 +10,8 @@ const NIGHT_THREAT_OVERLAY := preload("res://scripts/night_threat_overlay.gd")
 const PIXEL_SNAP_CAMERA := preload("res://scripts/pixel_snap_camera.gd")
 const VISUALS := preload("res://scripts/visual_constants.gd")
 const DAY_EXPLORATION_LAYOUT := preload("res://scripts/day_exploration_layout.gd")
+const READABILITY_UPDATE_INTERVAL: float = 0.10
+const FOLIAGE_BUCKET_WIDTH: float = 128.0
 
 var player_actor: GloamPlayer
 var village_core: GloamVillageCore
@@ -34,6 +36,10 @@ var lane_visuals: Node
 var threat_overlay: Node
 var dusk_warning_time: float = 12.0
 var telegraphed_lanes: Array[String] = []
+var combat_foliage: Array[Node] = []
+var combat_foliage_by_bucket: Dictionary = {}
+var faded_combat_foliage: Dictionary = {}
+var readability_update_accumulator: float = 0.0
 
 
 func configure(
@@ -101,6 +107,25 @@ func setup_readability_visuals() -> void:
 	threat_overlay.name = "NightThreatOverlay"
 	threat_overlay.z_index = 15
 	ui_root.add_child(threat_overlay)
+	combat_foliage.assign(get_tree().get_nodes_in_group("combat_foliage"))
+	for foliage: Node in combat_foliage:
+		if not is_instance_valid(foliage) or not foliage is Node2D:
+			continue
+		var bucket: int = floori((foliage as Node2D).global_position.x / FOLIAGE_BUCKET_WIDTH)
+		if not combat_foliage_by_bucket.has(bucket):
+			combat_foliage_by_bucket[bucket] = []
+		(combat_foliage_by_bucket[bucket] as Array).append(foliage)
+	set_process(true)
+
+
+func _process(delta: float) -> void:
+	if _phase() != 1 or _game_over():
+		return
+	readability_update_accumulator += delta
+	if readability_update_accumulator < READABILITY_UPDATE_INTERVAL:
+		return
+	readability_update_accumulator = 0.0
+	update_night_readability()
 
 
 func set_high_contrast(enabled: bool) -> void:
@@ -121,6 +146,9 @@ func set_night_readability(active: bool) -> void:
 	if is_instance_valid(threat_overlay) and not active:
 		telegraphed_lanes.clear()
 		threat_overlay.set_threats([])
+	readability_update_accumulator = 0.0
+	if not active:
+		_set_all_foliage_faded(false)
 	if not is_instance_valid(enemies_root):
 		return
 	for enemy: Node in enemies_root.get_children():
@@ -133,8 +161,10 @@ func update_night_readability() -> void:
 		return
 	if _phase() != 1 or _game_over():
 		threat_overlay.set_threats([])
+		_set_all_foliage_faded(false)
 		return
 
+	var enemies: Array[Node] = enemies_root.get_children() if is_instance_valid(enemies_root) else []
 	var threats: Array[Dictionary] = []
 	for lane: String in telegraphed_lanes:
 		threats.append({
@@ -143,13 +173,14 @@ func update_night_readability() -> void:
 			"urgency": "WAVE INCOMING",
 			"color": Color(1.0, 0.44, 0.18, 1.0),
 		})
-	var north_threat: Dictionary = _find_offscreen_lane_threat(north_gate, "NORTH")
-	var east_threat: Dictionary = _find_offscreen_lane_threat(east_gate, "EAST")
+	var north_threat: Dictionary = _find_offscreen_lane_threat_in(north_gate, "NORTH", enemies)
+	var east_threat: Dictionary = _find_offscreen_lane_threat_in(east_gate, "EAST", enemies)
 	if not north_threat.is_empty() and not telegraphed_lanes.has("NORTH"):
 		threats.append(north_threat)
 	if not east_threat.is_empty() and not telegraphed_lanes.has("EAST"):
 		threats.append(east_threat)
 	threat_overlay.set_threats(threats)
+	_update_foreground_foliage(enemies)
 
 
 func set_wave_telegraph(lane_label: String) -> void:
@@ -158,11 +189,13 @@ func set_wave_telegraph(lane_label: String) -> void:
 		telegraphed_lanes.append("NORTH")
 	if lane_label.contains("EAST"):
 		telegraphed_lanes.append("EAST")
+	readability_update_accumulator = 0.0
 	update_night_readability()
 
 
 func clear_wave_telegraph() -> void:
 	telegraphed_lanes.clear()
+	readability_update_accumulator = 0.0
 	update_night_readability()
 
 
@@ -196,11 +229,20 @@ func update_dusk_guidance(time_left: float) -> void:
 
 
 func _find_offscreen_lane_threat(gate: Node2D, lane: String) -> Dictionary:
+	var enemies: Array[Node] = enemies_root.get_children() if is_instance_valid(enemies_root) else []
+	return _find_offscreen_lane_threat_in(gate, lane, enemies)
+
+
+func _find_offscreen_lane_threat_in(gate: Node2D, lane: String, enemies: Array[Node]) -> Dictionary:
 	if not is_instance_valid(gate) or not is_instance_valid(world_camera) or not is_instance_valid(enemies_root):
 		return {}
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	var closest_distance: float = INF
-	for enemy: Node in enemies_root.get_children():
+	var offscreen_count: int = 0
+	var elite_count: int = 0
+	var large_count: int = 0
+	var boss_present: bool = false
+	for enemy: Node in enemies:
 		if not is_instance_valid(enemy) or not enemy.is_in_group("enemies"):
 			continue
 		if enemy.get("primary_gate") as Node2D != gate:
@@ -217,6 +259,13 @@ func _find_offscreen_lane_threat(gate: Node2D, lane: String) -> Dictionary:
 		)
 		if screen_position.x >= -32.0 and screen_position.y >= -32.0 and screen_position.x <= viewport_size.x + 32.0 and screen_position.y <= viewport_size.y + 32.0:
 			continue
+		offscreen_count += 1
+		if not str(enemy.get_meta("encounter_behavior", "")).is_empty():
+			elite_count += 1
+		if str(enemy.get("visual_profile")) == "troll":
+			large_count += 1
+		if enemy is GloamGraveOx:
+			boss_present = true
 		closest_distance = minf(closest_distance, enemy.global_position.distance_to(gate.global_position))
 
 	if closest_distance == INF:
@@ -229,7 +278,56 @@ func _find_offscreen_lane_threat(gate: Node2D, lane: String) -> Dictionary:
 	elif closest_distance <= 410.0:
 		urgency = "CLOSE"
 		urgency_color = Color(1.0, 0.48, 0.18, 1.0)
-	return {"lane": lane, "direction": "↓" if lane == "NORTH" else "←", "urgency": urgency, "color": urgency_color}
+	var priority: String = "BOSS" if boss_present else "%d ELITE" % elite_count if elite_count > 0 else "%d BRUTE" % large_count if large_count > 0 else "MOB"
+	return {
+		"lane": lane, "direction": "↓" if lane == "NORTH" else "←",
+		"urgency": urgency, "color": urgency_color,
+		"count": offscreen_count, "priority": priority,
+	}
+
+
+func _update_foreground_foliage(enemies: Array[Node]) -> void:
+	var desired_faded: Dictionary = {}
+	for enemy: Node in enemies:
+		if not is_instance_valid(enemy) or not enemy is Node2D:
+			continue
+		var enemy_position: Vector2 = (enemy as Node2D).global_position
+		var horizontal_limit: float = 68.0 if str(enemy.get("visual_profile")) == "troll" else 48.0
+		var first_bucket: int = floori((enemy_position.x - horizontal_limit) / FOLIAGE_BUCKET_WIDTH)
+		var last_bucket: int = floori((enemy_position.x + horizontal_limit) / FOLIAGE_BUCKET_WIDTH)
+		for bucket: int in range(first_bucket, last_bucket + 1):
+			for foliage: Node in combat_foliage_by_bucket.get(bucket, []):
+				if not is_instance_valid(foliage) or not foliage is Node2D:
+					continue
+				var foliage_position: Vector2 = (foliage as Node2D).global_position
+				if absf(foliage_position.x - enemy_position.x) > horizontal_limit:
+					continue
+				var vertical_limit: float = 82.0 if str(foliage.get("asset_kind")).begins_with("bush") else 175.0
+				var vertical_overlap: float = foliage_position.y - enemy_position.y
+				if vertical_overlap >= -8.0 and vertical_overlap <= vertical_limit:
+					desired_faded[foliage.get_instance_id()] = foliage
+
+	for foliage_id: Variant in faded_combat_foliage.keys():
+		if desired_faded.has(foliage_id):
+			continue
+		var foliage: Node = faded_combat_foliage[foliage_id] as Node
+		if is_instance_valid(foliage) and foliage.has_method("set_combat_readability_fade"):
+			foliage.set_combat_readability_fade(false)
+	for foliage_id: Variant in desired_faded.keys():
+		if faded_combat_foliage.has(foliage_id):
+			continue
+		var foliage: Node = desired_faded[foliage_id] as Node
+		if is_instance_valid(foliage) and foliage.has_method("set_combat_readability_fade"):
+			foliage.set_combat_readability_fade(true)
+	faded_combat_foliage = desired_faded
+
+
+func _set_all_foliage_faded(faded: bool) -> void:
+	for foliage: Node in (combat_foliage if faded else faded_combat_foliage.values()):
+		if is_instance_valid(foliage) and foliage.has_method("set_combat_readability_fade"):
+			foliage.set_combat_readability_fade(faded)
+	if not faded:
+		faded_combat_foliage.clear()
 
 
 func _is_player_in_village() -> bool:

@@ -139,18 +139,28 @@ func update_zone_status(day_active: bool) -> void:
 	if not day_active:
 		zone_label.text = "VILLAGE DEFENSE"
 		return
+	var main: Node = get_tree().current_scene
 
 	match DAY_EXPLORATION_LAYOUT.zone_for_position(player_actor.global_position):
 		"village":
 			zone_label.text = "VILLAGE • Safe"
+			_request_ambience(main, "ambience_village_day")
 		"forest":
 			zone_label.text = "FOREST • Low Risk • Wood"
+			_request_ambience(main, "ambience_forest_day")
 		"mine":
 			zone_label.text = "MINE • Medium Risk • Stone / Iron"
+			_request_ambience(main, "ambience_mine_day")
 		"ruins":
 			zone_label.text = "RUINS • High Risk • Essence"
+			_request_ambience(main, "ambience_ruins_day")
 		_:
 			zone_label.text = "WILDERNESS"
+
+
+func _request_ambience(main: Node, event_name: String) -> void:
+	if is_instance_valid(main) and main.has_method("play_audio_hook"):
+		main.call("play_audio_hook", event_name, player_actor.global_position, 0.35)
 
 
 func _spawn_day_enemy_group(scene: PackedScene, positions: Array[Vector2], zone: String) -> void:
